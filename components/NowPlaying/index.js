@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import Slider from "react-native-slider";
 import { FontAwesome } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import { songs } from "../Database";
@@ -38,68 +38,99 @@ function NowPlaying() {
   const [playing, setPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
+  const [playbackStatus, setPlaybackStatus] = useState();
+  const [currentDuration, setCurrentDuration] = useState(0);
 
-  const [sound, setSound] = useState();
+  const sound = useRef(new Audio.Sound());
 
   const handleRandomSong = () => {
     if (!activeRandomBtn) {
-      let randomNumber
-      setActiveRandomBtn(!activeRandomBtn)
+      let randomNumber;
+      setActiveRandomBtn(!activeRandomBtn);
       do {
         randomNumber = Math.floor(Math.random() * songs.length);
       } while (randomNumber === currentIndex);
-      setCurrentIndex(randomNumber)
+      setCurrentIndex(randomNumber);
     } else {
-      setActiveRandomBtn(!activeRandomBtn)
+      setActiveRandomBtn(!activeRandomBtn);
     }
   };
 
-  const handleNextSong = async() => {
+  const handleNextSong = () => {
     if (currentIndex + 1 > songs.length - 1) {
       setCurrentIndex(0);
-      setCurrentSong(songs[currentIndex]);
-      return;
-    }
-    setCurrentIndex(currentIndex + 1);
-    setCurrentSong(songs[currentIndex]);
+      setCurrentSong(songs[currentIndex])
+      
+    } else {
+      setCurrentIndex(currentIndex + 1);
+      setCurrentSong(songs[currentIndex])
 
+    }
   };
 
   const handlePrevSong = () => {
     if (currentIndex - 1 < 0) {
       setCurrentIndex(songs.length - 1);
-      setCurrentSong(songs[currentIndex]);
+      setCurrentSong(songs[currentIndex])
 
-      return;
+    } else {
+      setCurrentIndex(currentIndex - 1);
+      setCurrentSong(songs[currentIndex])
+
     }
-    setCurrentIndex(currentIndex - 1);
-    setCurrentSong(songs[currentIndex]);
-
   };
 
   const playSound = async () => {
     if (!playing) {
       setPlaying(!playing);
-      console.log("Loading sound");
-      const { sound } = await Audio.Sound.createAsync(currentSong.path);
-      setSound(sound);
       console.log("Playing sound");
-      await sound.playAsync();
+      await sound.current.playAsync();
     } else {
       setPlaying(!playing);
       console.log("Pausing sound...");
-      await sound.pauseAsync();
+      await sound.current.pauseAsync();
     }
   };
 
   useEffect(() => {
-    return sound
-      ? () => {
-          console.log("Unloading sound...");
-          sound.unloadAsync();
+      console.log("Current index: ", currentIndex);
+      sound.current.loadAsync(currentSong.path);
+      console.log(currentSong.name)
+      return () => sound.current.unloadAsync();
+  }, [currentIndex]);
+
+
+  // useEffect(() => {
+  //   return sound && !playing
+  //     ? () => {
+  //         console.log("Unloading sound...");
+  //         sound.unloadAsync();
+  //       }
+  //     : undefined;
+  // }, [sound]);
+
+  async function updateSliderValue() {
+    if (sound) {
+      await sound.setOnPlaybackStatusUpdate((onPlaybackStatusUpdate) => {
+        if (!onPlaybackStatusUpdate.didJustFinish) {
+          let sliderValue =
+            Number(
+              onPlaybackStatusUpdate.positionMillis /
+                onPlaybackStatusUpdate.durationMillis
+            ) - "0";
+          setCurrentDuration(sliderValue);
+        } else {
+          console.log("Finish !!!");
+          console.log("Status: ", onPlaybackStatusUpdate);
+          setCurrentDuration(0);
+          setPlaying(!playing);
         }
-      : undefined;
-  }, [sound]);
+      });
+    }
+  }
+  useEffect(() => {
+    // updateSliderValue()
+  });
 
   return (
     <LinearGradient
@@ -124,6 +155,7 @@ function NowPlaying() {
           minimumTrackTintColor="#f3a952"
           maximumTrackTintColor="#fff"
           thumbTintColor="#fff"
+          value={currentDuration}
         />
         <Text style={styles.songName}>{currentSong.name}</Text>
         <View style={styles.lyricsBox}>
@@ -137,10 +169,7 @@ function NowPlaying() {
           />
         </View>
         <View style={styles.musicControl}>
-          <TouchableOpacity
-            style={styles.random}
-            onPress={handleRandomSong}
-          >
+          <TouchableOpacity style={styles.random} onPress={handleRandomSong}>
             <FontAwesome
               name="random"
               size={20}
