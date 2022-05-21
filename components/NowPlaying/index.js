@@ -28,7 +28,7 @@ const LYRICS = [
   {
     id: 3,
     text: "...",
-  },
+  }, 
 ];
 
 function NowPlaying() {
