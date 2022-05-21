@@ -6,7 +6,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Constants from 'expo-constants';
-import { SafeAreaView, StatusBar, Platform, ScrollView } from 'react-native';
+import { SafeAreaView, StatusBar, Platform, ScrollView,TouchableOpacity} from 'react-native';
+
 function Setting() {
   return (
 
@@ -31,6 +32,7 @@ function Setting() {
               </View>
             </View>
             <View style={styles.option}>
+            <TouchableOpacity> 
               <View style={styles.formOption}>
                 <Feather name="tool" size={24} color="white" style={{ left: distance.icon }} />
                 <Text style={{
@@ -40,6 +42,7 @@ function Setting() {
                   left: distance.icon + 30,
                 }}> Setting general </Text>
               </View>
+          </TouchableOpacity>
               <View style={styles.formOption}>
                 <Ionicons name="musical-notes-sharp" size={24} color="white" style={{ left: distance.icon }} />
                 <Text style={{
