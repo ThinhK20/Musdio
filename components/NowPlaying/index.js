@@ -38,48 +38,88 @@ function NowPlaying() {
   const [playing, setPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
-  const [playbackStatus, setPlaybackStatus] = useState();
   const [currentDuration, setCurrentDuration] = useState(0);
+  const [isChangeProgress, setIsChangeProgess] = useState(false);
+
+  const [randomNumber, setRandomNumber] = useState();
 
   const sound = useRef(new Audio.Sound());
 
-  const handleRandomSong = () => {
-    if (!activeRandomBtn) {
+  // Handle event when user clicked repeat button
+  const handleRepeatSong = () => {
+    if (!activeRepeatBtn) {
+      setActiveRepeatBtn(!activeRepeatBtn);
+      sound.current.setIsLoopingAsync(true);
+    } else {
+      setActiveRepeatBtn(!activeRepeatBtn);
+      sound.current.setIsLoopingAsync(false);
+    }
+  };
+
+  // Handle event when user clicked when user clicked random button ==> Set random number and active button
+  useEffect(() => {
+    if (activeRandomBtn) {
       let randomNumber;
-      setActiveRandomBtn(!activeRandomBtn);
       do {
         randomNumber = Math.floor(Math.random() * songs.length);
       } while (randomNumber === currentIndex);
-      setCurrentIndex(randomNumber);
-    } else {
-      setActiveRandomBtn(!activeRandomBtn);
+      setRandomNumber(randomNumber);
     }
-  };
+  });
 
+  // Handle event when user clicked the next button ==> Set new current index & new current song
   const handleNextSong = () => {
-    if (currentIndex + 1 > songs.length - 1) {
-      setCurrentIndex(0);
-      setCurrentSong(songs[currentIndex])
-      
+    if (!activeRandomBtn) {
+      if (currentIndex + 1 > songs.length - 1) {
+        setCurrentIndex((prevIndex) => {
+          setCurrentSong(songs[0]);
+          return 0;
+        });
+      } else {
+        setCurrentIndex((prevIndex) => {
+          setCurrentSong(songs[prevIndex + 1]);
+          return prevIndex + 1;
+        });
+      }
     } else {
-      setCurrentIndex(currentIndex + 1);
-      setCurrentSong(songs[currentIndex])
-
+      setCurrentIndex((prevIndex) => {
+        setCurrentSong(songs[randomNumber]);
+        return randomNumber;
+      });
     }
   };
 
+  // Handle event when user clicked the prev button
   const handlePrevSong = () => {
-    if (currentIndex - 1 < 0) {
-      setCurrentIndex(songs.length - 1);
-      setCurrentSong(songs[currentIndex])
-
+    if (!activeRandomBtn) {
+      if (currentIndex - 1 < 0) {
+        setCurrentIndex((prevIndex) => {
+          setCurrentSong(songs[songs.length - 1]);
+          return songs.length - 1;
+        });
+      } else {
+        setCurrentIndex((prevIndex) => {
+          setCurrentSong(songs[currentIndex - 1]);
+          return prevIndex - 1;
+        });
+      }
     } else {
-      setCurrentIndex(currentIndex - 1);
-      setCurrentSong(songs[currentIndex])
-
+      setCurrentIndex((prevIndex) => {
+        setCurrentSong(songs[randomNumber]);
+        return randomNumber;
+      });
     }
   };
 
+  // Change duration song when user is dragging the slider
+  const handleDraggingSlider = (value) => {
+    sound.current.getStatusAsync().then((result) => {
+      sound.current.setPositionAsync(value * result.durationMillis);
+      setIsChangeProgess(false);
+    });
+  };
+
+  // Handle event when user clicked the play/pause button
   const playSound = async () => {
     if (!playing) {
       setPlaying(!playing);
@@ -92,44 +132,33 @@ function NowPlaying() {
     }
   };
 
+  // Handle event when current index change ==> Unload old and load new song
   useEffect(() => {
-      console.log("Current index: ", currentIndex);
-      sound.current.loadAsync(currentSong.path);
-      console.log(currentSong.name)
-      return () => sound.current.unloadAsync();
+    (async () => {
+      await sound.current.loadAsync(currentSong.path);
+      if (playing) {
+        await sound.current.playAsync();
+      }
+    })();
+
+    return () => sound.current.unloadAsync();
   }, [currentIndex]);
 
-
-  // useEffect(() => {
-  //   return sound && !playing
-  //     ? () => {
-  //         console.log("Unloading sound...");
-  //         sound.unloadAsync();
-  //       }
-  //     : undefined;
-  // }, [sound]);
-
-  async function updateSliderValue() {
-    if (sound) {
-      await sound.setOnPlaybackStatusUpdate((onPlaybackStatusUpdate) => {
-        if (!onPlaybackStatusUpdate.didJustFinish) {
-          let sliderValue =
-            Number(
-              onPlaybackStatusUpdate.positionMillis /
-                onPlaybackStatusUpdate.durationMillis
-            ) - "0";
-          setCurrentDuration(sliderValue);
-        } else {
-          console.log("Finish !!!");
-          console.log("Status: ", onPlaybackStatusUpdate);
-          setCurrentDuration(0);
-          setPlaying(!playing);
-        }
-      });
+  // Handle event when user is dragging slider
+  sound.current.setOnPlaybackStatusUpdate((onPlaybackStatusUpdate) => {
+    let sliderValue =
+      Number(
+        onPlaybackStatusUpdate.positionMillis /
+          onPlaybackStatusUpdate.durationMillis
+      ) - "0";
+    if (!sliderValue) sliderValue = 0;
+    if (!isChangeProgress) {
+      setCurrentDuration(sliderValue);
     }
-  }
-  useEffect(() => {
-    // updateSliderValue()
+    // Handle event when the current song has been finished ==> Next song or just open random song
+    if (onPlaybackStatusUpdate.didJustFinish) {
+      handleNextSong();
+    }
   });
 
   return (
@@ -156,6 +185,8 @@ function NowPlaying() {
           maximumTrackTintColor="#fff"
           thumbTintColor="#fff"
           value={currentDuration}
+          onSlidingStart={() => setIsChangeProgess(true)}
+          onSlidingComplete={handleDraggingSlider}
         />
         <Text style={styles.songName}>{currentSong.name}</Text>
         <View style={styles.lyricsBox}>
@@ -169,7 +200,10 @@ function NowPlaying() {
           />
         </View>
         <View style={styles.musicControl}>
-          <TouchableOpacity style={styles.random} onPress={handleRandomSong}>
+          <TouchableOpacity
+            style={styles.random}
+            onPress={() => setActiveRandomBtn(!activeRandomBtn)}
+          >
             <FontAwesome
               name="random"
               size={20}
@@ -207,10 +241,7 @@ function NowPlaying() {
           <TouchableOpacity style={styles.stepforward} onPress={handleNextSong}>
             <FontAwesome name="step-forward" size={24} color="#fff" />
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.repeat}
-            onPress={() => setActiveRepeatBtn(!activeRepeatBtn)}
-          >
+          <TouchableOpacity style={styles.repeat} onPress={handleRepeatSong}>
             <Feather
               name="repeat"
               size={20}
