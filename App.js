@@ -4,13 +4,14 @@ import NowPlaying from './components/NowPlaying';
 import Constants from 'expo-constants';
 import ChatScreen from './components/Firebase';
 import Footer from './components/Footer/Footer'
-
+import Sleep from './components/Sleep/Sleep';
 export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="inverted" />
       {/* <NowPlaying /> */}
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
+      <Sleep></Sleep>
     {/* <ChatScreen/> */}
     </View>
   );
