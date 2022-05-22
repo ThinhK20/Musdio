@@ -6,9 +6,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Constants from 'expo-constants';
-import { Header } from 'react-native-elements';
-import { SafeAreaView, StatusBar, Platform, ScrollView,TouchableOpacity} from 'react-native'
-
+import {Button, Header } from 'react-native-elements';
+import { SafeAreaView, StatusBar, Platform, ScrollView,TouchableOpacity} from 'react-native';
+import styled from "styled-components";
 
 function Sleep(){ 
     return (
@@ -21,12 +21,96 @@ function Sleep(){
                 </TouchableOpacity>
             }
           ></Header>
-        <View >
-            <TouchableOpacity>
-                <Text>
-
-                </Text>
-            </TouchableOpacity>
+        <View>
+            <Text style={styles.container}>
+              Stop Audio In
+            </Text>
+        </View>
+        <View style={styled.firstTime} >
+          <Button
+          titleStyle={{
+            fontSize:20,
+            fontWeight:"bold",
+          }}
+          title={"5 Minutes"}
+          type="clear"
+          containerStyle={{
+            marginTop:"5%",
+          }}
+          >
+          </Button>
+          <Button
+          titleStyle={{
+            fontSize:20,
+            fontWeight:"bold",
+          }}
+          title={"10 Minutes"}
+          type="clear"
+          containerStyle={{
+            marginTop:"3%",
+          }}
+          >
+          </Button>
+          <Button
+          titleStyle={{
+            fontSize:20,
+            fontWeight:"bold",
+          }}
+          containerStyle={{
+            marginTop:"3%",
+          }}
+          title={"20 Minutes"}
+          type="clear"
+          >
+          </Button>
+          <Button
+          containerStyle={{
+            marginTop:"3%",
+          }}          
+          titleStyle={{
+            fontSize:20,
+            fontWeight:"bold",
+          }}
+          title={"30 Minutes"}
+          type="clear"
+          >
+          </Button>
+          <Button
+          containerStyle={{
+            marginTop:"3%",
+          }}          
+          titleStyle={{
+            fontSize:20,
+            fontWeight:"bold",
+          }}
+          title={"45 Minutes"}
+          type="clear"
+          >
+          </Button>
+          <Button
+           containerStyle={{
+            marginTop:"3%",
+          }}         
+          titleStyle={{
+            fontSize:20,
+            fontWeight:"bold",
+          }}
+          title={"1 Hour"}
+          type="clear"
+          >
+          </Button>
+          <Button
+          containerStyle={{
+            marginTop:"3%",
+          }}          
+          titleStyle={{
+            fontSize:20,
+            fontWeight:"bold",
+          }}
+          title={"Turn Off Timer"}
+          type="clear"
+          >
+          </Button>
         </View>
     </View>
     );
@@ -34,65 +118,22 @@ function Sleep(){
 }
 
 const styles = StyleSheet.create({
-    LinearGradient: {
-      flex: 1,
-    },
-    container: {
-      flex: 1,
-      top: StatusBar.currentHeight,
-  
-    },
-    header: {
-      flex: 1,
-      flexDirection: 'row',
-    },
-    textHeader: {
-  
-      color: '#fff',
-      fontSize: 20,
-      fontWeight: 'bold',
-    },
-    iconHeader: {
-      width: '42%',
-    },
-    body: {
-      flex: 1,
-      
-    },
-    basicInfo: {
-      flex: 1,
-      flexDirection: 'row',
-     
-      marginBottom: 10,
-      marginTop: 10,
-    },
-    avatar: {
-      width: 90,
-      height: 90,
-      backgroundColor: 'red',
-      borderRadius: 100,
-      left: '10%'
-    },
-    name: {
-      left: '35%',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    option: {
-      flex: 1,
-      paddingHorizontal: 20,
-      top: 10,
-      marginBottom: 10,
-    },
-    formOption: {
-      height: 100,
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 29,
-      backgroundColor: '#201E21',
-      borderRadius: 14,
-      
-    }
+  container:{
+    marginLeft:"30%",
+    fontWeight:"bold",
+    fontSize: 25,
+  },
+  firstTime: {
+    marginTop:"50%",
+    marginLeft:"5%",
+    fontSize: 25,
+    color: 'red',
+  },
+  Time:{
+    marginTop:"3%",
+    marginLeft:"5%",
+    fontSize:25,
+  }
   });
 
 export default Sleep;
