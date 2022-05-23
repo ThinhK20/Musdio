@@ -6,18 +6,21 @@ import Footer from './components/Footer/Footer'
 import Sleep from './components/Sleep/Sleep';
 import { Provider } from 'react-redux';
 import store from './components/Redux/store';
+
+
 export default function App() {
   return (
-    <Provider store={store}>
     <View style={styles.container}>
       <StatusBar style="inverted" />
-      <NowPlaying />
-      {/* <Sleep></Sleep> */}
-      {/* <Footer></Footer> */}
+      <View style={styles.content}>
+        {/* <NowPlaying /> */}
+        <Sleep/>
+      </View>
+      <View  style={styles.footer}>
+         <Footer></Footer>
+      </View>
     {/* <ChatScreen/> */}
     </View>
-
-    </Provider>
   );
 }
 
@@ -28,4 +31,14 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     justifyContent: 'center',
   },
-});
+  footer:{
+    flex: 8,
+  },
+  content:{
+    flex: 92,
+  }
+})
+
+
+
+
