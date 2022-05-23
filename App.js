@@ -6,7 +6,7 @@ import Footer from './components/Footer/Footer'
 import Sleep from './components/Sleep/Sleep';
 import { Provider } from 'react-redux';
 import store from './components/Redux/store';
-
+import HomeScreen from './components/Main/home';
 
 export default function App() {
   return (
@@ -14,7 +14,7 @@ export default function App() {
       <StatusBar style="inverted" />
       <View style={styles.content}>
         {/* <NowPlaying /> */}
-        <Sleep/>
+        <HomeScreen/>
       </View>
       <View  style={styles.footer}>
          <Footer></Footer>
