@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
-function SignUp() {
+function Login() {
   return (
     <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
         <TouchableOpacity style={styles.prevBtn}>
@@ -14,7 +14,6 @@ function SignUp() {
           <View style={styles.boxInput}>
             <TextInput placeholder="Enter username..."  style={styles.input} />
             <TextInput placeholder="Enter password..."  style={styles.input} />
-            <TextInput placeholder="Enter password again..."  style={styles.input} />
           </View>
           <TouchableOpacity style={{marginTop: 50, width: "80%"}}>
               <Text style={styles.btn}>Login</Text>
@@ -24,7 +23,7 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Login;
 
 const styles = StyleSheet.create({
   container: {
