@@ -69,6 +69,18 @@ const DATA = [
    // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'Tai Dom',
   },
+  {
+    id: '3ac68afc-c605-48d31234f8-fbd91aa9712',
+    title: 'Second',
+   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    single: 'Tai Dom',
+  },
+  {
+    id: '3ac68afc-c605-12d3-a4f8-fbd91aa9712',
+    title: 'Seconddddddddddddd',
+   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    single: 'Tai Dommmmmmm',
+  },
 ];
 
 const Item = ({title, img, single}) => (
@@ -116,8 +128,9 @@ function Albums() {
           </View>
           <View style={{marginTop:20}}></View>
           <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id} />
-
+          
         </View> 
+        <View style={styles.Footer}></View>
         {/* <View style={styles.imageAlbums}></View> */}
 
      
@@ -156,6 +169,9 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     fontSize : 24,
     width : '100%'
+  },
+  Footer:{
+    flex: 5,
   },
   Bottom:{
     
