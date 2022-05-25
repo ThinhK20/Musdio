@@ -1,11 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import Constants from 'expo-constants';
 import {Button, Header } from 'react-native-elements';
 import { SafeAreaView, StatusBar, Platform, ScrollView,TouchableOpacity} from 'react-native';
 import styled from "styled-components";
