@@ -11,6 +11,7 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Album from "./components/Albums/Albums";
 import Profile from "./components/Playlist/Playlist";
+import SettingGeneral from "./components/Setting/SettingGeneral";
 export default function App() {
   return (
     <Provider store={store}>
@@ -18,7 +19,7 @@ export default function App() {
         <StatusBar style="inverted" />
         <View style={styles.content}>
            {/* <Album/> */}
-           <Profile/>
+           <SettingGeneral />
           {/* <NowPlaying /> */}
           {/* <HomeScreen/> */}
           {/* <SignUp /> */}
