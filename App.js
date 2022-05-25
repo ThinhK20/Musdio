@@ -10,7 +10,8 @@ import HomeScreen from "./components/Main/home";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Albums from "./components/Albums/Albums";
-import Profile from "./components/Playlist/Playlist";
+import Profile from "./components/Profile/index";
+import Playlist from "./components/Playlist/Playlist";
 export default function App() {
   return (
     <Provider store={store}>
