@@ -12,36 +12,37 @@ const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'First Itemaaaaaaaaa', // max 10
-    img :  'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img :  'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
     single: 'Bich Phuong', // max 11
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     title: 'Second',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
     single: 'G-Dragon',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f68',
     title: 'Gửi An',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
     single: 'Chi Pu',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f64',
     title: 'Second ',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
     single: 'Quang Teo',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f60',
     title: 'Second',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
     single: 'Tai Dom',
   },
 ];
 
 const Item = ({title, img, single}) => (
+  <TouchableOpacity>
   <View style={styles.item}>
     <Image style={styles.cdImage} source={{uri: img}}/>
     <View style = {styles.Single}>
@@ -49,11 +50,12 @@ const Item = ({title, img, single}) => (
       <Text style={styles.nameSingle} numberOfLines= {1}>{single}</Text>
     </View>
     <View style = {styles.iconPlay}>
-      <TouchableOpacity style={styles.iconPlay}>
+      <View style={styles.iconPlay}>
         <Ionicons name="md-play-circle-sharp" size={50} color="white" />
-      </TouchableOpacity>
+      </View>
     </View>
   </View>
+  </TouchableOpacity>
 );
 
 function Profile() {
@@ -152,10 +154,10 @@ const styles = StyleSheet.create({
   item: {
     flex : 1,
     flexDirection: 'row',
-    backgroundColor: '#201E21',
+    //backgroundColor: '#201E21',
     borderRadius : 20,
     padding: 27,
-    marginVertical: 25,
+    marginVertical: 7,
     marginHorizontal: 10,
     alignItems: 'center',
     height : '80%',
@@ -170,15 +172,15 @@ const styles = StyleSheet.create({
   nameSingle: {
     paddingLeft: '10%',
     fontWeight: 'bold',
-    color: 'white',
+    color: '#928989',
     fontSize: 15,
     opacity : 100,
     flex : 1,
   },
   cdImage: {
-    width: '20%',
+    width: '23%',
     height: '150%',
-    borderRadius: 100,
+    borderRadius: 0,
   },
   Single:{
     flex : 1,

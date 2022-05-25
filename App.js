@@ -18,8 +18,9 @@ export default function App() {
         <StatusBar style="inverted" />
         <View style={styles.content}>
            {/* <Album/> */}
-            <Albums/>
+            {/* <Albums/> */}
           {/* <NowPlaying /> */}
+          <Profile/>
           {/* <HomeScreen/> */}
           {/* <SignUp /> */}
           {/* <Login/> */}
