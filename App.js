@@ -9,26 +9,16 @@ import store from "./components/Redux/store";
 import HomeScreen from "./components/Main/home";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
-import Album from "./components/Albums/Albums";
+import Albums from "./components/Albums/Albums";
 import Profile from "./components/Playlist/Playlist";
-import SettingGeneral from "./components/Setting/SettingGeneral";
 export default function App() {
   return (
     <Provider store={store}>
       <View style={styles.container}>
         <StatusBar style="inverted" />
         <View style={styles.content}>
-           {/* <Album/> */}
-           <SettingGeneral />
-          {/* <NowPlaying /> */}
-          {/* <HomeScreen/> */}
-          {/* <SignUp /> */}
-          {/* <Login/> */}
+          <Profile/>
         </View>
-        {/* <View  style={styles.footer}>
-         <Footer></Footer>
-      </View> */}
-        {/* <ChatScreen/> */}
       </View>
     </Provider>
   );
