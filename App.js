@@ -9,7 +9,7 @@ import store from "./components/Redux/store";
 import HomeScreen from "./components/Main/home";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
-import Album from "./components/Albums/Albums";
+import Albums from "./components/Albums/Albums";
 import Profile from "./components/Playlist/Playlist";
 export default function App() {
   return (
@@ -18,7 +18,7 @@ export default function App() {
         <StatusBar style="inverted" />
         <View style={styles.content}>
            {/* <Album/> */}
-           <Profile/>
+            <Albums/>
           {/* <NowPlaying /> */}
           {/* <HomeScreen/> */}
           {/* <SignUp /> */}
