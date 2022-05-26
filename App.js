@@ -14,6 +14,7 @@ import Profile from "./components/Profile/index";
 import Playlist from "./components/Playlist/Playlist";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import LoginFacebook from "./components/LoginWithFacebook";
 export default function App() {
   const Stack = createStackNavigator()
   return (
@@ -23,8 +24,9 @@ export default function App() {
           {/* <View style={styles.container}>
             <StatusBar style="inverted" />
           //   <View style={styles.content}> */}
-          <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="Home" component={HomeScreen} />
+          {/* <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Home" component={HomeScreen} /> */}
+          <Stack.Screen name="LoginFacebook" component={LoginFacebook} />
           {/* <Profile /> */}
           {/* </View> */}
           {/* </View> */}
