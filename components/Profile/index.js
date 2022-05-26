@@ -43,7 +43,7 @@ const Item = ({title, img}) => (
   </View>
 );
 
-function Profile() {
+function Profile({ navigation }) {
   const renderItem = ({ item }) => <Item title={item.title}  img = {item.img}/>;
   return (
     <LinearGradient
@@ -53,7 +53,7 @@ function Profile() {
     >
     <View style={styles.container}>
         <View style={styles.header}>
-       <TouchableOpacity style={styles.iconHeader}>
+       <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.navigate('Home')}>
               <Ionicons name= "ios-chevron-back" size={40} color="white" fontWeight = 'bold' />
          </TouchableOpacity>
               <Text style={styles.textHeader} >Profile</Text>

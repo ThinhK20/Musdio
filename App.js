@@ -12,15 +12,26 @@ import Login from "./components/Login";
 import Albums from "./components/Albums/Albums";
 import Profile from "./components/Profile/index";
 import Playlist from "./components/Playlist/Playlist";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 export default function App() {
+  const Stack = createStackNavigator()
   return (
     <Provider store={store}>
-      <View style={styles.container}>
-        <StatusBar style="inverted" />
-        <View style={styles.content}>
-          <Profile/>
-        </View>
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Profile" screenOptions={{ headerShown: false }}>
+          {/* <View style={styles.container}>
+            <StatusBar style="inverted" />
+          //   <View style={styles.content}> */}
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          {/* <Profile /> */}
+          {/* </View> */}
+          {/* </View> */}
+
+        </Stack.Navigator>
+
+      </NavigationContainer>
     </Provider>
   );
 }
