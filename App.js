@@ -1,17 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import NowPlaying from "./components/NowPlaying";
-import ChatScreen from "./components/Firebase";
-import Footer from "./components/Footer/Footer";
-import Sleep from "./components/Sleep/Sleep";
+
 import { Provider } from "react-redux";
 import store from "./components/Redux/store";
-import HomeScreen from "./components/Main/home";
-import SignUp from "./components/SignUp";
-import Login from "./components/Login";
-import Albums from "./components/Albums/Albums";
-import Profile from "./components/Profile/index";
-import Playlist from "./components/Playlist/Playlist";
+
+import Setting from './components/Setting/Setting'
+import SettingGeneral from './components/Setting/SettingGeneral'
+
+import Profile from './components/Profile/index'
+import HomeScreen from './components/Main/home'
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 export default function App() {
@@ -23,8 +21,11 @@ export default function App() {
           {/* <View style={styles.container}>
             <StatusBar style="inverted" />
           //   <View style={styles.content}> */}
-          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Setting" component={Setting} />
+          <Stack.Screen name="SettingGeneral" component={SettingGeneral} />
           <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Profile" component={Profile} />
+          
           {/* <Profile /> */}
           {/* </View> */}
           {/* </View> */}

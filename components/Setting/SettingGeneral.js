@@ -1,15 +1,11 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import Constants from 'expo-constants';
-import { SafeAreaView, StatusBar, Platform, ScrollView } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { StatusBar, ScrollView } from 'react-native';
+import React, { useState } from 'react';
 
-function SettingGeneral() {
+function SettingGeneral({ navigation }) {
     const [profile, setProfile] = useState({
         avataURL: 'https://scontent.fsgn8-2.fna.fbcdn.net/v/t1.6435-1/92493693_1056085851445464_3482286615181656064_n.jpg?stp=dst-jpg_p320x320&_nc_cat=110&ccb=1-7&_nc_sid=7206a8&_nc_ohc=L05-MUmxVWsAX8SiE_z&_nc_ht=scontent.fsgn8-2.fna&oh=00_AT9DrZSeH6h9pO2XVL4-DH9l7NMQmvdOCgkOWNogSZpcNQ&oe=62B4E465',
         name: 'Minh đơm',
@@ -17,6 +13,7 @@ function SettingGeneral() {
         mail: 'minhnhox792@gmail.com',
         birthDate: '30/2/2002'
     })
+    console.log('goto SG')
     return (
         <LinearGradient
             colors={["#1565C0", "#000"]}
@@ -26,7 +23,12 @@ function SettingGeneral() {
             <View style={styles.container}>
                 <ScrollView style={{ flex: 1 }}>
                     <View style={styles.header}>
-                        <Ionicons style={styles.iconHeader} name="ios-chevron-back" size={28} color="white" />
+                        <Ionicons style={styles.iconHeader} name="ios-chevron-back" size={28} color="white"
+                            onPress = {()=> {
+                                navigation.navigate('Setting')
+                                console.log('go back')
+                            }}
+                        />
                         <Text style={styles.textHeader} >Setting General</Text>
                     </View>
                     <View style={{ borderBottomColor: 'white', borderBottomWidth: 1.75 }} />

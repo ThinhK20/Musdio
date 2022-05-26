@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { SafeAreaView, StatusBar, Platform, ScrollView } from 'react-native';
-function Setting() {
+function Setting({ navigation }) {
   return (
 
 
@@ -31,8 +31,14 @@ function Setting() {
               </View>
             </View>
             <View style={styles.option}>
-              <View style={styles.formOption}>
-                <Feather name="tool" size={24} color="white" style={{ left: distance.icon }} />
+              <View style={styles.formOption}
+                onStartShouldSetResponder={() => {
+                  navigation.navigate('SettingGeneral')
+                  console.log('change')
+                }}
+              >
+                <Feather name="tool" size={24} color="white" style={{ left: distance.icon }}
+                />
                 <Text style={{
                   color: 'white',
                   fontSize: 25,
@@ -136,12 +142,12 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    
+
   },
   basicInfo: {
     flex: 1,
     flexDirection: 'row',
-   
+
     marginBottom: 10,
     marginTop: 10,
   },

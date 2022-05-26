@@ -1,14 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import Constants from 'expo-constants';
+
 import React, {useState} from 'react';
-import { SafeAreaView, StatusBar, Platform, ScrollView,Image } from 'react-native';
-export default function HomeScreen() {
+import {  StatusBar, ScrollView,Image } from 'react-native';
+function HomeScreen() {
     const [musicplayed, setMusic] = useState([
         {name: 'quang tèo đi qua đèo',img: require('../../assets/images/Recently/qtdqd.jpg')},
         {name: 'buông hàng', img: require('../../assets/images/Recently/bh.jpg')},
@@ -185,3 +180,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#201E21',
     }
 });
+
+export default HomeScreen;
