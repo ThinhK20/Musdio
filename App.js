@@ -9,10 +9,11 @@ import SettingGeneral from './components/Setting/SettingGeneral'
 
 import Profile from './components/Profile/index'
 import HomeScreen from './components/Main/home'
-
+import Playlist from './components/Playlist/Playlist'
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginFacebook from "./components/LoginWithFacebook";
+import Song from "./components/NowPlaying/index"
 export default function App() {
   const Stack = createStackNavigator()
   return (
@@ -26,7 +27,8 @@ export default function App() {
           <Stack.Screen name="SettingGeneral" component={SettingGeneral} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Profile" component={Profile} />
-          
+          <Stack.Screen name="Playlist" component={Playlist} />
+          <Stack.Screen name="Song" component={Song} />
           {/* <Profile /> */}
           {/* </View> */}
           {/* </View> */}
