@@ -52,10 +52,10 @@ export default function HomeScreen() {
                             <Text style = {styles.textForm}>Recently Played</Text>
                             <ScrollView style = {styles.scrollHorizontal}
                             horizontal = {true}>
-                            { musicplayed.map((music) => {
+                            { musicplayed.map((music, index) => {
                                 return (
                                     
-                                    <View>
+                                    <View key={index}>
                                         <Image style = {styles.img}
                                             source = {music.img}
                                         />
@@ -70,10 +70,10 @@ export default function HomeScreen() {
                             <Text style = {styles.textForm}>Trend</Text>
                             <ScrollView style = {styles.scrollHorizontal}
                             horizontal = {true}>
-                            { musicplayed.map((music) => {
+                            { musicplayed.map((music, index)=> {
                                 return (
                                     
-                                    <View>
+                                    <View key={index}>
                                         <Image style = {styles.img}
                                             source = {music.img}
                                         />
@@ -88,10 +88,10 @@ export default function HomeScreen() {
                             <Text style = {styles.textForm}>Hot Music</Text>
                             <ScrollView style = {styles.scrollHorizontal}
                             horizontal = {true}>
-                            { musicplayed.map((music) => {
+                            { musicplayed.map((music, index) => {
                                 return (
                                     
-                                    <View>
+                                    <View key ={index}>
                                         <Image style = {styles.img}
                                             source = {music.img}
                                         />
@@ -106,10 +106,10 @@ export default function HomeScreen() {
                             <Text style = {styles.textForm}>Category</Text>
                             <ScrollView style = {styles.scrollHorizontal}
                             horizontal = {true}>
-                            { musicplayed.map((music) => {
+                            { musicplayed.map((music, index) => {
                                 return (
                                     
-                                    <View>
+                                    <View key={index}>
                                         <Image style = {styles.img}
                                             source = {music.img}
                                         />

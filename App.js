@@ -24,9 +24,10 @@ export default function App() {
           {/* <View style={styles.container}>
             <StatusBar style="inverted" />
           //   <View style={styles.content}> */}
-          {/* <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="Home" component={HomeScreen} /> */}
-          <Stack.Screen name="LoginFacebook" component={LoginFacebook} />
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Home" component={HomeScreen} /> 
+          <Stack.Screen name="Playlist" component={Playlist} /> 
+
           {/* <Profile /> */}
           {/* </View> */}
           {/* </View> */}
