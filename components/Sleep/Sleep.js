@@ -1,9 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import {Button, Header } from 'react-native-elements';
-import { SafeAreaView, StatusBar, Platform, ScrollView,TouchableOpacity} from 'react-native';
+import { SafeAreaView, StatusBar, Platform, ScrollView,TouchableOpacity,ToastAndroid} from 'react-native';
 import styled from "styled-components";
-
+const showToastSetSuccessTime = () =>{
+  ToastAndroid.show("The set was successful.",ToastAndroid.SHORT,ToastAndroid.CENTER);
+};
+const showToastTurnOff = () =>{
+  ToastAndroid.show("Turn off was successful.",ToastAndroid.SHORT,ToastAndroid.CENTER);
+};
 function Sleep(){ 
     return (
     <View>       
@@ -31,8 +36,8 @@ function Sleep(){
           containerStyle={{
             marginTop:"5%",
           }}
-          >
-          </Button>
+          onPress ={()=>showToastSetSuccessTime()}
+          />
           <Button
           titleStyle={{
             fontSize:20,
@@ -43,8 +48,9 @@ function Sleep(){
           containerStyle={{
             marginTop:"3%",
           }}
-          >
-          </Button>
+          onPress ={()=>showToastSetSuccessTime()}
+          />
+
           <Button
           titleStyle={{
             fontSize:20,
@@ -55,8 +61,8 @@ function Sleep(){
           }}
           title={"20 Minutes"}
           type="clear"
-          >
-          </Button>
+          onPress ={()=>showToastSetSuccessTime()}
+         />
           <Button
           containerStyle={{
             marginTop:"3%",
@@ -67,8 +73,9 @@ function Sleep(){
           }}
           title={"30 Minutes"}
           type="clear"
-          >
-          </Button>
+          onPress ={()=>showToastSetSuccessTime()}
+          />
+        
           <Button
           containerStyle={{
             marginTop:"3%",
@@ -79,8 +86,9 @@ function Sleep(){
           }}
           title={"45 Minutes"}
           type="clear"
-          >
-          </Button>
+          onPress ={()=>showToastSetSuccessTime()}
+          />
+        
           <Button
            containerStyle={{
             marginTop:"3%",
@@ -91,8 +99,9 @@ function Sleep(){
           }}
           title={"1 Hour"}
           type="clear"
-          >
-          </Button>
+          onPress ={()=>showToastSetSuccessTime()}
+          />
+         
           <Button
           containerStyle={{
             marginTop:"3%",
@@ -103,8 +112,9 @@ function Sleep(){
           }}
           title={"Turn Off Timer"}
           type="clear"
-          >
-          </Button>
+          onPress ={()=>showToastTurnOff()}
+          />
+         
         </View>
     </View>
     );
