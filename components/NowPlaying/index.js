@@ -31,7 +31,7 @@ const LYRICS = [
   }, 
 ];
 
-function NowPlaying() {
+function NowPlaying({navigation}) {
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 
@@ -168,7 +168,7 @@ function NowPlaying() {
       style={styles.LinearGradient}
     >
       <View style={styles.pageStatusBar}>
-        <TouchableOpacity style={styles.iconHeader}>
+        <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.navigate('Home')}>
           <Ionicons name="ios-chevron-back" size={28} color="white" />
         </TouchableOpacity>
         <Text style={styles.pageName}>Musdio</Text>

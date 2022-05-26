@@ -110,7 +110,7 @@ function HomeScreen({navigation}) {
                             horizontal = {true}>
                             { musicplayed.map((music, index) => {
                                 return (
-                                    <TouchableOpacity onPress={() => navigation.navigate('Song')}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
                                     <View key={index}>
                                         <Image style = {styles.img}
                                             source = {music.img}
