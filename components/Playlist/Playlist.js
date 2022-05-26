@@ -7,7 +7,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { SafeAreaView, StatusBar, Platform, ScrollView, TouchableOpacity, Image} from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-
+import { NavigationContainer } from '@react-navigation/native';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -58,8 +58,8 @@ const Item = ({title, img, single}) => (
   </TouchableOpacity>
 );
 
-function Profile() {
-  const renderItem = ({ item }) => <Item title={item.title}  img = {item.img} single = {item.single}/>;
+function Playlist({navigation}) {
+  const renderItem = ({ item }) => <Item title={item.title}  img = {item.img} single = {item.single} navigation = {navigation}/>;
   return (
     <LinearGradient
       colors={["#1565C0", "#000"]}
@@ -68,7 +68,7 @@ function Profile() {
     >
     <View style={styles.container}>
         <View style={styles.header}>
-       <TouchableOpacity style={styles.iconHeader}>
+       <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.navigate('Profile')}>
               <Ionicons name= "ios-chevron-back" size={40} color="white" fontWeight = 'bold' />
          </TouchableOpacity>
               <Text style={styles.textHeader} >My Playlist</Text>
@@ -194,4 +194,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default Playlist;

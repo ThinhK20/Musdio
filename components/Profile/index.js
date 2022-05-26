@@ -7,7 +7,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { SafeAreaView, StatusBar, Platform, ScrollView, TouchableOpacity, Image} from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-
+import { useNavigation } from '@react-navigation/native';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -35,16 +35,15 @@ const DATA = [
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg'
   },
 ];
-
-const Item = ({title, img}) => (
+const Item = ({title, img, navigation }) => (
   <View style={styles.item}>
     <Image style={styles.cdImage} source={{uri: img}}/>
-    <TouchableOpacity><Text style={styles.title}>{title}</Text></TouchableOpacity>
+    <TouchableOpacity onPress={() => navigation.navigate('Playlist')}><Text style={styles.title}>{title}</Text></TouchableOpacity>
   </View>
 );
 
 function Profile({ navigation }) {
-  const renderItem = ({ item }) => <Item title={item.title}  img = {item.img}/>;
+  const renderItem = ({ item }) => <Item title={item.title}  img = {item.img}  navigation={navigation}/>;
   return (
     <LinearGradient
       colors={["#1565C0", "#000"]}

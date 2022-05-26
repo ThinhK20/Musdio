@@ -15,9 +15,18 @@ function Login() {
             <TextInput placeholder="Enter username..."  style={styles.input} />
             <TextInput placeholder="Enter password..."  style={styles.input} />
           </View>
-          <TouchableOpacity style={{marginTop: 50, width: "80%"}}>
+          <TouchableOpacity style={{marginTop: 30, width: "60%"}}>
               <Text style={styles.btn}>Login</Text>
           </TouchableOpacity>
+          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent:'center'}}>
+            <Text style={{borderBottomWidth: 1, height: 1, flex: 1,}}/>
+            <Text style={{margin: 20, fontSize: 17}}>Or continue with</Text>
+            <Text style={{borderBottomWidth: 1, height: 1, flex: 1,}}/>
+          </View>
+          <View style={styles.boxSocial}>
+            <Image style={styles.iconSocial} source={require('../../assets/images/google.jpg')} />
+            <Image style={styles.iconSocial} source={require('../../assets/images/facebook.jpg')} />
+          </View>
       </View>
     </LinearGradient>
   );
@@ -32,10 +41,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  boxSocial: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },  
+  iconSocial: {
+    width: 50,
+    height: 50,
+    margin: 20,
+    marginTop: 5
+  },  
   prevBtn: {
     position: "absolute",
     top: "5%",
-    left: "5%"
+    left: "2.5%"
   },
   box: {
     marginTop: "20%",
@@ -43,7 +64,6 @@ const styles = StyleSheet.create({
     marginBottom: "20%",
     backgroundColor: "#fff",
     borderRadius: 20,
-    flex: 1,
     alignItems: "center",
   },
   textHeader: {
@@ -59,6 +79,7 @@ const styles = StyleSheet.create({
   },
   boxInput: {
     width: "80%",
+    alignItems: 'center'
   },
   input: {
     borderWidth: 2,
@@ -74,7 +95,7 @@ const styles = StyleSheet.create({
   btn: {
     backgroundColor: "#00B0FF",
     padding: 10,
-    fontSize: 20,
+    fontSize: 15,
     color: "#000",
     borderRadius: 20,
     textAlign: "center"

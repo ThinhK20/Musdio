@@ -12,6 +12,7 @@ import HomeScreen from './components/Main/home'
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import LoginFacebook from "./components/LoginWithFacebook";
 export default function App() {
   const Stack = createStackNavigator()
   return (
