@@ -28,11 +28,7 @@ const LYRICS = [
   },
 ];
 
-<<<<<<< HEAD
 function NowPlaying({ navigation, songs }) {
-=======
-function NowPlaying({navigation}) {
->>>>>>> 7f4c05df412f8e8f6c67590696fc7135385fcd9b
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 
@@ -157,7 +153,7 @@ function NowPlaying({navigation}) {
       setCurrentDuration(sliderValue);
     }
     // Handle event when the current song has been finished ==> Next song or just open random song
-    if (onPlaybackStatusUpdate.didJustFinish) {
+    if (onPlaybackStatusUpdate.didJustFinish && !activeRepeatBtn) {
       handleNextSong();
     }
   });
@@ -169,14 +165,10 @@ function NowPlaying({navigation}) {
       style={styles.LinearGradient}
     >
       <View style={styles.pageStatusBar}>
-<<<<<<< HEAD
         <TouchableOpacity
           style={styles.iconHeader}
           onPress={() => navigation.navigate("Home")}
         >
-=======
-        <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.navigate('Home')}>
->>>>>>> 7f4c05df412f8e8f6c67590696fc7135385fcd9b
           <Ionicons name="ios-chevron-back" size={28} color="white" />
         </TouchableOpacity>
         <Text style={styles.pageName}>Musdio</Text>

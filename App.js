@@ -12,7 +12,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="LoadingSongs" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Setting" component={Setting} />
           <Stack.Screen name="SettingGeneral" component={SettingGeneral} />
           <Stack.Screen name="Home" component={HomeScreen} />
