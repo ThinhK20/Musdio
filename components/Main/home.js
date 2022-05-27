@@ -50,7 +50,7 @@ function HomeScreen({navigation}) {
                                 horizontal = {true}>
                                 { musicplayed.map((music, index) => {
                                     return (
-                                        <TouchableOpacity onPress={() => navigation.navigate('Song')}>
+                                        <TouchableOpacity onPress={() => navigation.navigate('LoadingSongs')}>
                                             <View key={index}>
                                                 <Image style = {styles.img}
                                                     source = {music.img}
@@ -71,7 +71,7 @@ function HomeScreen({navigation}) {
                             horizontal = {true}>
                             { musicplayed.map((music, index)=> {
                                 return (
-                                    <TouchableOpacity onPress={() => navigation.navigate('Song')}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('LoadingSongs')}>
                                     <View key={index}>
                                         <Image style = {styles.img}
                                             source = {music.img}
@@ -91,7 +91,7 @@ function HomeScreen({navigation}) {
                             horizontal = {true}>
                             { musicplayed.map((music, index) => {
                                 return (
-                                    <TouchableOpacity onPress={() => navigation.navigate('Song')}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('LoadingSongs')}>
                                     <View key ={index}>
                                         <Image style = {styles.img}
                                             source = {music.img}
