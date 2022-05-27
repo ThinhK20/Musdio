@@ -5,8 +5,13 @@ import store from "./components/Redux/store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Setting, SettingGeneral, HomeScreen, Profile, Playlist, Login, LoadingSongs } from './components/'
+<<<<<<< HEAD
 import Search from './components/Search/Search'
 
+=======
+import NowPlaying from "./components/NowPlaying/index"
+import Sleep from "./components/Sleep/Sleep";
+>>>>>>> 5a92d34d89ef6ec8541594763b46a3a9d849389b
 export default function App() {
   const Stack = createStackNavigator()
   return (
@@ -20,7 +25,7 @@ export default function App() {
           <Stack.Screen name="Playlist" component={Playlist} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="LoadingSongs" component={LoadingSongs} />
-
+          <Stack.Screen name="Sleep" component={Sleep} />
         </Stack.Navigator>
           
       </NavigationContainer> */}
