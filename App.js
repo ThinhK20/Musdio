@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Setting, SettingGeneral, HomeScreen, Profile, Playlist, Login, LoadingSongs } from './components/'
 
+
 export default function App() {
   const Stack = createStackNavigator()
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Stack.Screen name="Playlist" component={Playlist} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="LoadingSongs" component={LoadingSongs} />
+
         </Stack.Navigator>
 
       </NavigationContainer>

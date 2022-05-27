@@ -2,8 +2,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import React, {useState} from 'react';
-import {  StatusBar, ScrollView,Image } from 'react-native';
-function HomeScreen() {
+import {  StatusBar, ScrollView,Image, TouchableOpacity } from 'react-native';
+function HomeScreen({navigation}) {
     const [musicplayed, setMusic] = useState([
         {name: 'quang tèo đi qua đèo',img: require('../../assets/images/Recently/qtdqd.jpg')},
         {name: 'buông hàng', img: require('../../assets/images/Recently/bh.jpg')},
@@ -37,47 +37,53 @@ function HomeScreen() {
             <View style={styles.container}>
                 <ScrollView style={{ flex: 1 }}>
                 <View style={styles.header}>
-            
+        
                     <Text style={styles.textHeader}>Home</Text>
-                </View>
-                <View style={{ borderBottomColor: 'white', borderBottomWidth: 1.75 }} />
-                <View style={styles.body}>
-                    <View style = {styles.option}>
-                        <View style = {styles.formOption}>
-                            <Text style = {styles.textForm}>Recently Played</Text>
-                            <ScrollView style = {styles.scrollHorizontal}
-                            horizontal = {true}>
-                            { musicplayed.map((music, index) => {
-                                return (
-                                    
-                                    <View key={index}>
-                                        <Image style = {styles.img}
-                                            source = {music.img}
-                                        />
-                                        <Text style = {styles.textDivForm}>{music.name}</Text>
-                                    </View>
-                                )
-                            })}
-                            </ScrollView>
-                        </View>
+                    </View>
+                    <View style={{ borderBottomColor: 'white', borderBottomWidth: 1.75 }} />
+                    <View style={styles.body}>
+                        <View style = {styles.option}>
+                        
+                            <View style = {styles.formOption}>
+                                <Text style = {styles.textForm}>Recently Played</Text>
+                                <ScrollView style = {styles.scrollHorizontal}
+                                horizontal = {true}>
+                                { musicplayed.map((music, index) => {
+                                    return (
+                                        <TouchableOpacity onPress={() => navigation.navigate('Song')}>
+                                            <View key={index}>
+                                                <Image style = {styles.img}
+                                                    source = {music.img}
+                                                />
+                                                <Text style = {styles.textDivForm}>{music.name}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    )
+                                })}
+                                </ScrollView>
+                            </View>
+                      
                         {/* ========================================= */}
+            
                         <View style = {styles.formOption}>
                             <Text style = {styles.textForm}>Trend</Text>
                             <ScrollView style = {styles.scrollHorizontal}
                             horizontal = {true}>
                             { musicplayed.map((music, index)=> {
                                 return (
-                                    
+                                    <TouchableOpacity onPress={() => navigation.navigate('Song')}>
                                     <View key={index}>
                                         <Image style = {styles.img}
                                             source = {music.img}
                                         />
                                         <Text style = {styles.textDivForm}>{music.name}</Text>
                                     </View>
+                                    </TouchableOpacity>
                                 )
                             })}
                             </ScrollView>
                         </View>
+                        
                         {/* ====================================== */}
                         <View style = {styles.formOption}>
                             <Text style = {styles.textForm}>Hot Music</Text>
@@ -85,13 +91,14 @@ function HomeScreen() {
                             horizontal = {true}>
                             { musicplayed.map((music, index) => {
                                 return (
-                                    
+                                    <TouchableOpacity onPress={() => navigation.navigate('Song')}>
                                     <View key ={index}>
                                         <Image style = {styles.img}
                                             source = {music.img}
                                         />
                                         <Text style = {styles.textDivForm}>{music.name}</Text>
                                     </View>
+                                    </TouchableOpacity>
                                 )
                             })}
                             </ScrollView>
@@ -103,13 +110,14 @@ function HomeScreen() {
                             horizontal = {true}>
                             { musicplayed.map((music, index) => {
                                 return (
-                                    
+                                    <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
                                     <View key={index}>
                                         <Image style = {styles.img}
                                             source = {music.img}
                                         />
                                         <Text style = {styles.textDivForm}>{music.name}</Text>
                                     </View>
+                                    </TouchableOpacity>
                                 )
                             })}
                             </ScrollView>
@@ -117,7 +125,7 @@ function HomeScreen() {
                         {/* ====================================== */}
                     </View>
                 </View>
-                </ScrollView>
+              </ScrollView>
                 
             </View>
         </LinearGradient>
