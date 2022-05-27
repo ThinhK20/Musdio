@@ -2,10 +2,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import {
   StyleSheet,
   Text,
-  StatusBar,
   View,
   Image,
-  ScrollView,
   FlatList,
   TouchableOpacity,
 } from "react-native";
@@ -14,7 +12,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useEffect, useState, useRef } from "react";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
-import { songs } from "../Database";
 
 const LYRICS = [
   {
@@ -28,10 +25,10 @@ const LYRICS = [
   {
     id: 3,
     text: "...",
-  }, 
+  },
 ];
 
-function NowPlaying() {
+function NowPlaying({ navigation, songs }) {
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 
@@ -135,7 +132,7 @@ function NowPlaying() {
   // Handle event when current index change ==> Unload old and load new song
   useEffect(() => {
     (async () => {
-      await sound.current.loadAsync(currentSong.path);
+      await sound.current.loadAsync({ uri: currentSong.path });
       if (playing) {
         await sound.current.playAsync();
       }
@@ -168,7 +165,10 @@ function NowPlaying() {
       style={styles.LinearGradient}
     >
       <View style={styles.pageStatusBar}>
-        <TouchableOpacity style={styles.iconHeader}>
+        <TouchableOpacity
+          style={styles.iconHeader}
+          onPress={() => navigation.navigate("Home")}
+        >
           <Ionicons name="ios-chevron-back" size={28} color="white" />
         </TouchableOpacity>
         <Text style={styles.pageName}>Musdio</Text>
@@ -176,7 +176,7 @@ function NowPlaying() {
       <View style={styles.container}>
         <Text style={styles.playlistText}>Playlist</Text>
         <Text style={styles.artistName}>{currentSong.singer}</Text>
-        <Image style={styles.cdImage} source={currentSong.image} />
+        <Image style={styles.cdImage} source={{uri: currentSong.image}} />
         <Slider
           style={styles.slider}
           minimumValue={0}

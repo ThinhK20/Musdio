@@ -1,32 +1,55 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Button, Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
-function Login() {
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import LoginFacebook from "../LoginWithFacebook";
+
+function Login({navigation}) {
   return (
     <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
-        <TouchableOpacity style={styles.prevBtn}>
-            <AntDesign name="left" size={24} color="black"  />
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.prevBtn}>
+        <AntDesign name="left" size={24} color="black" />
+      </TouchableOpacity>
 
       <View style={styles.box}>
-          <Text style={styles.textHeader}>Login</Text>
-          <Image source={require('../../assets/images/Login.png')} style={styles.img} />
-          <View style={styles.boxInput}>
-            <TextInput placeholder="Enter username..."  style={styles.input} />
-            <TextInput placeholder="Enter password..."  style={styles.input} />
-          </View>
-          <TouchableOpacity style={{marginTop: 30, width: "60%"}}>
-              <Text style={styles.btn}>Login</Text>
+        <Text style={styles.textHeader}>Login</Text>
+        <Image
+          source={require("../../assets/images/Login.png")}
+          style={styles.img}
+        />
+        <View style={styles.boxInput}>
+          <TextInput placeholder="Enter username..." style={styles.input} />
+          <TextInput placeholder="Enter password..." style={styles.input} />
+        </View>
+        <TouchableOpacity style={{ marginTop: 30, width: "60%" }}>
+          <Text style={styles.btn}>Login</Text>
+        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1 }} />
+          <Text style={{ margin: 20, fontSize: 17 }}>Or continue with</Text>
+          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1 }} />
+        </View>
+        <View style={styles.boxSocial}>
+          <TouchableOpacity>
+            <Image
+              style={styles.iconSocial}
+              source={require("../../assets/images/google.jpg")}
+            />
           </TouchableOpacity>
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent:'center'}}>
-            <Text style={{borderBottomWidth: 1, height: 1, flex: 1,}}/>
-            <Text style={{margin: 20, fontSize: 17}}>Or continue with</Text>
-            <Text style={{borderBottomWidth: 1, height: 1, flex: 1,}}/>
-          </View>
-          <View style={styles.boxSocial}>
-            <Image style={styles.iconSocial} source={require('../../assets/images/google.jpg')} />
-            <Image style={styles.iconSocial} source={require('../../assets/images/facebook.jpg')} />
-          </View>
+          <LoginFacebook navigation={navigation}/>
+        </View>
       </View>
     </LinearGradient>
   );
@@ -44,24 +67,23 @@ const styles = StyleSheet.create({
   boxSocial: {
     width: "100%",
     flexDirection: "row",
-    alignItems: 'center',
-    justifyContent: 'center',
-  },  
+    alignItems: "center",
+    justifyContent: "center",
+  },
   iconSocial: {
     width: 50,
     height: 50,
     margin: 20,
-    marginTop: 5
-  },  
+    marginTop: 5,
+  },
   prevBtn: {
     position: "absolute",
     top: "5%",
-    left: "2.5%"
+    left: "2.5%",
   },
   box: {
-    marginTop: "20%",
+    marginTop: "10%",
     width: "80%",
-    marginBottom: "20%",
     backgroundColor: "#fff",
     borderRadius: 20,
     alignItems: "center",
@@ -71,15 +93,15 @@ const styles = StyleSheet.create({
     right: "30%",
     top: "5%",
     zIndex: 1,
-    fontWeight: '400'
-  },    
+    fontWeight: "400",
+  },
   img: {
-      width: "80%",
-      height: "40%"
+    width: "80%",
+    height: "40%",
   },
   boxInput: {
     width: "80%",
-    alignItems: 'center'
+    alignItems: "center",
   },
   input: {
     borderWidth: 2,
@@ -98,6 +120,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#000",
     borderRadius: 20,
-    textAlign: "center"
-}
+    textAlign: "center",
+  },
 });

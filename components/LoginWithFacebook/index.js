@@ -16,8 +16,10 @@ import {
   ActivityIndicator,
 } from "react-native";
 import * as Facebook from "expo-facebook";
+import { useDispatch, useSelector } from "react-redux";
+import { setImageAvatarStatus, setLogginStatus, setUser } from "../Redux/facebookSlider";
 
-export default function LoginFacebook() {
+export default function LoginFacebook({ navigation }) {
   const firebaseConfig = {
     apiKey: "AIzaSyCoX-FtTXOHj_IcZ6riFi3vjLc9LLw8fqo",
     authDomain: "musdio-6ec90.firebaseapp.com",
@@ -29,23 +31,18 @@ export default function LoginFacebook() {
   };
 
   const app = initializeApp(firebaseConfig);
-
   const auth = getAuth(app);
-
-  console.log("Auth: ", auth)
-
   // Listen for authentication state to change.
-  onAuthStateChanged(auth, (user) => {
-    if (user != null) {
+  onAuthStateChanged(auth, () => {
+    if (facebookState.userData != null) {
       console.log("We are authenticated now!");
+      navigation.navigate('Home')
     }
-
     // Do other things
   });
 
-  const [isLoggedin, setLoggedinStatus] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [isImageLoading, setImageLoadStatus] = useState(false);
+  const dispatch = useDispatch()
+  const facebookState = useSelector(state => state.facebook)
 
   const facebookLogIn = async () => {
     try {
@@ -53,7 +50,7 @@ export default function LoginFacebook() {
         appId: "545155573899991", // enter app id here
       });
       const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ["public_profile", 'email'],
+        permissions: ["public_profile", "email"],
       });
       if (type === "success") {
         fetch(
@@ -61,15 +58,14 @@ export default function LoginFacebook() {
         )
           .then((response) => response.json())
           .then((data) => {
-            setLoggedinStatus(true);
-            setUserData(data);
+            dispatch(setLogginStatus(true))
+            dispatch(setUser(data))
             alert("Loggin in !");
-            const credential = new FacebookAuthProvider.credential(token)
-            console.log("Firebase !!!", credential)
+            const credential = new FacebookAuthProvider.credential(token);
+            console.log("Firebase !!!", credential);
             signInWithCredential(auth, credential).catch((error) => {
               console.log(error);
             });
-           
           })
           .catch((e) => console.log(e));
       } else {
@@ -81,48 +77,18 @@ export default function LoginFacebook() {
   };
 
   const facebookLogOut = () => {
-    setLoggedinStatus(false);
-    setUserData(null);
-    setImageLoadStatus(false);
+    dispatch(setLogginStatus(false))
+    dispatch(setUser(null))
+    dispatch(setImageAvatarStatus(false))
   };
 
-  return isLoggedin ? (
-    userData ? (
-      <View style={styles.container}>
-        <Image
-          style={{ width: 200, height: 200, borderRadius: 50 }}
-          source={{ uri: userData.picture.data.url }}
-          onLoadEnd={() => setImageLoadStatus(true)}
-        />
-        <ActivityIndicator
-          size="large"
-          color="#0000ff"
-          animating={!isImageLoading}
-          style={{ position: "absolute" }}
-        />
-        <Text style={{ fontSize: 22, marginVertical: 10 }}>
-          Hi {userData.name}!
-        </Text>
-        <TouchableOpacity style={styles.logoutBtn} onPress={facebookLogOut}>
-          <Text style={{ color: "#fff" }}>Logout</Text>
-        </TouchableOpacity>
-      </View>
-    ) : null
-  ) : (
-    <View style={styles.container}>
+  return (
+    <TouchableOpacity onPress={facebookLogIn}>
       <Image
-        style={{
-          width: 200,
-          height: 200,
-          borderRadius: 50,
-          marginVertical: 20,
-        }}
-        source={{ uri: "https://www.facebook.com/images/fb_icon_325x325.png" }}
+        source={require("../../assets/images/facebook.jpg")}
+        style={styles.image}
       />
-      <TouchableOpacity style={styles.loginBtn} onPress={facebookLogIn}>
-        <Text style={{ color: "#fff" }}>Login with Facebook</Text>
-      </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -147,5 +113,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     marginBottom: 200,
+  },
+  image: {
+    width: 50,
+    height: 50,
+    margin: 20,
+    marginTop: 5,
   },
 });
