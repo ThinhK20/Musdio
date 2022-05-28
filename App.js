@@ -4,15 +4,14 @@ import { Provider } from "react-redux";
 import store from "./components/Redux/store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Setting, SettingGeneral, HomeScreen, Profile, Playlist, Login, LoadingSongs } from './components/'
-
+import { Setting, SettingGeneral, HomeScreen, Profile, Playlist, Login, LoadingSongs, LoginGoogle, LoginFacebook, NowPlaying } from './components/'
 
 export default function App() {
   const Stack = createStackNavigator()
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="LoadingSongs" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Setting" component={Setting} />
           <Stack.Screen name="SettingGeneral" component={SettingGeneral} />
           <Stack.Screen name="Home" component={HomeScreen} />
@@ -20,7 +19,6 @@ export default function App() {
           <Stack.Screen name="Playlist" component={Playlist} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="LoadingSongs" component={LoadingSongs} />
-
         </Stack.Navigator>
 
       </NavigationContainer>

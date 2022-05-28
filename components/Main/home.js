@@ -50,8 +50,8 @@ function HomeScreen({navigation}) {
                                 horizontal = {true}>
                                 { musicplayed.map((music, index) => {
                                     return (
-                                        <TouchableOpacity onPress={() => navigation.navigate('Song')}>
-                                            <View key={index}>
+                                        <TouchableOpacity onPress={() => navigation.navigate('LoadingSongs')}  key={index}>
+                                            <View>
                                                 <Image style = {styles.img}
                                                     source = {music.img}
                                                 />
@@ -71,8 +71,8 @@ function HomeScreen({navigation}) {
                             horizontal = {true}>
                             { musicplayed.map((music, index)=> {
                                 return (
-                                    <TouchableOpacity onPress={() => navigation.navigate('Song')}>
-                                    <View key={index}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('LoadingSongs')} key={index}>
+                                    <View >
                                         <Image style = {styles.img}
                                             source = {music.img}
                                         />
@@ -91,8 +91,8 @@ function HomeScreen({navigation}) {
                             horizontal = {true}>
                             { musicplayed.map((music, index) => {
                                 return (
-                                    <TouchableOpacity onPress={() => navigation.navigate('Song')}>
-                                    <View key ={index}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('LoadingSongs')} key ={index}>
+                                    <View >
                                         <Image style = {styles.img}
                                             source = {music.img}
                                         />
@@ -110,8 +110,8 @@ function HomeScreen({navigation}) {
                             horizontal = {true}>
                             { musicplayed.map((music, index) => {
                                 return (
-                                    <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
-                                    <View key={index}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} key={index}>
+                                    <View >
                                         <Image style = {styles.img}
                                             source = {music.img}
                                         />
@@ -122,7 +122,6 @@ function HomeScreen({navigation}) {
                             })}
                             </ScrollView>
                         </View>
-                        {/* ====================================== */}
                     </View>
                 </View>
               </ScrollView>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NowPlaying from "../NowPlaying";
 
-export default function LoadingSongs() {
+export default function LoadingSongs({navigation}) {
   const [songs, setSongs] = useState();
 
   useEffect(() => {
@@ -12,5 +12,5 @@ export default function LoadingSongs() {
       .then((responseSongs) => setSongs(responseSongs));
   }, []);
 
-  return <>{songs && <NowPlaying songs={songs} />}</>;
+  return <>{songs && <NowPlaying songs={songs} navigation={navigation}  />}</>;
 }

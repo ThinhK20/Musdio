@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import LoginFacebook from "../LoginWithFacebook";
+import LoginGoogle from "../LoginWithGoogle";
 
 function Login({navigation}) {
   return (
@@ -42,13 +43,8 @@ function Login({navigation}) {
           <Text style={{ borderBottomWidth: 1, height: 1, flex: 1 }} />
         </View>
         <View style={styles.boxSocial}>
-          <TouchableOpacity>
-            <Image
-              style={styles.iconSocial}
-              source={require("../../assets/images/google.jpg")}
-            />
-          </TouchableOpacity>
           <LoginFacebook navigation={navigation}/>
+          <LoginGoogle navigation={navigation}/>
         </View>
       </View>
     </LinearGradient>
