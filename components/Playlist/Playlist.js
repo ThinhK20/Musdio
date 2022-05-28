@@ -41,8 +41,8 @@ const DATA = [
   },
 ];
 
-const Item = ({title, img, single}) => (
-  <TouchableOpacity>
+const Item = ({title, img, single, navigation}) => (
+  <TouchableOpacity onPress = {() => navigation.navigate('LoadingSongs')}>
   <View style={styles.item}>
     <Image style={styles.cdImage} source={{uri: img}}/>
     <View style = {styles.Single}>

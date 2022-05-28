@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, Text, StyleSheet, View, FlatList } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
-const App = () => {
+const Search = () => {
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
 
   useEffect(() => {
-    fetch('')
+    fetch("https://denzqfapjoywlunugtbe.supabase.co/rest/v1/Music?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbnpxZmFwam95d2x1bnVndGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTM1Njc2MTAsImV4cCI6MTk2OTE0MzYxMH0.phhqYflVrlaS3Lb9lsxe21sgJH2ZSW1HKDHN8RQqy1Y")
       .then((response) => response.json())
       .then((responseJson) => {
         setFilteredDataSource(responseJson);
@@ -28,9 +28,12 @@ const App = () => {
       // Filter the masterDataSource
       // Update FilteredDataSource
       const newData = masterDataSource.filter(function (item) {
-        const itemData = item.title
-          ? item.title.toUpperCase()
+        const input=item.name+' - '+item.singer;
+        const itemData = item.name+'-'+item.singer
+          ? input.toUpperCase()
           : ''.toUpperCase();
+   
+          
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -45,13 +48,17 @@ const App = () => {
   };
 
   const ItemView = ({ item }) => {
+    const input=item.name+' - '+item.singer;
     return (
       // Flat List Item
-      <Text style={styles.itemStyle} onPress={() => getItem(item)}>
-        {item.id}
-        {'.'}
-        {item.title.toUpperCase()}
-      </Text>
+      <View>
+        <Text style={styles.itemStyle} onPress={() => getItem(item)}>
+          {input.toUpperCase() }
+        </Text>
+      </View>
+      
+      
+      
     );
   };
 
@@ -70,7 +77,7 @@ const App = () => {
 
   const getItem = (item) => {
     // Function for click on an item
-    alert('Id : ' + item.id + ' Title : ' + item.title);
+    alert('Id : ' + item.id + ' name : ' + item.name+' singer: '+item.singer);
   };
 
   return (
@@ -81,7 +88,7 @@ const App = () => {
           searchIcon={{ size: 24 }}
           onChangeText={(text) => searchFilterFunction(text)}
           onClear={(text) => searchFilterFunction('')}
-          placeholder="Type Here..."
+          placeholder="Find by Singer or Name's Song"
           value={search}
         />
         <FlatList
@@ -104,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Search;

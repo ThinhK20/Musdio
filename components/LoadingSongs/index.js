@@ -12,5 +12,5 @@ export default function LoadingSongs({navigation}) {
       .then((responseSongs) => setSongs(responseSongs));
   }, []);
 
-  return <>{songs && <NowPlaying songs={songs} navigation={navigation}  />}</>;
+  return <>{songs && <NowPlaying songs={songs} navigation ={navigation}/>}</>;
 }

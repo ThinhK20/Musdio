@@ -103,7 +103,6 @@ function HomeScreen({navigation}) {
                             })}
                             </ScrollView>
                         </View>
-                        {/* ====================================== */}
                         <View style = {styles.formOption}>
                             <Text style = {styles.textForm}>Category</Text>
                             <ScrollView style = {styles.scrollHorizontal}

@@ -14,7 +14,7 @@ const showToastTurnOff = () =>{
   ToastAndroid.show("Turn off was successful.",ToastAndroid.SHORT,ToastAndroid.CENTER);
 };
 
-function Sleep(){ 
+function Sleep({navigation}){ 
   const [saveTime,setSaveTime]=useState(false);
   const refTimer = useRef();
   const [timerEnd, setTimerEnd] = useState(false);
@@ -27,7 +27,7 @@ function Sleep(){
         <Header
             centerComponent={{text: "Sleep Timer",style : {color: '#fff',fontSize:20,fontWeight: '500' }  }}
             leftComponent = {
-                <TouchableOpacity>
+                <TouchableOpacity onPress = {() => navigation.navigate('LoadingSongs')}>
                 <Ionicons style={styles.headerLeft} name= "ios-chevron-back" size={28} color="white" />
                 </TouchableOpacity>
             }

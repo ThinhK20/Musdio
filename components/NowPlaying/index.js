@@ -12,7 +12,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useEffect, useState, useRef } from "react";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
-
+import { FontAwesome5 } from '@expo/vector-icons';
 const LYRICS = [
   {
     id: 1,
@@ -41,7 +41,6 @@ function NowPlaying({ navigation, songs }) {
   const [randomNumber, setRandomNumber] = useState();
 
   const sound = useRef(new Audio.Sound());
-
   // Handle event when user clicked repeat button
   const handleRepeatSong = () => {
     if (!activeRepeatBtn) {
@@ -153,7 +152,7 @@ function NowPlaying({ navigation, songs }) {
       setCurrentDuration(sliderValue);
     }
     // Handle event when the current song has been finished ==> Next song or just open random song
-    if (onPlaybackStatusUpdate.didJustFinish && !activeRepeatBtn) {
+    if (onPlaybackStatusUpdate.didJustFinish) {
       handleNextSong();
     }
   });
@@ -172,6 +171,13 @@ function NowPlaying({ navigation, songs }) {
           <Ionicons name="ios-chevron-back" size={28} color="white" />
         </TouchableOpacity>
         <Text style={styles.pageName}>Musdio</Text>
+        <View style = {styles.opposite}>
+        <TouchableOpacity onPress={() => navigation.navigate('Sleep')}>
+          <FontAwesome5 name="cloud-moon" size={28} color="white"/>
+        </TouchableOpacity>
+        </View>
+        
+
       </View>
       <View style={styles.container}>
         <Text style={styles.playlistText}>Playlist</Text>
@@ -214,7 +220,7 @@ function NowPlaying({ navigation, songs }) {
             style={styles.stepbackward}
             onPress={handlePrevSong}
           >
-            <FontAwesome name="step-backward" size={24} color="#fff" />
+            <FontAwesome name="step-backward" size={30} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.playBtn}
@@ -264,13 +270,20 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingTop: 40,
   },
+  opposite:{
+    position: 'absolute',
+    bottom:'5%',
+    right: '5%',
+    paddingBottom: '5%'
+  },
   pageStatusBar: {
     color: "#fff",
-    padding: 5,
     width: "100%",
     alignItems: "center",
     borderColor: "#000",
     borderBottomWidth: 2,
+    flexDirection: 'column',
+    bottom: '4%',
   },
   iconHeader: {
     position: "absolute",
@@ -281,6 +294,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
+    paddingBottom: '5%',
   },
   container: {
     paddingTop: 10,
@@ -295,6 +309,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     marginBottom: 10,
+    marginTop : '-5%',
   },
   artistName: {
     fontSize: 18,
