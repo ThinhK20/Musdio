@@ -6,48 +6,45 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  KeyboardAvoidingView
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import LoginFacebook from "../LoginWithFacebook";
 import LoginGoogle from "../LoginWithGoogle";
 
-function Login({navigation}) {
+function Login({ navigation }) {
   return (
-    <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
-      <TouchableOpacity style={styles.prevBtn}>
-        <AntDesign name="left" size={24} color="black" />
-      </TouchableOpacity>
-
-      <View style={styles.box}>
-        <Text style={styles.textHeader}>Login</Text>
-        <Image
-          source={require("../../assets/images/Login.png")}
-          style={styles.img}
-        />
-        <View style={styles.boxInput}>
-          <TextInput placeholder="Enter username..." style={styles.input} />
-          <TextInput placeholder="Enter password..." style={styles.input} />
+      <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
+        <View style={styles.box}>
+          <Text style={styles.textHeader}>Login</Text>
+          <Image
+            source={require("../../assets/images/Login.png")}
+            style={styles.img}
+          />
+          <View style={styles.boxInput}>
+            <TextInput placeholder="Enter username..." style={styles.input} />
+            <TextInput placeholder="Enter password..." style={styles.input} />
+          </View>
+          <TouchableOpacity style={{ marginTop: 30, width: "60%" }}>
+            <Text style={styles.btn}>Login</Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={{ borderBottomWidth: 1, height: 1, flex: 1 }} />
+            <Text style={{ margin: 20, fontSize: 17 }}>Or continue with</Text>
+            <Text style={{ borderBottomWidth: 1, height: 1, flex: 1 }} />
+          </View>
+          <View style={styles.boxSocial}>
+            <LoginFacebook navigation={navigation} />
+            <LoginGoogle navigation={navigation} />
+          </View>
         </View>
-        <TouchableOpacity style={{ marginTop: 30, width: "60%" }}>
-          <Text style={styles.btn}>Login</Text>
-        </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1 }} />
-          <Text style={{ margin: 20, fontSize: 17 }}>Or continue with</Text>
-          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1 }} />
-        </View>
-        <View style={styles.boxSocial}>
-          <LoginFacebook navigation={navigation}/>
-          <LoginGoogle navigation={navigation}/>
-        </View>
-      </View>
-    </LinearGradient>
+      </LinearGradient>
   );
 }
 
