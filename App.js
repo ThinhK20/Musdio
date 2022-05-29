@@ -8,12 +8,13 @@ import { Setting, SettingGeneral, HomeScreen, Profile, Playlist, Login, LoadingS
 import Footer from "./components/Footer/Footer";
 import Search from "./components/Search/Search";
 import TopTreding from "./components/TopTrending/TopTreding";
+import Sleep from "./components/Sleep/Sleep";
 export default function App() {
   const Stack = createStackNavigator()
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Footer" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="LoadingSongs" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Footer" component={Footer} />
           <Stack.Screen name="Setting" component={Setting} />
           <Stack.Screen name="SettingGeneral" component={SettingGeneral} />
@@ -24,6 +25,8 @@ export default function App() {
           <Stack.Screen name="LoadingSongs" component={LoadingSongs} />
           <Stack.Screen name="Search" component={Search} />
           <Stack.Screen name="TopTreding" component={TopTreding} />
+          <Stack.Screen name="Sleep" component={Sleep} />
+
         </Stack.Navigator>
 
       </NavigationContainer>

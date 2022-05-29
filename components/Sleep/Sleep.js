@@ -13,7 +13,6 @@ const showToastSetSuccessTime = () =>{
 const showToastTurnOff = () =>{
   ToastAndroid.show("Turn off was successful.",ToastAndroid.SHORT,ToastAndroid.CENTER);
 };
-
 function Sleep({navigation}){ 
   const [saveTime,setSaveTime]=useState(false);
   const refTimer = useRef();

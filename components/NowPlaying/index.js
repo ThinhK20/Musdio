@@ -106,7 +106,19 @@ function NowPlaying({ navigation, songs }) {
       });
     }
   };
-
+  const stopWhenBack = async()=>{
+      if(playing)
+      {  
+        await sound.current.unloadAsync()
+        .then(result => {
+          navigation.navigate('Home')
+          setPlaying(!playing)
+      })
+      }
+      else {
+        navigation.navigate('Home')
+      }
+  };
   // Change duration song when user is dragging the slider
   const handleDraggingSlider = (value) => {
     sound.current.getStatusAsync().then((result) => {
@@ -166,7 +178,7 @@ function NowPlaying({ navigation, songs }) {
       <View style={styles.pageStatusBar}>
         <TouchableOpacity
           style={styles.iconHeader}
-          onPress={() => navigation.navigate("Home")}
+          onPress={stopWhenBack}
         >
           <Ionicons name="ios-chevron-back" size={28} color="white" />
         </TouchableOpacity>
@@ -288,6 +300,7 @@ const styles = StyleSheet.create({
   iconHeader: {
     position: "absolute",
     left: "5%",
+    paddingTop: '65%',
   },
   pageName: {
     color: "#fff",
@@ -295,6 +308,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     paddingBottom: '5%',
+    paddingTop : '5%',
   },
   container: {
     paddingTop: 10,
