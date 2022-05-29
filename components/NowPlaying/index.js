@@ -12,7 +12,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useEffect, useState, useRef } from "react";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from "@expo/vector-icons";
 const LYRICS = [
   {
     id: 1,
@@ -157,6 +157,17 @@ function NowPlaying({ navigation, songs }) {
     }
   });
 
+  const stopWhenBack = async () => {
+    if (playing) {
+      await sound.current.unloadAsync().then((resolve) => {
+        setPlaying(!playing);
+        navigation.navigate("Home");
+      });
+    } else {
+      navigation.navigate("Home");
+    }
+  };
+
   return (
     <LinearGradient
       colors={["#1565C0", "#000"]}
@@ -166,23 +177,22 @@ function NowPlaying({ navigation, songs }) {
       <View style={styles.pageStatusBar}>
         <TouchableOpacity
           style={styles.iconHeader}
-          onPress={() => navigation.navigate("Home")}
+          onPress={stopWhenBack}
         >
           <Ionicons name="ios-chevron-back" size={28} color="white" />
         </TouchableOpacity>
         <Text style={styles.pageName}>Musdio</Text>
-        <View style = {styles.opposite}>
-        <TouchableOpacity onPress={() => navigation.navigate('Sleep')}>
-          <FontAwesome5 name="cloud-moon" size={28} color="white"/>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Sleep")}
+          style={styles.sleep}
+        >
+          <FontAwesome5 name="cloud-moon" size={28} color="white" />
         </TouchableOpacity>
-        </View>
-        
-
       </View>
       <View style={styles.container}>
         <Text style={styles.playlistText}>Playlist</Text>
         <Text style={styles.artistName}>{currentSong.singer}</Text>
-        <Image style={styles.cdImage} source={{uri: currentSong.image}} />
+        <Image style={styles.cdImage} source={{ uri: currentSong.image }} />
         <Slider
           style={styles.slider}
           minimumValue={0}
@@ -270,20 +280,13 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingTop: 40,
   },
-  opposite:{
-    position: 'absolute',
-    bottom:'5%',
-    right: '5%',
-    paddingBottom: '5%'
-  },
   pageStatusBar: {
     color: "#fff",
+    padding: 5,
     width: "100%",
     alignItems: "center",
     borderColor: "#000",
     borderBottomWidth: 2,
-    flexDirection: 'column',
-    bottom: '4%',
   },
   iconHeader: {
     position: "absolute",
@@ -294,7 +297,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
-    paddingBottom: '5%',
   },
   container: {
     paddingTop: 10,
@@ -309,7 +311,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     marginBottom: 10,
-    marginTop : '-5%',
   },
   artistName: {
     fontSize: 18,
@@ -372,5 +373,9 @@ const styles = StyleSheet.create({
   },
   random: {
     marginRight: 40,
+  },
+  sleep: {
+    position: "absolute",
+    right: "5%",
   },
 });
