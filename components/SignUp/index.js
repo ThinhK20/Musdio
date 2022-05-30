@@ -1,29 +1,108 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Button, Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
-function Login() {
+import {
+  Button,
+  Image,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { checkActionCode, createUserWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+import { AntDesign } from "@expo/vector-icons";
+import { useState } from "react";
+import { auth } from "../Firebase";
+function SignUp({ navigation }) {
+  const [cpassword, setCassword] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const validateEmail = (email) => {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+
+  const writeToData = (Id, email) => {
+    console.log("call");
+    const db = getDatabase();
+    const reference = ref(db, "User/" + Id);
+    set(reference, {
+      mail: email,
+    });
+  };
+
+  const handleSubmit = () => {
+    let checkEmail = validateEmail(email);
+    if (checkEmail === true && password === cpassword) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          console.log("User account created & signed in!");
+          const userId = auth.currentUser.uid;
+          writeToData(userId, email);
+          navigation.navigate("Home");
+        })
+        .catch((error) => {
+          if (error.code === "auth/email-already-in-use") {
+            alert("That email address is already in use!");
+          }
+
+          if (error.code === "auth/invalid-email") {
+            alert("That email address is invalid!");
+          }
+          alert(error);
+        });
+    } else {
+      if (password === cpassword) alert("Valid Format");
+      else alert("Invalid Password and Confirm Password");
+    }
+  };
+
   return (
     <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
-        <TouchableOpacity style={styles.prevBtn}>
-            <AntDesign name="left" size={24} color="black"  />
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.prevBtn}>
+        <AntDesign name="left" size={24} color="black" />
+      </TouchableOpacity>
 
       <View style={styles.box}>
-          <Text style={styles.textHeader}>Sign Up</Text>
-          <Image source={require('../../assets/images/SignUp.png')} style={styles.img} />
-          <View style={styles.boxInput}>
-            <TextInput placeholder="Enter username..."  style={styles.input} />
-            <TextInput placeholder="Enter password..."  style={styles.input} />
-          </View>
-          <TouchableOpacity style={{marginTop: 50, width: "80%"}}>
-              <Text style={styles.btn}>Login</Text>
-          </TouchableOpacity>
+        <Text style={styles.textHeader}>Sign Up</Text>
+        <Image
+          source={require("../../assets/images/SignUp.png")}
+          style={styles.img}
+        />
+        <View style={styles.boxInput}>
+          <TextInput
+            placeholder="Enter email..."
+            style={styles.input}
+            onChangeText={(value) => setEmail(value)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            placeholder="Enter password..."
+            style={styles.input}
+            onChangeText={(value) => setPassword(value)}
+          />
+          <TextInput
+            secureTextEntry={true}
+            placeholder="Enter confirm password..."
+            style={styles.input}
+            onChangeText={(value) => setCassword(value)}
+          />
+        </View>
+        <TouchableOpacity
+          style={{ marginTop: 30, width: "80%" }}
+          onPress={handleSubmit}
+        >
+          <Text style={styles.btn}>SignUp</Text>
+        </TouchableOpacity>
       </View>
     </LinearGradient>
   );
 }
 
-export default Login;
+export default SignUp;
 
 const styles = StyleSheet.create({
   container: {
@@ -35,12 +114,12 @@ const styles = StyleSheet.create({
   prevBtn: {
     position: "absolute",
     top: "5%",
-    left: "5%"
+    left: "2.5%",
   },
   box: {
-    marginTop: "20%",
+    marginTop: "10%",
     width: "80%",
-    marginBottom: "20%",
+    marginBottom: "10%",
     backgroundColor: "#fff",
     borderRadius: 20,
     flex: 1,
@@ -51,11 +130,11 @@ const styles = StyleSheet.create({
     right: "30%",
     top: "5%",
     zIndex: 1,
-    fontWeight: '400'
-  },    
+    fontWeight: "400",
+  },
   img: {
-      width: "80%",
-      height: "40%"
+    width: "80%",
+    height: "40%",
   },
   boxInput: {
     width: "80%",
@@ -77,6 +156,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#000",
     borderRadius: 20,
-    textAlign: "center"
-}
+    textAlign: "center",
+  },
 });

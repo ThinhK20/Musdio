@@ -27,9 +27,8 @@ const showToastTurnOff = () => {
     ToastAndroid.CENTER
   );
 };
-
-function Sleep({ navigation }) {
-  const [saveTime, setSaveTime] = useState(false);
+function Sleep({navigation}){ 
+  const [saveTime,setSaveTime]=useState(false);
   const refTimer = useRef();
   const [timerEnd, setTimerEnd] = useState(false);
   const timerCallbackFunc = (timerFlag) => {

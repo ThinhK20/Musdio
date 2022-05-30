@@ -13,6 +13,7 @@ import { useEffect, useState, useRef } from "react";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 const LYRICS = [
   {
     id: 1,
@@ -28,7 +29,8 @@ const LYRICS = [
   },
 ];
 
-function NowPlaying({ navigation, songs }) {
+function NowPlaying({ navigation}) {
+  const songs = useSelector(state => state.musics)
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 
@@ -106,7 +108,6 @@ function NowPlaying({ navigation, songs }) {
       });
     }
   };
-
   // Change duration song when user is dragging the slider
   const handleDraggingSlider = (value) => {
     sound.current.getStatusAsync().then((result) => {
@@ -152,7 +153,7 @@ function NowPlaying({ navigation, songs }) {
       setCurrentDuration(sliderValue);
     }
     // Handle event when the current song has been finished ==> Next song or just open random song
-    if (onPlaybackStatusUpdate.didJustFinish) {
+    if (onPlaybackStatusUpdate.didJustFinish && !activeRepeatBtn) {
       handleNextSong();
     }
   });
@@ -255,7 +256,7 @@ function NowPlaying({ navigation, songs }) {
             )}
           </TouchableOpacity>
           <TouchableOpacity style={styles.stepforward} onPress={handleNextSong}>
-            <FontAwesome name="step-forward" size={24} color="#fff" />
+            <FontAwesome name="step-forward" size={30} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.repeat} onPress={handleRepeatSong}>
             <Feather
@@ -291,6 +292,7 @@ const styles = StyleSheet.create({
   iconHeader: {
     position: "absolute",
     left: "5%",
+    top: '5%'
   },
   pageName: {
     color: "#fff",

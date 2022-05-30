@@ -21,13 +21,14 @@ function Login({ navigation }) {
             source={require("../../assets/images/Login.png")}
             style={styles.img}
           />
-          <View style={styles.boxInput}>
-            <TextInput placeholder="Enter username..." style={styles.input} />
-            <TextInput placeholder="Enter password..." style={styles.input} />
-          </View>
-          <TouchableOpacity style={{ marginTop: 30, width: "60%" }}>
-            <Text style={styles.btn}>Login</Text>
-          </TouchableOpacity>
+            <View style={styles.boxInput}>
+              <TextInput placeholder="Enter username..." style={styles.input} />
+              <TextInput placeholder="Enter password..." style={styles.input} />
+            </View>
+            <TouchableOpacity style={{ marginTop: 30, width: "60%" }}>
+              <Text style={styles.btn}>Login</Text>
+            </TouchableOpacity>
+         
           <View
             style={{
               flexDirection: "row",
