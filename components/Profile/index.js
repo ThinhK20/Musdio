@@ -227,5 +227,3 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
 });
-
-export default Profile;
