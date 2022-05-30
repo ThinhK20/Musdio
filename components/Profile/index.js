@@ -53,7 +53,7 @@ function Profile({ navigation }) {
     <View style={styles.container}>
         <View style={styles.header}>
        <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.navigate('Home')}>
-              <Ionicons name= "ios-chevron-back" size={40} color="white" fontWeight = 'bold' />
+              <Ionicons name= "ios-chevron-back" size={28} color="white" fontWeight = 'bold' />
          </TouchableOpacity>
               <Text style={styles.textHeader} >Profile</Text>
         </View>
@@ -63,13 +63,13 @@ function Profile({ navigation }) {
           <View style={styles.Avatar}> 
           </View>
           <View style={styles.SquareContent}> 
-          <Text style = {styles.Content}>TÀI ĐƠM LÀ TAO</Text>
+          <Text style = {styles.Content}>NGUYỄN SANH TÀI</Text>
           </View>
           <View style={styles.SquareContent}> 
-          <Text style = {styles.ContentNickname}>Tên tao đơn giản là Quang Tèo</Text>
+          <Text style = {styles.ContentNickname}>TÀI PRO</Text>
           </View>
           <View style={styles.SquareContact}> 
-          <Text style = {styles.ContentContact}>Liên Hệ tao nếu cần</Text>
+          <Text style = {styles.ContentContact}>Contact Me</Text>
           </View>
           <View style={styles.SquareContent}> 
           <Text style = {styles.ContentNickname}>666 Playlists</Text>
@@ -109,13 +109,18 @@ const styles = StyleSheet.create({
     flexDirection : 'row',
   },
   iconHeader:{
-    width: '40%'
+    width: '40%',
+    paddingLeft: '5%',
+    paddingTop : '2%',
   },
   textHeader:{
     color: 'white',
     fontWeight:'bold',
-    fontSize : 30,
-    width : '100%'
+    fontSize : 20,
+    width : '100%',
+    paddingTop: '2%',
+    paddingLeft: '3%',
+
   },
   Bottom:{
     
@@ -221,7 +226,3 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
-
-export default Profile;
