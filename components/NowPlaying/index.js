@@ -129,6 +129,7 @@ function NowPlaying({ navigation}) {
     }
   };
 
+  // stream mode 
   // Handle event when current index change ==> Unload old and load new song
   useEffect(() => {
     (async () => {

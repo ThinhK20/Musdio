@@ -93,6 +93,8 @@ function Profile({ navigation }) {
   );
 }
 
+export default Profile
+
 
 
 const styles = StyleSheet.create({
