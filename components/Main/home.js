@@ -1,46 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-
+import { useSelector } from "react-redux";
 import React, { useState } from "react";
 import { StatusBar, ScrollView, Image, TouchableOpacity } from "react-native";
 import Footer from "../Footer/Footer";
 function HomeScreen({ navigation }) {
-  const [musicplayed, setMusic] = useState([
-    {
-      name: "quang tèo đi qua đèo",
-      img: require("../../assets/images/Recently/qtdqd.jpg"),
-    },
-    { name: "buông hàng", img: require("../../assets/images/Recently/bh.jpg") },
-    { name: "một điếu", img: require("../../assets/images/Recently/1d.jpg") },
-    { name: "Youngz", img: require("../../assets/images/Recently/youngz.jpg") },
-    {
-      name: "côn đồ trên con đò",
-      img: require("../../assets/images/Recently/hqdefault.jpg"),
-    },
-    { name: "bát quái", img: require("../../assets/images/Recently/bq.jpg") },
-  ]);
-  const [trend, trendMusic] = useState([
-    { name: "", img: require("../../assets/images/Recently/qtdqd.jpg") },
-    { name: "buông hàng", img: require("../../assets/images/Recently/bh.jpg") },
-    { name: "một điếu", img: require("../../assets/images/Recently/1d.jpg") },
-    { name: "Youngz", img: require("../../assets/images/Recently/youngz.jpg") },
-    {
-      name: "côn đồ trên con đò",
-      img: require("../../assets/images/Recently/hqdefault.jpg"),
-    },
-    { name: "bát quái", img: require("../../assets/images/Recently/bq.jpg") },
-  ]);
-  const [hot, hotMusic] = useState([
-    { name: "", img: require("../../assets/images/Recently/qtdqd.jpg") },
-    { name: "buông hàng", img: require("../../assets/images/Recently/bh.jpg") },
-    { name: "một điếu", img: require("../../assets/images/Recently/1d.jpg") },
-    { name: "Youngz", img: require("../../assets/images/Recently/youngz.jpg") },
-    {
-      name: "côn đồ trên con đò",
-      img: require("../../assets/images/Recently/hqdefault.jpg"),
-    },
-    { name: "bát quái", img: require("../../assets/images/Recently/bq.jpg") },
-  ]);
+  const musicplayed = useSelector(state => state.musics)
   return (
     <>
       <LinearGradient
@@ -64,11 +29,13 @@ function HomeScreen({ navigation }) {
                     {musicplayed.map((music, index) => {
                       return (
                         <TouchableOpacity
-                          onPress={() => navigation.navigate("LoadingSongs")}
+                          onPress={() => navigation.navigate("NowPlaying", {
+                            playID: index,
+                          })}
                           key={index}
                         >
                           <View>
-                            <Image style={styles.img} source={music.img} />
+                            <Image style={styles.img} source={{uri: music.image}} />
                             <Text style={styles.textDivForm}>{music.name}</Text>
                           </View>
                         </TouchableOpacity>
@@ -85,11 +52,13 @@ function HomeScreen({ navigation }) {
                     {musicplayed.map((music, index) => {
                       return (
                         <TouchableOpacity
-                          onPress={() => navigation.navigate("LoadingSongs")}
+                          onPress={() => navigation.navigate("NowPlaying", {
+                            playID: index,
+                          })}
                           key={index}
                         >
                           <View>
-                            <Image style={styles.img} source={music.img} />
+                            <Image style={styles.img} source={{uri: music.image}} />
                             <Text style={styles.textDivForm}>{music.name}</Text>
                           </View>
                         </TouchableOpacity>
@@ -105,11 +74,13 @@ function HomeScreen({ navigation }) {
                     {musicplayed.map((music, index) => {
                       return (
                         <TouchableOpacity
-                          onPress={() => navigation.navigate("LoadingSongs")}
+                          onPress={() => navigation.navigate("NowPlaying", {
+                            playID: index,
+                          })}
                           key={index}
                         >
                           <View>
-                            <Image style={styles.img} source={music.img} />
+                            <Image style={styles.img} source={{uri: music.image}} />
                             <Text style={styles.textDivForm}>{music.name}</Text>
                           </View>
                         </TouchableOpacity>
@@ -123,11 +94,13 @@ function HomeScreen({ navigation }) {
                     {musicplayed.map((music, index) => {
                       return (
                         <TouchableOpacity
-                          onPress={() => navigation.navigate("LoadingSongs")}
+                          onPress={() => navigation.navigate("NowPlaying", {
+                            playID: index,
+                          })}
                           key={index}
                         >
                           <View>
-                            <Image style={styles.img} source={music.img} />
+                            <Image style={styles.img} source={{uri: music.image}} />
                             <Text style={styles.textDivForm}>{music.name}</Text>
                           </View>
                         </TouchableOpacity>

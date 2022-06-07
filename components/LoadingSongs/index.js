@@ -26,7 +26,7 @@ export default function LoadingSongs({ navigation }) {
             dispatch(setSongs(response.data));
           })
           .then(() => {
-            navigation.navigate("NowPlaying");
+            navigation.navigate("Home");
           });
       } catch (error) {
         if (axios.isCancel(error)) {
@@ -41,7 +41,7 @@ export default function LoadingSongs({ navigation }) {
       fetchAPI();
     } else {
       console.log("Unnecessary to fetch API");
-      navigation.navigate("NowPlaying");
+      navigation.navigate("Home");
     }
     return () => controller.abort();
   }, []);

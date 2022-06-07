@@ -29,13 +29,14 @@ const LYRICS = [
   },
 ];
 
-function NowPlaying({ navigation}) {
+function NowPlaying({ navigation, route}) {
+  const { playID } = route.params
   const songs = useSelector(state => state.musics)
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 
   const [playing, setPlaying] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(playID);
   const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
   const [currentDuration, setCurrentDuration] = useState(0);
   const [isChangeProgress, setIsChangeProgess] = useState(false);
