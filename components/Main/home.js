@@ -202,5 +202,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#201E21",
   },
 });
-
 export default HomeScreen;
