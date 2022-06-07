@@ -42,7 +42,7 @@ function Sleep({navigation}){
           style: { color: "#fff", fontSize: 20, fontWeight: "500" },
         }}
         leftComponent={
-          <TouchableOpacity onPress={() => navigation.navigate("LoadingSongs")}>
+          <TouchableOpacity onPress={() => navigation.navigate("NowPlaying")}>
             <Ionicons
               style={styles.headerLeft}
               name="ios-chevron-back"

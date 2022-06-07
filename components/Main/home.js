@@ -123,7 +123,7 @@ function HomeScreen({ navigation }) {
                     {musicplayed.map((music, index) => {
                       return (
                         <TouchableOpacity
-                          onPress={() => navigation.navigate("Home")}
+                          onPress={() => navigation.navigate("LoadingSongs")}
                           key={index}
                         >
                           <View>
@@ -139,6 +139,10 @@ function HomeScreen({ navigation }) {
             </View>
           </ScrollView>
         </View>
+        
+          <Footer style = {{flex : 90}}>
+
+          </Footer>
       </LinearGradient>
     </>
   );
@@ -149,7 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    flex: 1,
+    flex: 10,
     paddingTop: StatusBar.currentHeight,
   },
   header: {
