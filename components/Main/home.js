@@ -112,7 +112,10 @@ function HomeScreen({ navigation }) {
             </View>
           </ScrollView>
         </View>
-        <Footer style={{ flex: 90 }} navigation={navigation} />
+        
+          <Footer style = {{flex : 90}}>
+
+          </Footer>
       </LinearGradient>
     </>
   );
@@ -172,5 +175,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#201E21",
   },
 });
-
 export default HomeScreen;
