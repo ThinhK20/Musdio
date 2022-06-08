@@ -9,6 +9,8 @@ import { SafeAreaView, StatusBar, Platform, ScrollView, TouchableOpacity, Image 
 import { LinearGradient } from "expo-linear-gradient";
 import { NavigationContainer } from '@react-navigation/native';
 import { Swipeable } from 'react-native-gesture-handler';
+import { AntDesign } from '@expo/vector-icons';
+
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -51,8 +53,9 @@ const renderRightView = (onDeleteHandler) => {
         }
       >
         <View style={styles.ButtonDelete}>
-        <Text style={styles.TextDelete} >Delete</Text>
-
+         
+          <AntDesign name="delete" size={27} color="white" />
+        
         </View>
       </TouchableOpacity>
     </View>
