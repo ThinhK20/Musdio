@@ -4,7 +4,8 @@ import { Provider } from "react-redux";
 import store from "./components/Redux/store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Setting, SettingGeneral, HomeScreen, Profile, Playlist, Login, LoadingSongs, SignUp, NowPlaying } from './components/'
+import { Setting, SettingGeneral, HomeScreen, Profile, Playlist, Login, LoadingSongs, SignUp, NowPlaying} from './components/'
+import Albums from "./components/Albums/Albums"
 import Footer from "./components/Footer/Footer";
 import Search from "./components/Search/Search";
 import TopTreding from "./components/TopTrending/TopTreding";
@@ -28,6 +29,7 @@ export default function App() {
           <Stack.Screen name="TopTreding" component={TopTreding} />
           <Stack.Screen name="Sleep" component={Sleep}/>
           <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="Albums" component={Albums} />
         </Stack.Navigator>
 
       </NavigationContainer>
