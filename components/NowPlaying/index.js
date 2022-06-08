@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Slider from "react-native-slider";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { useEffect, useState, useRef } from "react";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
@@ -359,6 +359,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    width: '100%',
   },
   playBtn: {
     opacity: 0.8,
