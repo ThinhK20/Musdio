@@ -14,6 +14,7 @@ import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
+import { Swipeable } from 'react-native-gesture-handler';
 const LYRICS = [
   {
     id: 1,
@@ -29,12 +30,13 @@ const LYRICS = [
   },
 ];
 
-function NowPlaying({ navigation, route}) {
+function NowPlaying({ navigation, route }) {
   const { playID } = route.params
   const songs = useSelector(state => state.musics)
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 
+  const [activeSwipe, setActiveSwipe] = useState(false)
   const [playing, setPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(playID);
   const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
@@ -148,7 +150,7 @@ function NowPlaying({ navigation, route}) {
     let sliderValue =
       Number(
         onPlaybackStatusUpdate.positionMillis /
-          onPlaybackStatusUpdate.durationMillis
+        onPlaybackStatusUpdate.durationMillis
       ) - "0";
     if (!sliderValue) sliderValue = 0;
     if (!isChangeProgress) {
@@ -159,7 +161,24 @@ function NowPlaying({ navigation, route}) {
       handleNextSong();
     }
   });
-
+  const renderRightView = (onDeleteHandler) => {
+    return (
+      <View style={styles.swipe}>
+        <TouchableOpacity
+          onPress={(e) => {
+            setActiveSwipe(!activeSwipe)
+          }
+          }
+        >
+          <View style={styles.ButtonDelete}>
+            <View>
+          <MaterialIcons name="playlist-add" size={30} color={activeSwipe ? "#1db954" : "#fff"} />
+          </View>
+          </View>
+        </TouchableOpacity>
+      </View>
+    )
+  };
   const stopWhenBack = async () => {
     if (playing) {
       await sound.current.unloadAsync().then((resolve) => {
@@ -218,57 +237,71 @@ function NowPlaying({ navigation, route}) {
             )}
           />
         </View>
-        <View style={styles.musicControl}>
-          <TouchableOpacity
-            style={styles.random}
-            onPress={() => setActiveRandomBtn(!activeRandomBtn)}
-          >
-            <FontAwesome
-              name="random"
-              size={20}
-              color={activeRandomBtn ? "#1db954" : "#fff"}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.stepbackward}
-            onPress={handlePrevSong}
-          >
-            <FontAwesome name="step-backward" size={30} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.playBtn}
-            onPress={() => setPlaying(!playing)}
-          >
-            {playing ? (
+        <Swipeable
+            renderRightActions={renderRightView}
+        >
+          <View style={styles.musicControl}>
+            <TouchableOpacity
+              style={styles.random}
+              onPress={() => setActiveRandomBtn(!activeRandomBtn)}
+            >
+              <View style = {styles.backward}>
               <FontAwesome
-                name="pause-circle"
-                size={80}
-                style={styles.playIcon}
-                onPress={playSound}
-                color="#fff"
+                name="random"
+                size={20}
+                color={activeRandomBtn ? "#1db954" : "#fff"}
               />
-            ) : (
-              <FontAwesome
-                name="play-circle"
-                size={80}
-                style={styles.playIcon}
-                onPress={playSound}
-                color="#fff"
-              />
-            )}
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.stepforward} onPress={handleNextSong}>
-            <FontAwesome name="step-forward" size={30} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.repeat} onPress={handleRepeatSong}>
-            <Feather
-              name="repeat"
-              size={20}
-              color={activeRepeatBtn ? "#1db954" : "#fff"}
-            />
-          </TouchableOpacity>
-        </View>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.stepbackward}
+              onPress={handlePrevSong}
+            >
+              <View style = {styles.backward}>
+              <FontAwesome name="step-backward" size={30} color="#fff" />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.playBtn}
+              onPress={() => setPlaying(!playing)}
+            >
+              
+              {playing ? (
+                <FontAwesome
+                  name="pause-circle"
+                  size={80}
+                  style={styles.playIcon}
+                  onPress={playSound}
+                  color="#fff"
+                />
+              ) : (
+                <FontAwesome
+                  name="play-circle"
+                  size={80}
+                  style={styles.playIcon}
+                  onPress={playSound}
+                  color="#fff"
+                />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.stepforward} onPress={handleNextSong}>
+            <View style = {styles.backward}>
+              <FontAwesome name="step-forward" size={30} color="#fff" />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.repeat} onPress={handleRepeatSong}>
+              <View style = {styles.backward}>
+                <Feather
+                  name="repeat"
+                  size={20}
+                  color={activeRepeatBtn ? "#1db954" : "#fff"}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+          </Swipeable>
       </View>
+
     </LinearGradient>
   );
 }
@@ -355,11 +388,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   musicControl: {
-    flex: 1,
+    //backgroundColor: 'red',
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
     width: '100%',
+    paddingHorizontal: '20%',
   },
   playBtn: {
     opacity: 0.8,
@@ -382,5 +414,29 @@ const styles = StyleSheet.create({
   sleep: {
     position: "absolute",
     right: "5%",
+  },
+  swipe: {
+    margin: 0,
+    alignContent: 'center',
+    justifyContent: 'center',
+    width: 90,
+  },
+  ButtonDelete: {
+    width: '100%',
+    height: '80%',
+    color: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    paddingTop: '6%',
+  },
+  TextDelete:{
+    paddingHorizontal: 20,
+    paddingRight: '45%',
+    fontSize: 17,
+    color: 'white'
+  },
+  backward:{
+    paddingTop: '130%',
   },
 });
