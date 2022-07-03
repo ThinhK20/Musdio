@@ -1,48 +1,13 @@
-import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextComponent } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import Constants from 'expo-constants';
-import { SafeAreaView, StatusBar, Platform, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-import { NavigationContainer } from '@react-navigation/native';
-import { Swipeable } from 'react-native-gesture-handler';
+import { Swipeable, GestureHandlerRootView  } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
+import { useEffect, useState } from 'react';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Itemaaaaaaaaa', // max 10
-    img: 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
-    single: 'Bich Phuong', // max 11
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second',
-    img: 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
-    single: 'G-Dragon',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f68',
-    title: 'Gửi An',
-    img: 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
-    single: 'Chi Pu',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f64',
-    title: 'Second ',
-    img: 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
-    single: 'Quang Teo',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f60',
-    title: 'Second',
-    img: 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
-    single: 'Tai Dom',
-  },
-];
+
+
 const renderRightView = (onDeleteHandler) => {
   return (
     <View style={styles.swipe}>
@@ -61,11 +26,12 @@ const renderRightView = (onDeleteHandler) => {
     </View>
   )
 };
-const Item = ({ title, img, single, navigation }) => (
-  <TouchableOpacity onPress={() => navigation.navigate('LoadingSongs')}>
-    <Swipeable
+const Item = ({ title, img, single }) => (
+  <GestureHandlerRootView>
+  <Swipeable
       renderRightActions={renderRightView}
     >
+  <TouchableOpacity>
       <View style={styles.item}>
         <Image style={styles.cdImage} source={{ uri: img }} />
         <View style={styles.Single}>
@@ -78,12 +44,88 @@ const Item = ({ title, img, single, navigation }) => (
           </View>
         </View>
       </View>
-    </Swipeable>
   </TouchableOpacity>
+  </Swipeable>
+  </GestureHandlerRootView>
 );
 
-function Playlist({ navigation }) {
-  const renderItem = ({ item }) => <Item title={item.title} img={item.img} single={item.single} navigation={navigation} />;
+function Playlist() {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [user, setUser] = useState([]);
+  const [isLoadingUser, setisLoadingUser] = useState(true);
+  const [songsUsers , setsongsUsers] = useState ([]);
+  const getMusics = async () => {
+    try {
+     const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get');
+     const json = await response.json().then(data => {
+        setData(data.data)
+     })
+   } catch (error) {
+     console.error(error);
+   } finally {
+     setLoading(false);
+   }
+ }
+ const getUsers = async () => {
+  try {
+   const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
+   const json = await response.json().then(data => {
+    setUser(data.data);
+ })
+ } catch (error) {
+   console.error(error);
+ } finally {
+   setisLoadingUser(false);
+ }
+}
+useEffect(() => {
+  if(data.length == 0){
+    getMusics();
+  }
+  if(user.length == 0){
+    getUsers();
+  }
+
+}, []);
+
+ useEffect(() => {
+  if(data.length != 0 && user.length != 0){
+    console.log("Get data", user)
+    data.forEach((m) => {
+      user['favoriteMusics'].forEach((n) =>{ 
+        if(n == m['id']){
+          setsongsUsers(previous => {
+            const newData = [...previous, m]
+            return newData
+          })
+        }
+      });
+    });
+  }
+}, [data, user]);
+
+
+// useEffect(() => {
+//   console.log("print user: " , user)
+//   console.log("Print song users:" ,songsUsers.length)
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const renderItem = ({ item }) => <Item title={item.name} img={item.img} single={item.singer}/>;
   return (
     <LinearGradient
       colors={["#1565C0", "#000"]}
@@ -92,7 +134,7 @@ function Playlist({ navigation }) {
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.navigate('Profile')}>
+          <TouchableOpacity style={styles.iconHeader} >
             <Ionicons name="ios-chevron-back" size={40} color="white" fontWeight='bold' />
           </TouchableOpacity>
           <Text style={styles.textHeader} >My Playlist</Text>
@@ -100,22 +142,12 @@ function Playlist({ navigation }) {
         <View style={styles.Bottom}>
           <View style={styles.Bar}>
           </View>
-
-
-          <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id} />
-
-
-
+          <FlatList data={songsUsers} renderItem={renderItem} keyExtractor={item => item.id} />  
         </View>
-
         <View style={styles.ToolBar}>
-
         </View>
       </View>
-
-
     </LinearGradient>
-
   );
 }
 
