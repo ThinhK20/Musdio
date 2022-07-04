@@ -9,17 +9,23 @@ const Search = () => {
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
 
-  useEffect(() => {
-    fetch("https://denzqfapjoywlunugtbe.supabase.co/rest/v1/Music?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbnpxZmFwam95d2x1bnVndGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTM1Njc2MTAsImV4cCI6MTk2OTE0MzYxMH0.phhqYflVrlaS3Lb9lsxe21sgJH2ZSW1HKDHN8RQqy1Y")
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setFilteredDataSource(responseJson);
-        setMasterDataSource(responseJson);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+  const [music, setMusic] = useState([]);
+    const getMusicFromApi = async () => {
+        const resp = await fetch("https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get ")
+        const data = await resp.json().then((responseJson) => {
+          setFilteredDataSource(responseJson.data);
+          setMasterDataSource(responseJson.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        return data.data
+    };
+    useEffect(() => {
+        if (music.length===0){  setMusic(getMusicFromApi()) 
+          console.log(music)}
+    }, [])
+
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
