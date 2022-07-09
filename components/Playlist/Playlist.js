@@ -12,8 +12,8 @@ const renderRightView = (onDeleteHandler) => {
   return (
     <View style={styles.swipe}>
       <TouchableOpacity
-        onPress={(e) => {
-          onDeleteHandler(e)
+        onPress={() => {
+          onDeleteHandler()
         }
         }
       >
@@ -103,7 +103,14 @@ useEffect(() => {
     });
   }
 }, [data, user]);
-
+useEffect(() => {
+  axios.put('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/delete/favoriteSong/SaM1QW1nc2XwTIHAY5Cx', {
+   musicId: "hRT1layzR32lkiwmJ3Lz" // songId
+  })
+  .then(response => {
+   console.log(response.status)
+  })
+}, []);
 
   const renderItem = ({ item }) => <Item title={item.name} img={item.img} single={item.singer}/>;
   return (

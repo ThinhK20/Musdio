@@ -5,14 +5,16 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from 'react';
 
 
-const Item = ({ title, img, single, index, navigation }) => (
-  <TouchableOpacity onPress={() => navigation.navigate("NowPlaying")}>
+const Item = ({ id,title, img, singer, index, navigation }) => (
+  <TouchableOpacity onPress={() => navigation.navigate("NowPlaying",{
+    playID : id
+  })}>
   <View style={styles.item}>
     <Text style={styles.index}> #{index} </Text>
     <Image style={styles.cdImage} source={{ uri: img }} />
     <View style={styles.Single}>
       <Text style={styles.nameSong} numberOfLines={1}>{title}</Text>
-      <Text style={styles.nameSingle} numberOfLines={1}>{single}</Text>
+      <Text style={styles.nameSingle} numberOfLines={1}>{singer}</Text>
     </View>
     <View style={styles.iconPlay}>
       
@@ -64,7 +66,7 @@ function TopTrending({navigation}) {
   
   }, []);
   
-  const renderItem = ({ item, index }) => <Item title={item.name} img={item.img} single={item.singer} index={index + 1}  navigation = {navigation}/>;
+  const renderItem = ({ item, index }) => <Item id = {item.id} title={item.name} img={item.img} single={item.singer} index={index + 1}  navigation = {navigation}/>;
   return (
     <LinearGradient
       colors={["#1565C0", "#000"]}
