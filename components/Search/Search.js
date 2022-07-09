@@ -115,6 +115,7 @@ const Search = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+    marginTop:30
   },
   itemStyle: {
     padding: '10%',
