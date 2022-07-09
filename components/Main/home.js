@@ -33,12 +33,12 @@ function HomeScreen({ navigation }) {
                       return (
                         <TouchableOpacity
                           onPress={() => navigation.navigate("NowPlaying", {
-                            playID: index,
+                            playID: music.id,
                           })}
                           key={index}
                         >
                           <View>
-                            <Image style={styles.img} source={{uri: music.image}} />
+                            <Image style={styles.img} source={{uri: music.img}} />
                             <Text style={styles.textDivForm}>{music.name}</Text>
                           </View>
                         </TouchableOpacity>
@@ -47,7 +47,6 @@ function HomeScreen({ navigation }) {
                   </ScrollView>
                 </View>
 
-                {/* ========================================= */}
 
                 <View style={styles.formOption}>
                   <Text style={styles.textForm}>Trend</Text>
@@ -56,12 +55,12 @@ function HomeScreen({ navigation }) {
                       return (
                         <TouchableOpacity
                           onPress={() => navigation.navigate("NowPlaying", {
-                            playID: index,
+                            playID: music.id,
                           })}
                           key={index}
                         >
                           <View>
-                            <Image style={styles.img} source={{uri: music.image}} />
+                            <Image style={styles.img} source={{uri: music.img}} />
                             <Text style={styles.textDivForm}>{music.name}</Text>
                           </View>
                         </TouchableOpacity>
@@ -70,7 +69,6 @@ function HomeScreen({ navigation }) {
                   </ScrollView>
                 </View>
 
-                {/* ====================================== */}
                 <View style={styles.formOption}>
                   <Text style={styles.textForm}>Hot Music</Text>
                   <ScrollView style={styles.scrollHorizontal} horizontal={true}>
@@ -78,12 +76,12 @@ function HomeScreen({ navigation }) {
                       return (
                         <TouchableOpacity
                           onPress={() => navigation.navigate("NowPlaying", {
-                            playID: index,
+                            playID: music.id,
                           })}
                           key={index}
                         >
                           <View>
-                            <Image style={styles.img} source={{uri: music.image}} />
+                            <Image style={styles.img} source={{uri: music.img}} />
                             <Text style={styles.textDivForm}>{music.name}</Text>
                           </View>
                         </TouchableOpacity>
@@ -98,12 +96,12 @@ function HomeScreen({ navigation }) {
                       return (
                         <TouchableOpacity
                           onPress={() => navigation.navigate("NowPlaying", {
-                            playID: index,
+                            playID: music.id,
                           })}
                           key={index}
                         >
                           <View>
-                            <Image style={styles.img} source={{uri: music.image}} />
+                            <Image style={styles.img} source={{uri: music.img}} />
                             <Text style={styles.textDivForm}>{music.name}</Text>
                           </View>
                         </TouchableOpacity>
@@ -115,7 +113,6 @@ function HomeScreen({ navigation }) {
             </View>
           </ScrollView>
         </View>
-        
           <Footer style = {{flex : 90}} navigation={navigation}/>
       </LinearGradient>
     </>
