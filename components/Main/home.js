@@ -1,11 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar, ScrollView, Image, TouchableOpacity } from "react-native";
 import Footer from "../Footer/Footer";
+import { get, getDatabase, onValue, ref } from "firebase/database";
+import { doc, onSnapshot } from "firebase/firestore";
 function HomeScreen({ navigation }) {
   const musicplayed = useSelector(state => state.musics)
+
   return (
     <>
       <LinearGradient
@@ -113,9 +116,7 @@ function HomeScreen({ navigation }) {
           </ScrollView>
         </View>
         
-          <Footer style = {{flex : 90}}>
-
-          </Footer>
+          <Footer style = {{flex : 90}} navigation={navigation}/>
       </LinearGradient>
     </>
   );
