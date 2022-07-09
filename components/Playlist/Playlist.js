@@ -91,7 +91,6 @@ useEffect(() => {
 
  useEffect(() => {
   if(data.length != 0 && user.length != 0){
-    console.log("Get data", user)
     data.forEach((m) => {
       user['favoriteMusics'].forEach((n) =>{ 
         if(n == m['id']){
@@ -104,25 +103,6 @@ useEffect(() => {
     });
   }
 }, [data, user]);
-
-
-// useEffect(() => {
-//   console.log("print user: " , user)
-//   console.log("Print song users:" ,songsUsers.length)
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   const renderItem = ({ item }) => <Item title={item.name} img={item.img} single={item.singer}/>;

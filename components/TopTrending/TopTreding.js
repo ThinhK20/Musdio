@@ -1,47 +1,12 @@
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import Constants from 'expo-constants';
-import { SafeAreaView, StatusBar, Platform, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
+import { useEffect, useState } from 'react';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Itemaaaaaaaaa', // max 10
-    img: 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
-    single: 'Bich Phuong', // max 11
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second',
-    img: 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
-    single: 'G-Dragon',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f68',
-    title: 'Gửi Anh',
-    img: 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
-    single: 'Chi Pu',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f64',
-    title: 'Second ',
-    img: 'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
-    single: 'Quang Teo',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f60',
-    title: 'Second',
-    img: 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'Tai Dom',
-  },
-];
 
-const Item = ({ title, img, single, index }) => (
+const Item = ({ title, img, single, index, navigation }) => (
+  <TouchableOpacity onPress={() => navigation.navigate("NowPlaying")}>
   <View style={styles.item}>
     <Text style={styles.index}> #{index} </Text>
     <Image style={styles.cdImage} source={{ uri: img }} />
@@ -50,15 +15,56 @@ const Item = ({ title, img, single, index }) => (
       <Text style={styles.nameSingle} numberOfLines={1}>{single}</Text>
     </View>
     <View style={styles.iconPlay}>
-      <TouchableOpacity style={styles.iconPlay}>
+      
         <Ionicons name="md-play-circle-sharp" size={50} color="white" />
-      </TouchableOpacity>
     </View>
   </View>
+  </TouchableOpacity>
 );
 
-function TopTrending() {
-  const renderItem = ({ item, index }) => <Item title={item.title} img={item.img} single={item.single} index = {index + 1}/>;
+function TopTrending({navigation}) {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [user, setUser] = useState([]);
+  const [isLoadingUser, setisLoadingUser] = useState(true);
+  const getMusics = async () => {
+    try {
+      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get');
+      const json = await response.json().then(data => {
+        let dataToSort = data.data;
+        dataToSort.sort((a, b) => Number(b.view) - Number(a.view));
+        //dataToSort = dataToSort.slice(0,3)
+        setData(dataToSort);
+      })
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  const getUsers = async () => {
+    try {
+      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
+      const json = await response.json().then(data => {
+        setUser(data.data);
+      })
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setisLoadingUser(false);
+    }
+  }
+  useEffect(() => {
+    if(data.length == 0){
+      getMusics();
+    }
+    if(user.length == 0){
+      getUsers();
+    }
+  
+  }, []);
+  
+  const renderItem = ({ item, index }) => <Item title={item.name} img={item.img} single={item.singer} index={index + 1}  navigation = {navigation}/>;
   return (
     <LinearGradient
       colors={["#1565C0", "#000"]}
@@ -75,8 +81,8 @@ function TopTrending() {
         <View style={styles.Bottom}>
           <View style={styles.Bar}>
           </View>
-          <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id} />
-        </View>
+          <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.id} />
+         </View>
 
         <View style={styles.ToolBar}>
 
@@ -171,12 +177,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     opacity: 20,
-    paddingRight : '3%'
+    paddingRight: '3%'
   },
   nameSingle: {
     paddingLeft: '2%',
     fontWeight: 'bold',
-    color: 'white',
+    color: '#928989',
     fontSize: 15,
     opacity: 100,
   },
