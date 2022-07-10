@@ -23,7 +23,7 @@ export default function LoadingSongs({ navigation }) {
             }
           )
           .then((response) => {
-            dispatch(setSongs(response.data));
+            dispatch(setSongs(response.data.data));
           })
           .then(() => {
             navigation.navigate("Home");

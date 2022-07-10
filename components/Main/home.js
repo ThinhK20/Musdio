@@ -33,7 +33,7 @@ function HomeScreen({ navigation }) {
                       return (
                         <TouchableOpacity
                           onPress={() => navigation.navigate("NowPlaying", {
-                            playID: music.id,
+                            playID: [music.id],
                           })}
                           key={index}
                         >
@@ -55,7 +55,7 @@ function HomeScreen({ navigation }) {
                       return (
                         <TouchableOpacity
                           onPress={() => navigation.navigate("NowPlaying", {
-                            playID: music.id,
+                            playID: [music.id],
                           })}
                           key={index}
                         >
@@ -76,7 +76,7 @@ function HomeScreen({ navigation }) {
                       return (
                         <TouchableOpacity
                           onPress={() => navigation.navigate("NowPlaying", {
-                            playID: music.id,
+                            playID: [music.id],
                           })}
                           key={index}
                         >
@@ -96,7 +96,7 @@ function HomeScreen({ navigation }) {
                       return (
                         <TouchableOpacity
                           onPress={() => navigation.navigate("NowPlaying", {
-                            playID: music.id,
+                            playID: [music.id],
                           })}
                           key={index}
                         >
