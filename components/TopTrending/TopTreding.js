@@ -3,16 +3,20 @@ import { Ionicons } from '@expo/vector-icons';
 import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from 'react';
+import { setSongs } from "../Redux/musicSlider";
+import { useDispatch, useSelector } from "react-redux";
 
 
-const Item = ({ title, img, single, index, navigation }) => (
-  <TouchableOpacity onPress={() => navigation.navigate("NowPlaying")}>
+const Item = ({ id, title, img, singer, index, navigation }) => (
+  <TouchableOpacity onPress={() => navigation.navigate("NowPlaying",{
+    playID : [id]
+  })}>
   <View style={styles.item}>
     <Text style={styles.index}> #{index} </Text>
     <Image style={styles.cdImage} source={{ uri: img }} />
     <View style={styles.Single}>
       <Text style={styles.nameSong} numberOfLines={1}>{title}</Text>
-      <Text style={styles.nameSingle} numberOfLines={1}>{single}</Text>
+      <Text style={styles.nameSingle} numberOfLines={1}>{singer}</Text>
     </View>
     <View style={styles.iconPlay}>
       
@@ -23,6 +27,7 @@ const Item = ({ title, img, single, index, navigation }) => (
 );
 
 function TopTrending({navigation}) {
+  const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
@@ -34,7 +39,9 @@ function TopTrending({navigation}) {
         let dataToSort = data.data;
         dataToSort.sort((a, b) => Number(b.view) - Number(a.view));
         //dataToSort = dataToSort.slice(0,3)
+        dispatch(setSongs(data.data));
         setData(dataToSort);
+
       })
     } catch (error) {
       console.error(error);
@@ -64,7 +71,9 @@ function TopTrending({navigation}) {
   
   }, []);
   
-  const renderItem = ({ item, index }) => <Item title={item.name} img={item.img} single={item.singer} index={index + 1}  navigation = {navigation}/>;
+  const renderItem = ({ item, index }) => {
+    return (<Item id = {item.id} title={item.name} img={item.img} single={item.singer} index={index + 1}  navigation = {navigation}/>)
+  };
   return (
     <LinearGradient
       colors={["#1565C0", "#000"]}

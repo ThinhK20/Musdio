@@ -86,7 +86,7 @@ const Search = ({navigation}) => {
     // Function for click on an item
     alert('Id : ' + item.id + ' name : ' + item.name+' singer: '+item.singer);
     navigation.navigate('NowPlaying',{
-      playID:item
+      playID:[item]
     })
   };
 
