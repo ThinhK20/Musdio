@@ -7,78 +7,79 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { SafeAreaView, StatusBar, Platform, ScrollView, TouchableOpacity, Image} from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
+import { color } from 'react-native-elements/dist/helpers';
 
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'First Itemaaaaaaaaa', // max 10
-    //img :  'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
+    img :  'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
     single: 'Bich Phuong', // max 11
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     title: 'Second',
-   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'G-Dragon',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f68',
     title: 'Gửi An',
-  //  img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'Chi Pu',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f64',
     title: 'Second ',
-   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'Quang Teo',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f60',
     title: 'Second',
-   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa9712',
     title: 'Second',
-   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd911232',
     title: 'Second',
-   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d3-as8-fbd911232',
     title: 'Second',
-   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d3-128-fbd911232',
     title: 'Secondddddddddddd',
-   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d123a4f8-fbd91aa9712',
     title: 'Second',
-   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d31234f8-fbd91aa9712',
     title: 'Second',
-   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-12d3-a4f8-fbd91aa9712',
     title: 'Seconddddddddddddd',
-   // img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
+    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     single: 'Tai Dommmmmmm',
   },
 ];
@@ -86,7 +87,7 @@ const DATA = [
 const Item = ({title, img, single}) => (
   <TouchableOpacity>
     <View style={styles.item}>
-      {/* <Image style={styles.cdImage} source={{uri: img}}/> */}
+      <Image style={styles.cdImage} source={{uri: img}}/>
       <View style = {styles.Single}>
         <Text style={styles.nameSong} numberOfLines= {1}>{title}</Text>
         <Text style={styles.nameSingle} numberOfLines= {1}>{single}</Text>
@@ -125,7 +126,15 @@ function Albums() {
           </View>
           <View style={styles.Mid}>
             <Text style={styles.nameAlbums}> Justing </Text>
+            <TouchableOpacity>
+              <View style={styles.playAlbums}>
+                <Text style={styles.textPlay}>
+                  Play
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
+          
           <View style={{marginTop:20}}></View>
           <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id} />
           
@@ -212,6 +221,23 @@ const styles = StyleSheet.create({
     fontSize:20,
     fontWeight:'bold',
     color:'white',
+  
+  },
+  playAlbums:{
+    marginTop:'3%',
+    backgroundColor:'#7DD0F6',
+    borderRadius:30,
+    width:200,
+    //alignContent:'center',
+    alignItems:'center',
+   // justifyContent: 'center',
+  },
+  textPlay:{
+   //size:30,
+    fontSize:25,
+    fontWeight:'bold',
+    marginTop:'3%',
+    color:'white',
   },
   imageAlbums:{
     marginTop:'1%',
@@ -249,8 +275,8 @@ const styles = StyleSheet.create({
   },
   cdImage: {
     width: '20%',
-    height: '130%',
-   // borderRadius: 100,
+    height: '100%',
+    borderRadius: 100,
   },
   Single:{
     flex : 1,
