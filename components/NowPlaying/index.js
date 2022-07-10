@@ -33,12 +33,19 @@ const LYRICS = [
 function NowPlaying({ navigation, route }) {
   const { playID } = route.params
   const songs = useSelector(state => state.musics)
+  let selectedID = 0
+  for (let i in songs) {
+    if (songs[i].id == playID) {
+      selectedID = i
+    }
+  }
+  
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 
-  const [activeSwipe, setactiveSwipe] = useState(false)
+  const [activeSwipe, setActiveSwipe] = useState(false)
   const [playing, setPlaying] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(playID);
+  const [currentIndex, setCurrentIndex] = useState(selectedID);
   const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
   const [currentDuration, setCurrentDuration] = useState(0);
   const [isChangeProgress, setIsChangeProgess] = useState(false);
@@ -136,7 +143,7 @@ function NowPlaying({ navigation, route }) {
   // Handle event when current index change ==> Unload old and load new song
   useEffect(() => {
     (async () => {
-      await sound.current.loadAsync({ uri: currentSong.path });
+      await sound.current.loadAsync({ uri: currentSong.uri });
       if (playing) {
         await sound.current.playAsync();
       }
@@ -166,7 +173,7 @@ function NowPlaying({ navigation, route }) {
       <View style={styles.swipe}>
         <TouchableOpacity
           onPress={(e) => {
-            setactiveSwipe(!activeSwipe)
+            setActiveSwipe(!activeSwipe)
           }
           }
         >
@@ -189,6 +196,8 @@ function NowPlaying({ navigation, route }) {
       navigation.navigate("Home");
     }
   };
+
+
 
   return (
     <LinearGradient
@@ -214,7 +223,7 @@ function NowPlaying({ navigation, route }) {
       <View style={styles.container}>
         <Text style={styles.playlistText}>Playlist</Text>
         <Text style={styles.artistName}>{currentSong.singer}</Text>
-        <Image style={styles.cdImage} source={{ uri: currentSong.image }} />
+        <Image style={styles.cdImage} source={{ uri: currentSong.img }} />
         <Slider
           style={styles.slider}
           minimumValue={0}

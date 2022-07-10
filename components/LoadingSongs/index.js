@@ -17,7 +17,7 @@ export default function LoadingSongs({ navigation }) {
         console.log("Running axios...");
         await axios
           .get(
-            "https://denzqfapjoywlunugtbe.supabase.co/rest/v1/Music?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbnpxZmFwam95d2x1bnVndGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTM1Njc2MTAsImV4cCI6MTk2OTE0MzYxMH0.phhqYflVrlaS3Lb9lsxe21sgJH2ZSW1HKDHN8RQqy1Y",
+            "https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get/",
             {
               signal: controller.signal,
             }
@@ -47,17 +47,13 @@ export default function LoadingSongs({ navigation }) {
   }, []);
 
   return (
-    <LinearGradient
-      colors={["#1565C0", "#000"]}
-      end={[0.05, 0.5]}
-      style={styles.LinearGradient}
+    <View
+      style={{ alignItems: "center", justifyContent: "center", height: "100%" }}
     >
-      <Image
-        source={require("../../assets/images/Loading.jpg")}
-        style={styles.image}
-      />
-      <Text style={styles.text}>Loading...</Text>
-    </LinearGradient>
+      <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
+        Loading API...
+      </Text>
+    </View>
   );
 }
 

@@ -3,9 +3,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from 'react';
+import { setSongs } from "../Redux/musicSlider";
 
 
-const Item = ({ id,title, img, singer, index, navigation }) => (
+const Item = ({ id, title, img, singer, index, navigation }) => (
   <TouchableOpacity onPress={() => navigation.navigate("NowPlaying",{
     playID : id
   })}>
@@ -37,6 +38,7 @@ function TopTrending({navigation}) {
         dataToSort.sort((a, b) => Number(b.view) - Number(a.view));
         //dataToSort = dataToSort.slice(0,3)
         setData(dataToSort);
+        //dispatch(setSongs(data.data));
       })
     } catch (error) {
       console.error(error);
@@ -66,7 +68,10 @@ function TopTrending({navigation}) {
   
   }, []);
   
-  const renderItem = ({ item, index }) => <Item id = {item.id} title={item.name} img={item.img} single={item.singer} index={index + 1}  navigation = {navigation}/>;
+  const renderItem = ({ item, index }) => {
+    console.log(item.id)
+    return (<Item id = {item.id} title={item.name} img={item.img} single={item.singer} index={index + 1}  navigation = {navigation}/>)
+  };
   return (
     <LinearGradient
       colors={["#1565C0", "#000"]}

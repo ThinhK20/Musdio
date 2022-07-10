@@ -20,6 +20,9 @@ export const auth = getAuth(app);
 
 
 
+
+
+
 function ChatScreen() {
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   
