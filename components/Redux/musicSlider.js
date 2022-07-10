@@ -11,7 +11,7 @@ const musicSlider = createSlice({
             state.splice(action.payload, 1)
         },
         setSongs(state, action) {
-            return state = [...action.payload.data]
+            return state = [...action.payload]
         }
     }
 })

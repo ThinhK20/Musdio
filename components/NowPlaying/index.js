@@ -32,20 +32,24 @@ const LYRICS = [
 
 function NowPlaying({ navigation, route }) {
   const { playID } = route.params
-  const songs = useSelector(state => state.musics)
-  let selectedID = 0
-  for (let i in songs) {
-    if (songs[i].id == playID) {
-      selectedID = i
+  const songs =(() => {
+    const source_songs = useSelector(state => state.musics)
+    const listSongs = []
+    for (let value of playID) {
+      const song = source_songs.find(obj => obj.id == value)
+      if (song) {
+        listSongs.push(song)
+      }
     }
-  }
+    return listSongs
+  })()
   
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 
   const [activeSwipe, setActiveSwipe] = useState(false)
   const [playing, setPlaying] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(selectedID);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
   const [currentDuration, setCurrentDuration] = useState(0);
   const [isChangeProgress, setIsChangeProgess] = useState(false);
@@ -143,9 +147,13 @@ function NowPlaying({ navigation, route }) {
   // Handle event when current index change ==> Unload old and load new song
   useEffect(() => {
     (async () => {
-      await sound.current.loadAsync({ uri: currentSong.uri });
-      if (playing) {
-        await sound.current.playAsync();
+      try {
+          await sound.current.loadAsync({ uri: currentSong.uri });
+          if (playing) {
+            await sound.current.playAsync();
+          }
+      } catch {
+        console.log("Loading available...")
       }
     })();
 

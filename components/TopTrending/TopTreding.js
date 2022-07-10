@@ -4,11 +4,12 @@ import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from 'react';
 import { setSongs } from "../Redux/musicSlider";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Item = ({ id, title, img, singer, index, navigation }) => (
   <TouchableOpacity onPress={() => navigation.navigate("NowPlaying",{
-    playID : id
+    playID : [id]
   })}>
   <View style={styles.item}>
     <Text style={styles.index}> #{index} </Text>
@@ -26,6 +27,7 @@ const Item = ({ id, title, img, singer, index, navigation }) => (
 );
 
 function TopTrending({navigation}) {
+  const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
@@ -37,8 +39,9 @@ function TopTrending({navigation}) {
         let dataToSort = data.data;
         dataToSort.sort((a, b) => Number(b.view) - Number(a.view));
         //dataToSort = dataToSort.slice(0,3)
+        dispatch(setSongs(data.data));
         setData(dataToSort);
-        //dispatch(setSongs(data.data));
+
       })
     } catch (error) {
       console.error(error);
@@ -69,7 +72,6 @@ function TopTrending({navigation}) {
   }, []);
   
   const renderItem = ({ item, index }) => {
-    console.log(item.id)
     return (<Item id = {item.id} title={item.name} img={item.img} single={item.singer} index={index + 1}  navigation = {navigation}/>)
   };
   return (
