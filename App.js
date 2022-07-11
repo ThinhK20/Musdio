@@ -15,7 +15,11 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
+<<<<<<< HEAD
         <Stack.Navigator initialRouteName="Playlist" screenOptions={{ headerShown: false }}>
+=======
+        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+>>>>>>> b066511c1735a0b7c596961e0e2d824f2553aff9
           <Stack.Screen name="Footer" component={Footer} />
           <Stack.Screen name="Setting" component={Setting} />
           <Stack.Screen name="SettingGeneral" component={SettingGeneral} />

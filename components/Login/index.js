@@ -11,8 +11,37 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import LoginFacebook from "../LoginWithFacebook";
 import LoginGoogle from "../LoginWithGoogle";
+import { useState } from "react";
+import { getAuth, signInWithEmailAndPassword,onAuthStateChanged,signOut  } from "firebase/auth";
+import { auth } from "../Firebase/index"; 
 
 function Login({ navigation }) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('');
+  
+  const [checkPassword, setCheckPassword] = useState(false);
+  const [checkEmail, setCheckEmail] = useState(false);
+  const checkpassword = () => {
+    if (password.length === 0) {
+      
+    }
+    setCheckPassword(password.length<6)
+  }
+  const checkemail = () => {
+    let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    setCheckEmail(!email.match(validRegex))
+  }
+  const handleSubmit = () => {
+    signInWithEmailAndPassword(auth,email,password)
+      .then((userCredential) => {
+        navigation.navigate("LoadingSongs");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorCode + "\n" + errorMessage)
+      });
+  }
   return (
       <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
         <View style={styles.box}>
@@ -22,10 +51,35 @@ function Login({ navigation }) {
             style={styles.img}
           />
             <View style={styles.boxInput}>
-              <TextInput placeholder="Enter username..." style={styles.input} />
-              <TextInput placeholder="Enter password..." style={styles.input} />
+              <TextInput
+               placeholder="Enter username..." 
+               style={styles.input}
+               onChangeText={(value) => {
+                setEmail(value)
+               }}
+               onBlur = {() => {checkemail()}}
+                />
+              {
+                checkEmail ?
+                <Text style={{color: 'red'}}>This field must be email</Text>
+                :null
+              }
+              <TextInput 
+               secureTextEntry={true}
+               placeholder="Enter password..."
+               style={styles.input}
+               onChangeText={(value) => {
+                  setPassword(value)
+                  }}
+                onBlur = {() => {checkpassword()}}
+                  />
+               {
+                checkPassword ?
+                <Text style={{color: 'red'}}>Length of password limit is 6</Text>
+                :null
+               }
             </View>
-            <TouchableOpacity style={{ marginTop: 30, width: "60%" }}>
+            <TouchableOpacity style={{ marginTop: 30, width: "60%" }} onPress = {() => {handleSubmit()}}>
               <Text style={styles.btn}>Login</Text>
             </TouchableOpacity>
          
