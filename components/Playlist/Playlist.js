@@ -2,117 +2,126 @@ import { StyleSheet, Text, View, FlatList, TextComponent } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-import { Swipeable, GestureHandlerRootView  } from 'react-native-gesture-handler';
+import { Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
+import { setSongs } from "../Redux/musicSlider";
+import { useDispatch } from "react-redux";
+import axios from "axios"
+import { set } from 'firebase/database';
 
 
-
-const renderRightView = (onDeleteHandler) => {
-  return (
-    <View style={styles.swipe}>
-      <TouchableOpacity
-        onPress={() => {
-          onDeleteHandler()
-        }
-        }
-      >
-        <View style={styles.ButtonDelete}>
-         
-          <AntDesign name="delete" size={27} color="white" />
-        
-        </View>
-      </TouchableOpacity>
-    </View>
-  )
-};
-const Item = ({ title, img, single }) => (
-  <GestureHandlerRootView>
-  <Swipeable
-      renderRightActions={renderRightView}
-    >
-  <TouchableOpacity>
-      <View style={styles.item}>
-        <Image style={styles.cdImage} source={{ uri: img }} />
-        <View style={styles.Single}>
-          <Text style={styles.nameSong} numberOfLines={1}>{title}</Text>
-          <Text style={styles.nameSingle} numberOfLines={1}>{single}</Text>
-        </View>
-        <View style={styles.iconPlay}>
-          <View style={styles.iconPlay}>
-            <Ionicons name="md-play-circle-sharp" size={50} color="white" />
-          </View>
-        </View>
-      </View>
-  </TouchableOpacity>
-  </Swipeable>
-  </GestureHandlerRootView>
-);
-
-function Playlist() {
+function Playlist({ navigation }) {
+  const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
   const [isLoadingUser, setisLoadingUser] = useState(true);
-  const [songsUsers , setsongsUsers] = useState ([]);
+  const [songsUsers, setsongsUsers] = useState([]);
   const getMusics = async () => {
     try {
-     const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get');
-     const json = await response.json().then(data => {
+      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get');
+      const json = await response.json().then(data => {
+        dispatch(setSongs(data.data));
         setData(data.data)
-     })
-   } catch (error) {
-     console.error(error);
-   } finally {
-     setLoading(false);
-   }
- }
- const getUsers = async () => {
-  try {
-   const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
-   const json = await response.json().then(data => {
-    setUser(data.data);
- })
- } catch (error) {
-   console.error(error);
- } finally {
-   setisLoadingUser(false);
- }
-}
-useEffect(() => {
-  if(data.length == 0){
-    getMusics();
+      })
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
-  if(user.length == 0){
-    getUsers();
+  const getUsers = async () => {
+    try {
+      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
+      const json = await response.json().then(data => {
+        setUser(data.data);
+      })
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setisLoadingUser(false);
+    }
   }
+  useEffect(() => {
+    if (data.length == 0) {
+      getMusics();
+    }
+    if (data.length == 0) {
+      getUsers();
+    }
+  
 
-}, []);
+  }, []);
 
- useEffect(() => {
-  if(data.length != 0 && user.length != 0){
-    data.forEach((m) => {
-      user['favoriteMusics'].forEach((n) =>{ 
-        if(n == m['id']){
-          setsongsUsers(previous => {
-            const newData = [...previous, m]
-            return newData
-          })
-        }
+  useEffect(() => {
+    if (data.length != 0 && user.length != 0) {
+      data.forEach((m) => {
+        user['favoriteMusics'].forEach((n) => {
+          if (n == m['id']) {
+            setsongsUsers(previous => {
+              const newData = [...previous, m]
+              return newData
+            })
+          }
+        });
       });
-    });
-  }
-}, [data, user]);
-useEffect(() => {
-  axios.put('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/delete/favoriteSong/SaM1QW1nc2XwTIHAY5Cx', {
-   musicId: "hRT1layzR32lkiwmJ3Lz" // songId
-  })
-  .then(response => {
-   console.log(response.status)
-  })
-}, []);
+    }
+  }, [data, user]);
+ 
+  const renderRightView = (id) => {
+    return (
+      <View style={styles.swipe}>
+        <TouchableOpacity
+          onPress={() => {
+            axios.put('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/delete/favoriteSong/SaM1QW1nc2XwTIHAY5Cx', {
+              musicId: id
+            })
+              .then(response => {
+                setsongsUsers(oldData => {
+                    const newData = oldData.filter(song => {
+                    return song.id != id;
+                  });
+                  return newData
+                })
+              })
+          }
+          }
+        >
+          <View style={styles.ButtonDelete}>
 
-  const renderItem = ({ item }) => <Item title={item.name} img={item.img} single={item.singer}/>;
+            <AntDesign name="delete" size={27} color="white" />
+
+          </View>
+        </TouchableOpacity>
+      </View>
+    )
+  };
+  const Item = ({ id, title, img, single, navigation }) => (
+    <GestureHandlerRootView>
+      <Swipeable
+        renderRightActions={() => renderRightView(id)}
+      >
+        <TouchableOpacity onPress={() => navigation.navigate("NowPlaying", {
+          playID: [id]
+        })}>
+          <View style={styles.item}>
+            <Image style={styles.cdImage} source={{ uri: img }} />
+            <View style={styles.Single}>
+              <Text style={styles.nameSong} numberOfLines={1}>{title}</Text>
+              <Text style={styles.nameSingle} numberOfLines={1}>{single}</Text>
+            </View>
+            <View style={styles.iconPlay}>
+              <View style={styles.iconPlay}>
+                <Ionicons name="md-play-circle-sharp" size={50} color="white" />
+              </View>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Swipeable>
+    </GestureHandlerRootView>
+  );
+  const renderItem = ({ item }) => <Item id={item.id} title={item.name} img={item.img} single={item.singer} navigation={navigation} />;
   return (
     <LinearGradient
       colors={["#1565C0", "#000"]}
@@ -129,7 +138,7 @@ useEffect(() => {
         <View style={styles.Bottom}>
           <View style={styles.Bar}>
           </View>
-          <FlatList data={songsUsers} renderItem={renderItem} keyExtractor={item => item.id} />  
+          <FlatList data={songsUsers} renderItem={renderItem} keyExtractor={item => item.id} />
         </View>
         <View style={styles.ToolBar}>
         </View>
@@ -251,9 +260,9 @@ const styles = StyleSheet.create({
     color: 'red',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius:  10,
+    borderRadius: 10,
   },
-  TextDelete:{
+  TextDelete: {
     fontSize: 17,
     color: 'white'
   },
