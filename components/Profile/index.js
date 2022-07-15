@@ -106,7 +106,11 @@ function Profile({ navigation }) {
               <Text style={styles.nameSong} numberOfLines={1}>{title}</Text>
               <Text style={styles.nameSingle} numberOfLines={1}>{single}</Text>
             </View>
-            
+            <View style={styles.iconPlay}>
+              <View style={styles.iconPlay}>
+                <Ionicons name="md-play-circle-sharp" size={50} color="white" />
+              </View>
+            </View>
           </View>
         </TouchableOpacity>
       </Swipeable>
@@ -121,7 +125,7 @@ function Profile({ navigation }) {
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.goBack()}>
             <Ionicons name="ios-chevron-back" size={28} color="white" fontWeight='bold' />
           </TouchableOpacity>
           <Text style={styles.textHeader} >Profile</Text>
@@ -147,7 +151,9 @@ function Profile({ navigation }) {
             <Text style={styles.Content}>Sex: {user.gender}</Text>
           </View>
           <View style={styles.SquareContent}>
+          <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.navigate('Playlist')}>
             <Text style={styles.ContentNickname}>My Playlist</Text>
+            </TouchableOpacity>
           </View>
 
           <FlatList data={songsUsers} renderItem={renderItem} keyExtractor={item => item.id} />
@@ -329,5 +335,15 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     width: 90,
+  },
+  iconPlay: {
+    flex: 1,
+    paddingLeft: '15%',
+  },
+  Single: {
+    flex: 1,
+    flexDirection: 'column',
+    paddingLeft: '3%',
+    width: '100%',
   },
 });

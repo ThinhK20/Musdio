@@ -201,7 +201,7 @@ function NowPlaying({ navigation, route }) {
         navigation.navigate("Home");
       });
     } else {
-      navigation.navigate("Home");
+      navigation.goBack();
     }
   };
 
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   pageStatusBar: {
-    color: "#fff",
+    color: '#FFFFFF',
     padding: 5,
     width: "100%",
     alignItems: "center",
@@ -344,7 +344,9 @@ const styles = StyleSheet.create({
   iconHeader: {
     position: "absolute",
     left: "5%",
-    top: '5%'
+    top: '5%',
+    color: '#FFFFFF',
+
   },
   pageName: {
     color: "#fff",

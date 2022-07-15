@@ -130,8 +130,8 @@ function Playlist({ navigation }) {
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.iconHeader} >
-            <Ionicons name="ios-chevron-back" size={40} color="white" fontWeight='bold' />
+          <TouchableOpacity style={styles.iconHeader} onPress= {() => navigation.goBack()}>
+            <Ionicons name="ios-chevron-back" size={28} color="white" fontWeight='bold' />
           </TouchableOpacity>
           <Text style={styles.textHeader} >My Playlist</Text>
         </View>
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   cdImage: {
     width: '23%',
     height: '150%',
-    borderRadius: 0,
+    borderRadius: 10,
   },
   Single: {
     flex: 1,
