@@ -7,6 +7,8 @@ import { setSongs } from "../Redux/musicSlider";
 import { useDispatch } from "react-redux";
 import { Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
+import axios from "axios"
+
 function Profile({ navigation }) {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(true);
