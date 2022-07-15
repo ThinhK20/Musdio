@@ -12,85 +12,87 @@ import { color } from 'react-native-elements/dist/helpers';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Itemaaaaaaaaa', // max 10
+    name: 'First Itemaaaaaaaaa', // max 10
     img :  'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
-    single: 'Bich Phuong', // max 11
+    singer: 'Bich Phuong', // max 11
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second',
+    name: 'Second',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'G-Dragon',
+    singer: 'G-Dragon',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f68',
-    title: 'Gửi An',
+    name: 'Gửi An',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'Chi Pu',
+    singer: 'Chi Pu',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f64',
-    title: 'Second ',
+    name: 'Second ',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'Quang Teo',
+    singer: 'Quang Teo',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f60',
-    title: 'Second',
+    name: 'Second',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'Tai Dom',
+    singer: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa9712',
-    title: 'Second',
+    name: 'Second',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'Tai Dom',
+    singer: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd911232',
-    title: 'Second',
+    name: 'Second',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'Tai Dom',
+    singer: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d3-as8-fbd911232',
-    title: 'Second',
+    name: 'Second',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'Tai Dom',
+    singer: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d3-128-fbd911232',
-    title: 'Secondddddddddddd',
+    name: 'Secondddddddddddd',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'Tai Dom',
+    singer: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d123a4f8-fbd91aa9712',
-    title: 'Second',
+    name: 'Second',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'Tai Dom',
+    singer: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-48d31234f8-fbd91aa9712',
-    title: 'Second',
+    name: 'Second',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'Tai Dom',
+    singer: 'Tai Dom',
   },
   {
     id: '3ac68afc-c605-12d3-a4f8-fbd91aa9712',
-    title: 'Seconddddddddddddd',
+    name: 'Seconddddddddddddd',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    single: 'Tai Dommmmmmm',
+    singer: 'Tai Dommmmmmm',
   },
 ];
 
-const Item = ({title, img, single}) => (
-  <TouchableOpacity>
+const Item = ({id,name, img, singer}) => (
+  <TouchableOpacity onPress={() => {
+    alert('id : ' + id + ' name : ' + name+' singer: '+singer);
+  }}>
     <View style={styles.item}>
       <Image style={styles.cdImage} source={{uri: img}}/>
-      <View style = {styles.Single}>
-        <Text style={styles.nameSong} numberOfLines= {1}>{title}</Text>
-        <Text style={styles.nameSingle} numberOfLines= {1}>{single}</Text>
+      <View style = {styles.singer}>
+        <Text style={styles.nameSong} numberOfLines= {1}>{name}</Text>
+        <Text style={styles.namesinger} numberOfLines= {1}>{singer}</Text>
       </View>
       <View style = {styles.iconPlay}>
         <View style={styles.iconPlay}>
@@ -101,8 +103,8 @@ const Item = ({title, img, single}) => (
   </TouchableOpacity>
 );
 
-function Albums() {
-  const renderItem = ({ item }) => <Item title={item.title}  img = {item.img} single = {item.single}/>;
+function Albums({navigation,nameAlbum,item}) {
+  const renderItem = ({ item }) =>  <Item id ={item.id} name={item.name}  img = {item.img} singer = {item.singer}/>
   return (
     <LinearGradient
       colors={["#1565C0", "#000"]}
@@ -125,7 +127,7 @@ function Albums() {
             <Image style={styles.imageAlbums} source={require('../../assets/images/Login.png')}></Image>
           </View>
           <View style={styles.Mid}>
-            <Text style={styles.nameAlbums}> Justing </Text>
+            <Text style={styles.nameAlbums}> {nameAlbum} </Text>
             <TouchableOpacity>
               <View style={styles.playAlbums}>
                 <Text style={styles.textPlay}>
@@ -152,6 +154,7 @@ function Albums() {
     </LinearGradient>
 
   );
+  
 }
 
 
@@ -227,7 +230,8 @@ const styles = StyleSheet.create({
     marginTop:'3%',
     backgroundColor:'#7DD0F6',
     borderRadius:30,
-    width:200,
+    width:150,
+    height:50,
     //alignContent:'center',
     alignItems:'center',
    // justifyContent: 'center',
@@ -265,7 +269,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     flex : 1,
   },
-  nameSingle: {
+  namesinger: {
     paddingLeft: '10%',
     fontWeight: 'bold',
     color: '#928989',
@@ -278,7 +282,7 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 100,
   },
-  Single:{
+  singer:{
     flex : 1,
     flexDirection : 'column',
     paddingLeft : '3%',
