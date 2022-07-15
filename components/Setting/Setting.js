@@ -1,13 +1,33 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image,TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-import Constants from 'expo-constants';
+import { useEffect, useState } from 'react';
+import { setSongs } from "../Redux/musicSlider";
+import { useDispatch } from "react-redux";
 import { SafeAreaView, StatusBar, Platform, ScrollView } from 'react-native';
 function Setting({ navigation }) {
+  const [user, setUser] = useState([]);
+  const [isLoadingUser, setisLoadingUser] = useState(true);
+  const getUsers = async () => {
+    try {
+      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
+      const json = await response.json().then(data => {
+        setUser(data.data);
+      })
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setisLoadingUser(false);
+    }
+  }
+  useEffect(() => {
+    if (user.length == 0) {
+      getUsers();
+    }
+  }, []);
   return (
 
 
@@ -25,9 +45,13 @@ function Setting({ navigation }) {
           <View style={{ borderBottomColor: 'white', borderBottomWidth: 1.75 }} />
           <View style={styles.body}>
             <View style={styles.basicInfo}>
-              <View style={styles.avatar}></View>
+              <View style={styles.avatar}>
+                <Image
+                  style={{ height: '100%', width: '100%', borderRadius: 100 }}
+                  source={{ uri: user.uri }} />
+              </View>
               <View style={styles.name}>
-                <Text style={{ color: 'white', fontWeight: "bold", fontSize: 30 }}> Minh Đơm</Text>
+                <Text style={{ color: 'white', fontWeight: "bold", fontSize: 28 }}> {user.username}</Text>
               </View>
             </View>
             <View style={styles.option}>
@@ -46,15 +70,7 @@ function Setting({ navigation }) {
                   left: distance.icon + 30,
                 }}> Setting general </Text>
               </View>
-              <View style={styles.formOption}>
-                <Ionicons name="musical-notes-sharp" size={24} color="white" style={{ left: distance.icon }} />
-                <Text style={{
-                  color: 'white',
-                  fontSize: 25,
-                  fontWeight: '500',
-                  left: distance.icon + 30,
-                }}> Music setting </Text>
-              </View>
+        
               <View style={styles.formOption}>
                 <Feather name="sun" size={24} color="white" style={{ left: distance.icon }} />
                 <Text style={{
@@ -63,24 +79,6 @@ function Setting({ navigation }) {
                   fontWeight: '500',
                   left: distance.icon + 30,
                 }}> Light mode </Text>
-              </View>
-              <View style={styles.formOption}>
-                <MaterialIcons name="snooze" size={24} color="white" style={{ left: distance.icon }} />
-                <Text style={{
-                  color: 'white',
-                  fontSize: 25,
-                  fontWeight: '500',
-                  left: distance.icon + 30,
-                }}> Sleep time </Text>
-              </View>
-              <View style={styles.formOption}>
-                <FontAwesome5 name="mail-bulk" size={24} color="white" style={{ left: distance.icon }} />
-                <Text style={{
-                  color: 'white',
-                  fontSize: 25,
-                  fontWeight: '500',
-                  left: distance.icon + 30,
-                }}> Feedback </Text>
               </View>
               <View style={styles.formOption}>
                 <FontAwesome5 name="users" size={24} color="white" style={{ left: distance.icon }} />
@@ -176,7 +174,12 @@ const styles = StyleSheet.create({
     marginBottom: 29,
     backgroundColor: '#201E21',
     borderRadius: 14,
-  }
+  },
+  cdImage: {
+    width: '20%',
+    height: '150%',
+    borderRadius: 100,
+  },
 });
 
 
