@@ -13,16 +13,17 @@ import { useEffect, useState, useRef } from "react";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Swipeable } from 'react-native-gesture-handler';
+import { setTheme } from "../Redux/generalSlider";
 const LYRICS = [
   {
     id: 1,
-    text: "Umbala alabatrap",
+    text: "君の虜になってしまえばきっと",
   },
   {
     id: 2,
-    text: "Ta cùng khiêu vũ như điệu manbo",
+    text: "この夏は充実するのもっと",
   },
   {
     id: 3,
@@ -44,6 +45,10 @@ function NowPlaying({ navigation, route }) {
     return listSongs
   })()
   
+  const {theme} = useSelector(state => state.general) // theme: 'light' , 'dark'
+  const dispatch = useDispatch()
+
+
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 

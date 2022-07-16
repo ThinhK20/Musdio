@@ -19,7 +19,7 @@ export default function LoginFacebook({ navigation }) {
   onAuthStateChanged(auth, () => {
     if (facebookState.userData != null) {
       console.log("We are authenticated now!");
-      navigation.navigate('Home')
+      navigation.navigate("LoadingSongs");
     }
     // Do other things
   });
