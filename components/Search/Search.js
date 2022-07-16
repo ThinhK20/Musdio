@@ -5,10 +5,10 @@ import { SafeAreaView, Text, StyleSheet, View, FlatList,Image,TouchableOpacity} 
 import { SearchBar } from 'react-native-elements';
 
 const Search = ({navigation}) => {
+
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
-
   const [music, setMusic] = useState([]);
     const getMusicFromApi = async () => {
         const resp = await fetch("https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get")
@@ -83,10 +83,9 @@ const Search = ({navigation}) => {
   };
 
   const getItem = (item) => {
-    // Function for click on an item
-    alert('Id : ' + item.id + ' name : ' + item.name+' singer: '+item.singer);
+    // Function for click on an itemaler
     navigation.navigate('NowPlaying',{
-      playID:[item]
+      playID:[item.id]
     })
   };
 

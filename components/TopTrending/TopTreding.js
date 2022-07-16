@@ -30,8 +30,6 @@ function TopTrending({navigation}) {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [user, setUser] = useState([]);
-  const [isLoadingUser, setisLoadingUser] = useState(true);
   const getMusics = async () => {
     try {
       const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get');
@@ -49,26 +47,11 @@ function TopTrending({navigation}) {
       setLoading(false);
     }
   }
-  const getUsers = async () => {
-    try {
-      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
-      const json = await response.json().then(data => {
-        setUser(data.data);
-      })
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setisLoadingUser(false);
-    }
-  }
   useEffect(() => {
     if(data.length == 0){
       getMusics();
     }
-    if(user.length == 0){
-      getUsers();
-    }
-  
+
   }, []);
   
   const renderItem = ({ item, index }) => {
@@ -82,7 +65,7 @@ function TopTrending({navigation}) {
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.iconHeader}>
+          <TouchableOpacity style={styles.iconHeader} onPress= {() => navigation.goBack()}>
             <Ionicons name="ios-chevron-back" size={28} color="white" fontWeight='bold' />
           </TouchableOpacity>
           <Text style={styles.textHeader} >Top Treding</Text>

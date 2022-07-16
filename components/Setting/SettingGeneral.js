@@ -3,17 +3,28 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { StatusBar, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function SettingGeneral({ navigation }) {
-    const [profile, setProfile] = useState({
-        avataURL: 'https://scontent.fsgn8-2.fna.fbcdn.net/v/t1.6435-1/92493693_1056085851445464_3482286615181656064_n.jpg?stp=dst-jpg_p320x320&_nc_cat=110&ccb=1-7&_nc_sid=7206a8&_nc_ohc=L05-MUmxVWsAX8SiE_z&_nc_ht=scontent.fsgn8-2.fna&oh=00_AT9DrZSeH6h9pO2XVL4-DH9l7NMQmvdOCgkOWNogSZpcNQ&oe=62B4E465',
-        name: 'Minh đơm',
-        bio: 'Mr Quang Tèo',
-        mail: 'minhnhox792@gmail.com',
-        birthDate: '30/2/2002'
-    })
-    console.log('goto SG')
+    const [user, setUser] = useState([]);
+    const [isLoadingUser, setisLoadingUser] = useState(true);
+    const getUsers = async () => {
+        try {
+            const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
+            const json = await response.json().then(data => {
+                setUser(data.data);
+            })
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setisLoadingUser(false);
+        }
+    }
+    useEffect(() => {
+        if (user.length == 0) {
+            getUsers();
+        }
+    }, []);
     return (
         <LinearGradient
             colors={["#1565C0", "#000"]}
@@ -24,7 +35,7 @@ function SettingGeneral({ navigation }) {
                 <ScrollView style={{ flex: 1 }}>
                     <View style={styles.header}>
                         <Ionicons style={styles.iconHeader} name="ios-chevron-back" size={28} color="white"
-                            onPress = {()=> {
+                            onPress={() => {
                                 navigation.navigate('Setting')
                                 console.log('go back')
                             }}
@@ -34,20 +45,20 @@ function SettingGeneral({ navigation }) {
                     <View style={{ borderBottomColor: 'white', borderBottomWidth: 1.75 }} />
                     <View style={styles.body}>
                         <View style={styles.info}>
-                            <Image style={styles.avata}
-                                source={{
-                                    uri: profile.avataURL
-                                }}
-                            />
-                            <View style={{ marginLeft: '10%', justifyContent: 'center' }}>
-                                <Text style={styles.name}>{profile.name}</Text>
-                                <Text style={styles.bio}>{profile.bio}</Text>
+                            <View style={styles.Avatar}>
+                                <Image
+                                    style={{ height: '100%', width: '100%', borderRadius: 100 }}
+                                    source={{ uri: user.uri }} />
+                            </View>
+                            <View style={{ marginLeft: '100%', justifyContent: 'center' }}>
+                                <Text style={styles.name}>{user.name}</Text>
+                                <Text style={styles.bio}>{user.bio}</Text>
                             </View>
                         </View>
                         <View style={styles.option}>
                             <View style={styles.form}>
                                 <Text style={styles.textCol1}>Name</Text>
-                                <Text style={styles.textCol2}>{profile.name}</Text>
+                                <Text style={styles.textCol2}>{user.username}</Text>
                                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                                     <FontAwesome name="edit" size={24} color="white" />
                                     <Text style={styles.textCol3}>Edit</Text>
@@ -56,8 +67,9 @@ function SettingGeneral({ navigation }) {
                             <View style={{ borderBottomColor: 'white', borderBottomWidth: 1.75, marginTop: 4, marginBottom: 10 }} />
                             {/* ============================ */}
                             <View style={styles.form}>
-                                <Text style={styles.textCol1}>Mail</Text>
-                                <Text style={styles.textCol2}>{profile.mail}</Text>
+                                <Text style={styles.textCol1}>Email</Text>
+
+                                <Text style={styles.textCol1}>{user.email}</Text>
                                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                                     <FontAwesome name="edit" size={24} color="white" />
                                     <Text style={styles.textCol3}>Edit</Text>
@@ -76,18 +88,19 @@ function SettingGeneral({ navigation }) {
                             <View style={{ borderBottomColor: 'white', borderBottomWidth: 1.75, marginTop: 4, marginBottom: 10 }} />
                             {/* ============================ */}
                             <View style={styles.form}>
-                                <Text style={styles.textCol1}>Bio</Text>
-                                <Text style={styles.textCol2}>{profile.bio}</Text>
+                                <Text style={styles.textCol1}>Sex</Text>
+                                <Text style={styles.textCol2}>{user.gender}</Text>
                                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                                     <FontAwesome name="edit" size={24} color="white" />
                                     <Text style={styles.textCol3}>Edit</Text>
                                 </View>
                             </View>
-                            <View style={{ borderBottomColor: 'white', borderBottomWidth: 1.75, marginTop: 4, marginBottom: 10, }} />
+                            <View style={{ borderBottomColor: 'white', borderBottomWidth: 1.75, marginTop: 4 }} />
+                            {/* ============================ */}
                             {/* ============================ */}
                             <View style={styles.form}>
                                 <Text style={styles.textCol1}>Birth date</Text>
-                                <Text style={styles.textCol2}>{profile.birthDate}</Text>
+                                <Text style={styles.textCol2}>{user.birthdate}</Text>
                                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                                     <FontAwesome name="edit" size={24} color="white" />
                                     <Text style={styles.textCol3}>Edit</Text>
@@ -118,27 +131,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     textHeader: {
-        
+
         color: '#fff',
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginLeft: '25%'
+        marginLeft: '28%'
     },
     body: {
         flex: 1,
     },
     info: {
-        marginTop: 30,
-        marginLeft: 30,
+        marginTop: '5%',
+        marginLeft: '30%',
         flex: 1,
         flexDirection: 'row',
     },
-    avata: {
-        height: 100,
-        width: 100,
-        borderRadius: 100
-    },
+
     name: {
         color: 'white',
         fontWeight: 'bold',
@@ -170,7 +179,16 @@ const styles = StyleSheet.create({
         marginRight: 10,
         color: 'white',
         fontSize: 20,
-    }
+    },
+    Avatar: {
+        width: '50%',
+        height: '200%',
+        borderRadius: '100%',
+        paddingLeft: '10%'
+      },
+      option:{
+        paddingTop: '10%'
+      }
 })
 
 export default SettingGeneral;
