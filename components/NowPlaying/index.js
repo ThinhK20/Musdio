@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  Animated,
 } from "react-native";
 import Slider from "react-native-slider";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -14,8 +15,9 @@ import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { Swipeable } from 'react-native-gesture-handler';
+import { Swipeable } from "react-native-gesture-handler";
 import { setTheme } from "../Redux/generalSlider";
+import { Easing } from "react-native";
 const LYRICS = [
   {
     id: 1,
@@ -32,27 +34,23 @@ const LYRICS = [
 ];
 
 function NowPlaying({ navigation, route }) {
-  const { playID } = route.params
-  const songs =(() => {
-    const source_songs = useSelector(state => state.musics)
-    const listSongs = []
+  const { playID } = route.params;
+  const songs = (() => {
+    const source_songs = useSelector((state) => state.musics);
+    const listSongs = [];
     for (let value of playID) {
-      const song = source_songs.find(obj => obj.id == value)
+      const song = source_songs.find((obj) => obj.id == value);
       if (song) {
-        listSongs.push(song)
+        listSongs.push(song);
       }
     }
-    return listSongs
-  })()
-  
-  const {theme} = useSelector(state => state.general) // theme: 'light' , 'dark'
-  const dispatch = useDispatch()
-
+    return listSongs;
+  })();
 
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 
-  const [activeSwipe, setActiveSwipe] = useState(false)
+  const [activeSwipe, setActiveSwipe] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
@@ -60,6 +58,9 @@ function NowPlaying({ navigation, route }) {
   const [isChangeProgress, setIsChangeProgess] = useState(false);
 
   const [randomNumber, setRandomNumber] = useState();
+
+  const dispatch = useDispatch();
+  const { theme } = useSelector((state) => state.general);
 
   const sound = useRef(new Audio.Sound());
   // Handle event when user clicked repeat button
@@ -148,17 +149,17 @@ function NowPlaying({ navigation, route }) {
     }
   };
 
-  // stream mode 
+  // stream mode
   // Handle event when current index change ==> Unload old and load new song
   useEffect(() => {
     (async () => {
       try {
-          await sound.current.loadAsync({ uri: currentSong.uri });
-          if (playing) {
-            await sound.current.playAsync();
-          }
+        await sound.current.loadAsync({ uri: currentSong.uri });
+        if (playing) {
+          await sound.current.playAsync();
+        }
       } catch {
-        console.log("Loading available...")
+        console.log("Loading available...");
       }
     })();
 
@@ -170,7 +171,7 @@ function NowPlaying({ navigation, route }) {
     let sliderValue =
       Number(
         onPlaybackStatusUpdate.positionMillis /
-        onPlaybackStatusUpdate.durationMillis
+          onPlaybackStatusUpdate.durationMillis
       ) - "0";
     if (!sliderValue) sliderValue = 0;
     if (!isChangeProgress) {
@@ -186,18 +187,21 @@ function NowPlaying({ navigation, route }) {
       <View style={styles.swipe}>
         <TouchableOpacity
           onPress={(e) => {
-            setActiveSwipe(!activeSwipe)
-          }
-          }
+            setActiveSwipe(!activeSwipe);
+          }}
         >
           <View style={styles.ButtonDelete}>
             <View>
-          <MaterialIcons name="playlist-add" size={30} color={activeSwipe ? "#1db954" : "#fff"} />
-          </View>
+              <MaterialIcons
+                name="playlist-add"
+                size={30}
+                color={activeSwipe ? "#1db954" : "#fff"}
+              />
+            </View>
           </View>
         </TouchableOpacity>
       </View>
-    )
+    );
   };
   const stopWhenBack = async () => {
     if (playing) {
@@ -210,12 +214,52 @@ function NowPlaying({ navigation, route }) {
     }
   };
 
+  // Rotate CD Animation
+  let rotateValueHolder = useRef(new Animated.Value(0)).current;
 
+  const rotateData = rotateValueHolder.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
+
+  useEffect(() => {
+    try {
+      if (playing) {
+        Animated.loop(
+          Animated.timing(rotateValueHolder, {
+            toValue: 1,
+            duration: 10000,
+            useNativeDriver: true,
+            easing: Easing.linear,
+            isInteraction: false,
+          })
+        ).start();
+      } else {
+        rotateValueHolder.stopAnimation(() => {
+          rotateValueHolder.extractOffset();
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      console.log("Setting CD animated...");
+    }
+  }, [playing]);
+  //-------------------------------------------------------------------
+
+  const handleTheme = () => {
+    if (theme == "dark") {
+      dispatch(setTheme("light"));
+    } else {
+      dispatch(setTheme("dark"));
+    }
+  };
 
   return (
     <LinearGradient
-      colors={["#1565C0", "#000"]}
-      end={[0.05, 0.5]}
+      colors={
+        theme === "dark" ? ["#2f2b53", "#2f2b53"] : ["#f5f6fd", "#f5f6fd"]
+      }
+      end={[1, 0.8]}
       style={styles.LinearGradient}
     >
       <View style={styles.pageStatusBar}>
@@ -223,107 +267,127 @@ function NowPlaying({ navigation, route }) {
           style={styles.iconHeader}
           onPress={stopWhenBack}
         >
-          <Ionicons name="ios-chevron-back" size={28} color="white" />
+          <Ionicons name="ios-chevron-back" size={28} color="white" style={theme === 'light' && styles.blackColor}  />
         </TouchableOpacity>
-        <Text style={styles.pageName}>Musdio</Text>
+        <Text style={[styles.pageName, theme === 'dark' && styles.whiteColor ]}>Musdio</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate("Sleep")}
           style={styles.sleep}
         >
-          <FontAwesome5 name="cloud-moon" size={28} color="white" />
+          <FontAwesome5 name="cloud-moon" size={28} style={[{position: 'absolute', right: 20, top:"-70%"},theme === 'light' && styles.blackColor ]}  color="white" />
         </TouchableOpacity>
       </View>
+
+
       <View style={styles.container}>
-        <Text style={styles.playlistText}>Playlist</Text>
-        <Text style={styles.artistName}>{currentSong.singer}</Text>
-        <Image style={styles.cdImage} source={{ uri: currentSong.img }} />
+        <Text
+          style={[styles.playlistText, theme === "dark" && styles.whiteColor]}
+        >
+          Playlist
+        </Text>
+        <Text
+          style={[styles.artistName, theme === "dark" && styles.whiteColor]}
+        >
+          {currentSong.singer}
+        </Text>
+        <Animated.Image
+          style={[styles.cdImage, { transform: [{ rotate: rotateData }] }]}
+          source={{ uri: currentSong.img }}
+        />
         <Slider
           style={styles.slider}
           minimumValue={0}
           maximumValue={1}
           minimumTrackTintColor="#f3a952"
-          maximumTrackTintColor="#fff"
-          thumbTintColor="#fff"
+          maximumTrackTintColor={theme === "dark" ? "#fff" : "#000"}
+          thumbTintColor={theme === "dark" ? "#fff" : "#000"}
           value={currentDuration}
           onSlidingStart={() => setIsChangeProgess(true)}
           onSlidingComplete={handleDraggingSlider}
         />
-        <Text style={styles.songName}>{currentSong.name}</Text>
+        <Text style={[styles.songName, theme === "dark" && styles.whiteColor]}>
+          {currentSong.name}
+        </Text>
         <View style={styles.lyricsBox}>
           <FlatList
             data={LYRICS}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => (
-              <Text style={styles.lyricText}>{item.text}</Text>
+              <Text
+                style={[
+                  styles.lyricText,
+                  theme === "dark" && styles.whiteColor,
+                ]}
+              >
+                {item.text}
+              </Text>
             )}
           />
         </View>
-        <Swipeable
-            renderRightActions={renderRightView}
-        >
-          <View style={styles.musicControl}>
-            <TouchableOpacity
-              style={styles.random}
-              onPress={() => setActiveRandomBtn(!activeRandomBtn)}
-            >
-              <View style = {styles.backward}>
+        <View style={styles.musicControl}>
+          <TouchableOpacity
+            style={styles.random}
+            onPress={() => setActiveRandomBtn(!activeRandomBtn)}
+          >
+            <FontAwesome
+              name="random"
+              size={20}
+              color={
+                activeRandomBtn ? "#1db954" : theme === "dark" ? "#fff" : "#000"
+              }
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.stepbackward}
+            onPress={handlePrevSong}
+          >
+            <FontAwesome
+              name="step-backward"
+              size={24}
+              color={theme === "dark" ? "#fff" : "#000"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.playBtn}
+            onPress={() => setPlaying(!playing)}
+          >
+            {playing ? (
               <FontAwesome
-                name="random"
-                size={20}
-                color={activeRandomBtn ? "#1db954" : "#fff"}
+                name="pause-circle"
+                size={80}
+                style={styles.playIcon}
+                onPress={playSound}
+                color={theme === "dark" ? "#fff" : "#000"}
               />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.stepbackward}
-              onPress={handlePrevSong}
-            >
-              <View style = {styles.backward}>
-              <FontAwesome name="step-backward" size={30} color="#fff" />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.playBtn}
-              onPress={() => setPlaying(!playing)}
-            >
-              
-              {playing ? (
-                <FontAwesome
-                  name="pause-circle"
-                  size={80}
-                  style={styles.playIcon}
-                  onPress={playSound}
-                  color="#fff"
-                />
-              ) : (
-                <FontAwesome
-                  name="play-circle"
-                  size={80}
-                  style={styles.playIcon}
-                  onPress={playSound}
-                  color="#fff"
-                />
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.stepforward} onPress={handleNextSong}>
-            <View style = {styles.backward}>
-              <FontAwesome name="step-forward" size={30} color="#fff" />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.repeat} onPress={handleRepeatSong}>
-              <View style = {styles.backward}>
-                <Feather
-                  name="repeat"
-                  size={20}
-                  color={activeRepeatBtn ? "#1db954" : "#fff"}
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
-          </Swipeable>
+            ) : (
+              <FontAwesome
+                name="play-circle"
+                size={80}
+                style={styles.playIcon}
+                onPress={playSound}
+                color={theme === "dark" ? "#fff" : "#000"}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.stepforward} onPress={handleNextSong}>
+            <FontAwesome
+              name="step-forward"
+              size={24}
+              color={theme === "dark" ? "#fff" : "#000"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.repeat} onPress={handleRepeatSong}>
+            <Feather
+              name="repeat"
+              size={20}
+              color={
+                activeRepeatBtn ? "#1db954" : theme === "dark" ? "#fff" : "#000"
+              }
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-
     </LinearGradient>
   );
 }
@@ -338,8 +402,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingTop: 40,
   },
+  blackColor: {
+    color: "#000",
+  },
+  whiteColor: {
+    color: "#fff",
+  },
   pageStatusBar: {
-    color: '#FFFFFF',
+    color: "#fff",
+    flexDirection: "row",
     padding: 5,
     width: "100%",
     alignItems: "center",
@@ -351,13 +422,13 @@ const styles = StyleSheet.create({
     left: "5%",
     top: '5%',
     color: '#FFFFFF',
-
+    zIndex: 99
   },
   pageName: {
-    color: "#fff",
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
+    flex: 1,
   },
   container: {
     paddingTop: 10,
@@ -367,7 +438,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   playlistText: {
-    color: "#FFFFFF",
     opacity: 0.8,
     fontSize: 17,
     fontWeight: "bold",
@@ -375,7 +445,6 @@ const styles = StyleSheet.create({
   },
   artistName: {
     fontSize: 18,
-    color: "#fff",
     fontWeight: "bold",
     opacity: 0.9,
   },
@@ -392,7 +461,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   songName: {
-    color: "#fff",
     fontSize: 23,
     fontWeight: "bold",
   },
@@ -406,16 +474,15 @@ const styles = StyleSheet.create({
   },
   lyricText: {
     textAlign: "center",
-    color: "#fff",
     fontSize: 18,
     marginTop: 5,
     marginBottom: 5,
   },
   musicControl: {
-    //backgroundColor: 'red',
+    flex: 1,
     flexDirection: "row",
-    width: '100%',
-    paddingHorizontal: '20%',
+    alignItems: "center",
+    justifyContent: "center",
   },
   playBtn: {
     opacity: 0.8,
@@ -434,33 +501,5 @@ const styles = StyleSheet.create({
   },
   random: {
     marginRight: 40,
-  },
-  sleep: {
-    position: "absolute",
-    right: "5%",
-  },
-  swipe: {
-    margin: 0,
-    alignContent: 'center',
-    justifyContent: 'center',
-    width: 90,
-  },
-  ButtonDelete: {
-    width: '100%',
-    height: '80%',
-    color: 'red',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    paddingTop: '6%',
-  },
-  TextDelete:{
-    paddingHorizontal: 20,
-    paddingRight: '45%',
-    fontSize: 17,
-    color: 'white'
-  },
-  backward:{
-    paddingTop: '130%',
   },
 });
