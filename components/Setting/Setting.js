@@ -57,7 +57,7 @@ function Setting({ navigation }) {
             <View style={styles.option}>
               <View style={styles.formOption}
                 onStartShouldSetResponder={() => {
-                  navigation.navigate('SettingGeneral')
+                  navigation.navigate('Profile')
                   console.log('change')
                 }}
               >
@@ -68,7 +68,7 @@ function Setting({ navigation }) {
                   fontSize: 25,
                   fontWeight: '500',
                   left: distance.icon + 30,
-                }}> Setting general </Text>
+                }}> Profile </Text>
               </View>
         
               <View style={styles.formOption}>
@@ -78,7 +78,7 @@ function Setting({ navigation }) {
                   fontSize: 25,
                   fontWeight: '500',
                   left: distance.icon + 30,
-                }}> Light mode </Text>
+                }}> Light Mode </Text>
               </View>
               <View style={styles.formOption}>
                 <FontAwesome5 name="users" size={24} color="white" style={{ left: distance.icon }} />
@@ -87,9 +87,18 @@ function Setting({ navigation }) {
                   fontSize: 25,
                   fontWeight: '500',
                   left: distance.icon + 30,
-                }}> About sú </Text>
+                }}> About Us </Text>
               </View>
-
+              <View style={styles.formOption}>
+              <Feather name="tool" size={24} color="white" style={{ left: distance.icon }}
+                />
+                <Text style={{
+                  color: 'white',
+                  fontSize: 25,
+                  fontWeight: '500',
+                  left: distance.icon + 30,
+                }}> Change Password </Text>
+              </View>
               <View style={styles.formOption}>
                 <MaterialCommunityIcons name="logout" size={24} color="white" style={{ left: distance.icon }} />
                 <Text style={{
@@ -97,7 +106,7 @@ function Setting({ navigation }) {
                   fontSize: 25,
                   fontWeight: '500',
                   left: distance.icon + 30,
-                }}> Logout </Text>
+                }}> Log Out </Text>
               </View>
             </View>
           </View>
