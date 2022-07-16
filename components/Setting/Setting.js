@@ -1,13 +1,14 @@
-import { StyleSheet, Text, View, Image,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
-import { setSongs } from "../Redux/musicSlider";
-import { useDispatch } from "react-redux";
+import {auth} from '../Firebase'
 import { SafeAreaView, StatusBar, Platform, ScrollView } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+
 function Setting({ navigation }) {
   const [user, setUser] = useState([]);
   const [isLoadingUser, setisLoadingUser] = useState(true);
@@ -21,6 +22,16 @@ function Setting({ navigation }) {
       console.error(error);
     } finally {
       setisLoadingUser(false);
+    }
+  }
+  const check = () => {
+    const user = auth.currentUser
+    console.log(user.providerData[0].providerId)
+    if (user.providerData[0].providerId != "password") {
+      alert("Can't change password !")
+    }
+    else{
+      navigation.navigate("ChangePassword")
     }
   }
   useEffect(() => {
@@ -61,8 +72,8 @@ function Setting({ navigation }) {
                   console.log('change')
                 }}
               >
-                <Feather name="tool" size={24} color="white" style={{ left: distance.icon }}
-                />
+                <AntDesign name="profile" size={28} color="white" style={{ left: distance.icon }}/>
+
                 <Text style={{
                   color: 'white',
                   fontSize: 25,
@@ -70,7 +81,7 @@ function Setting({ navigation }) {
                   left: distance.icon + 30,
                 }}> Profile </Text>
               </View>
-        
+
               <View style={styles.formOption}>
                 <Feather name="sun" size={24} color="white" style={{ left: distance.icon }} />
                 <Text style={{
@@ -78,7 +89,7 @@ function Setting({ navigation }) {
                   fontSize: 25,
                   fontWeight: '500',
                   left: distance.icon + 30,
-                }}> Light Mode </Text>
+                }}> Change Theme </Text>
               </View>
               <View style={styles.formOption}>
                 <FontAwesome5 name="users" size={24} color="white" style={{ left: distance.icon }} />
@@ -89,16 +100,18 @@ function Setting({ navigation }) {
                   left: distance.icon + 30,
                 }}> About Us </Text>
               </View>
-              <View style={styles.formOption}>
-              <Feather name="tool" size={24} color="white" style={{ left: distance.icon }}
-                />
-                <Text style={{
-                  color: 'white',
-                  fontSize: 25,
-                  fontWeight: '500',
-                  left: distance.icon + 30,
-                }}> Change Password </Text>
-              </View>
+              <TouchableOpacity onPress = {check}>
+                <View style={styles.formOption}>
+                  <Feather name="tool" size={24} color="white" style={{ left: distance.icon }}
+                  />
+                  <Text style={{
+                    color: 'white',
+                    fontSize: 25,
+                    fontWeight: '500',
+                    left: distance.icon + 30,
+                  }}> Change Password </Text>
+                </View>
+              </TouchableOpacity>
               <View style={styles.formOption}>
                 <MaterialCommunityIcons name="logout" size={24} color="white" style={{ left: distance.icon }} />
                 <Text style={{
