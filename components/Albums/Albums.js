@@ -11,100 +11,41 @@ import { color } from 'react-native-elements/dist/helpers';
 
 const DATA = [
   {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    id: '2Q4ITzM0aLxpwZugrHKC',
     name: 'First Itemaaaaaaaaa', // max 10
     img :  'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
     singer: 'Bich Phuong', // max 11
   },
   {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    id: 'CfjB8BRRS4Xv7BjxpuT7',
     name: 'Second',
     img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
     singer: 'G-Dragon',
   },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f68',
-    name: 'Gửi An',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    singer: 'Chi Pu',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f64',
-    name: 'Second ',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    singer: 'Quang Teo',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f60',
-    name: 'Second',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    singer: 'Tai Dom',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa9712',
-    name: 'Second',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    singer: 'Tai Dom',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd911232',
-    name: 'Second',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    singer: 'Tai Dom',
-  },
-  {
-    id: '3ac68afc-c605-48d3-as8-fbd911232',
-    name: 'Second',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    singer: 'Tai Dom',
-  },
-  {
-    id: '3ac68afc-c605-48d3-128-fbd911232',
-    name: 'Secondddddddddddd',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    singer: 'Tai Dom',
-  },
-  {
-    id: '3ac68afc-c605-48d123a4f8-fbd91aa9712',
-    name: 'Second',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    singer: 'Tai Dom',
-  },
-  {
-    id: '3ac68afc-c605-48d31234f8-fbd91aa9712',
-    name: 'Second',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    singer: 'Tai Dom',
-  },
-  {
-    id: '3ac68afc-c605-12d3-a4f8-fbd91aa9712',
-    name: 'Seconddddddddddddd',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    singer: 'Tai Dommmmmmm',
-  },
 ];
 
-const Item = ({id,name, img, singer}) => (
-  <TouchableOpacity onPress={() => {
-    alert('id : ' + id + ' name : ' + name+' singer: '+singer);
-  }}>
-    <View style={styles.item}>
-      <Image style={styles.cdImage} source={{uri: img}}/>
-      <View style = {styles.singer}>
-        <Text style={styles.nameSong} numberOfLines= {1}>{name}</Text>
-        <Text style={styles.namesinger} numberOfLines= {1}>{singer}</Text>
-      </View>
-      <View style = {styles.iconPlay}>
-        <View style={styles.iconPlay}>
-          <Ionicons name="md-play-circle-sharp" size={50} color="white" />
+
+
+function Albums({navigation,nameAlbum,Data}) {
+  const renderItem = ({ item }) =>  <Item id ={item.id} name={item.name}  img = {item.img} singer = {item.singer} navigation={navigation} />
+  const Item = ({id,name, img, singer}) => (
+    <TouchableOpacity onPress={() => navigation.navigate("NowPlaying", {
+      playID: [id]
+    })}>
+      <View style={styles.item}>
+        <Image style={styles.cdImage} source={{uri: img}}/>
+        <View style = {styles.singer}>
+          <Text style={styles.nameSong} numberOfLines= {1}>{name}</Text>
+          <Text style={styles.namesinger} numberOfLines= {1}>{singer}</Text>
+        </View>
+        <View style = {styles.iconPlay}>
+          <View style={styles.iconPlay}>
+            <Ionicons name="md-play-circle-sharp" size={50} color="white" />
+          </View>
         </View>
       </View>
-    </View>
-  </TouchableOpacity>
-);
-
-function Albums({navigation,nameAlbum,item}) {
-  const renderItem = ({ item }) =>  <Item id ={item.id} name={item.name}  img = {item.img} singer = {item.singer}/>
+    </TouchableOpacity>
+  );
   return (
     <LinearGradient
       colors={["#1565C0", "#000"]}
@@ -128,7 +69,11 @@ function Albums({navigation,nameAlbum,item}) {
           </View>
           <View style={styles.Mid}>
             <Text style={styles.nameAlbums}> {nameAlbum} </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("NowPlaying", {
+          playID: DATA.map((_id)=>{
+          return _id.id
+          })
+        })}>
               <View style={styles.playAlbums}>
                 <Text style={styles.textPlay}>
                   Play

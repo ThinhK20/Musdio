@@ -26,7 +26,9 @@ export default function LoadingSongs({ navigation }) {
             dispatch(setSongs(response.data.data));
           })
           .then(() => {
-            navigation.navigate("Home");
+            navigation.navigate("Albums",{
+              nameAlbums:'minh'
+            });
           });
       } catch (error) {
         if (axios.isCancel(error)) {
