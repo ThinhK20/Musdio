@@ -9,24 +9,9 @@ import { SafeAreaView, StatusBar, Platform, ScrollView, TouchableOpacity, Image}
 import { LinearGradient } from "expo-linear-gradient";
 import { color } from 'react-native-elements/dist/helpers';
 
-const DATA = [
-  {
-    id: '2Q4ITzM0aLxpwZugrHKC',
-    name: 'First Itemaaaaaaaaa', // max 10
-    img :  'https://zmp3-photo-fbcrawler.zmdcdn.me/avatars/6/2/4/9/62498fa513ccd6abdd5a373117353e16.jpg',
-    singer: 'Bich Phuong', // max 11
-  },
-  {
-    id: 'CfjB8BRRS4Xv7BjxpuT7',
-    name: 'Second',
-    img : 'https://i1.sndcdn.com/artworks-fJKzeLgbi1zHBOyz-JSsHfw-t500x500.jpg',
-    singer: 'G-Dragon',
-  },
-];
+function Albums({navigation,route}) {
+  const {nameAlbum,DATA}=route.params
 
-
-
-function Albums({navigation,nameAlbum,Data}) {
   const renderItem = ({ item }) =>  <Item id ={item.id} name={item.name}  img = {item.img} singer = {item.singer} navigation={navigation} />
   const Item = ({id,name, img, singer}) => (
     <TouchableOpacity onPress={() => navigation.navigate("NowPlaying", {
@@ -65,7 +50,7 @@ function Albums({navigation,nameAlbum,Data}) {
          
           <View style={styles.Mid}> 
           <View style={{marginTop:5}}></View>
-            <Image style={styles.imageAlbums} source={require('../../assets/images/Login.png')}></Image>
+            <Image style={styles.imageAlbums} source={{uri: DATA[0].img}}></Image>
           </View>
           <View style={styles.Mid}>
             <Text style={styles.nameAlbums}> {nameAlbum} </Text>
