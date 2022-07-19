@@ -4,11 +4,9 @@ import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { StatusBar, ScrollView, Image, TouchableOpacity } from "react-native";
 import Footer from "../Footer/Footer";
-
 function HomeScreen({ navigation }) {
   const musicplayed = useSelector(state => state.musics)
-  const user = useSelector(state => state.user)
-  console.log("user: ", user)
+ 
   return (
     <>
       <LinearGradient

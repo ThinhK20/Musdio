@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import facebookSlider from "./facebookSlider";
+import generalSlider from "./generalSlider";
 import musicSlider from "./musicSlider";
 import userSlider from "./userSlider"
 const store = configureStore({

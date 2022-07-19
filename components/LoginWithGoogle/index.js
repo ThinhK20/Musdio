@@ -47,7 +47,7 @@ export default function LoginGoogle({ navigation }) {
     if (userInfo) {
       alert("Login successfully!!!");
       console.log("Login google: ", userInfo);
-      navigation.navigate("Home");
+      navigation.navigate("LoadingSongs");
     }
     // Do other things
   });
