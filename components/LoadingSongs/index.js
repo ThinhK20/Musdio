@@ -41,7 +41,7 @@ export default function LoadingSongs({ navigation }) {
       fetchAPI();
     } else {
       console.log("Unnecessary to fetch API");
-      navigation.navigate("Home");
+      navigation.navigate("NowPlaying");
     }
     return () => controller.abort();
   }, []);

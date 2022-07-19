@@ -28,32 +28,7 @@ const Item = ({ id, title, img, singer, index, navigation }) => (
 
 function TopTrending({navigation}) {
   const dispatch = useDispatch();
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const getMusics = async () => {
-    try {
-      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get');
-      const json = await response.json().then(data => {
-        let dataToSort = data.data;
-        dataToSort.sort((a, b) => Number(b.view) - Number(a.view));
-        //dataToSort = dataToSort.slice(0,3)
-        dispatch(setSongs(data.data));
-        setData(dataToSort);
-
-      })
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-  useEffect(() => {
-    if(data.length == 0){
-      getMusics();
-    }
-
-  }, []);
-  
+  const data = useSelector(state => state.musics)
   const renderItem = ({ item, index }) => {
     return (<Item id = {item.id} title={item.name} img={item.img} single={item.singer} index={index + 1}  navigation = {navigation}/>)
   };

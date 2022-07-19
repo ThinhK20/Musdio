@@ -2,33 +2,20 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
 import { setSongs } from "../Redux/musicSlider";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import axios from "axios"
 
 function Profile({ navigation }) {
   const dispatch = useDispatch();
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const data = useSelector(state => state.musics)
   const [user, setUser] = useState([]);
   const [isLoadingUser, setisLoadingUser] = useState(true);
   const [songsUsers, setsongsUsers] = useState([]);
-  const getMusics = async () => {
-    try {
-      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get');
-      const json = await response.json().then(data => {
-        dispatch(setSongs(data.data));
-        setData(data.data)
-      })
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
+ 
   const getUsers = async () => {
     try {
       const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
@@ -42,10 +29,7 @@ function Profile({ navigation }) {
     }
   }
   useEffect(() => {
-    if (data.length == 0) {
-      getMusics();
-    }
-    if (data.length == 0) {
+    if (user.length == 0) {
       getUsers();
     }
 

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import {auth} from '../Firebase'
 import { SafeAreaView, StatusBar, Platform, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { signOut } from "firebase/auth";
 
 function Setting({ navigation }) {
   const [user, setUser] = useState([]);
@@ -33,6 +34,33 @@ function Setting({ navigation }) {
     else{
       navigation.navigate("ChangePassword")
     }
+  }
+  const confirm = () => {
+    Alert.alert(
+      "Confirm",
+      "Do you want to log out from app ?",
+      [
+        {
+          text: "Yes",
+          onPress : () =>{
+            try {
+              signOut(auth).then(() =>{
+                Alert.alert("Success", "Log out success.")
+                navigation.navigate("Login")
+              }
+              )
+            } catch(e) {
+              console.log("Error message: ", e)
+              Alert.alert("Error", "Error log out.")
+            }
+          }
+         
+        },
+        {
+          text: "No",
+        }
+      ],
+    )
   }
   useEffect(() => {
     if (user.length == 0) {
@@ -112,6 +140,7 @@ function Setting({ navigation }) {
                   }}> Change Password </Text>
                 </View>
               </TouchableOpacity>
+              <TouchableOpacity onPress = {confirm}>
               <View style={styles.formOption}>
                 <MaterialCommunityIcons name="logout" size={24} color="white" style={{ left: distance.icon }} />
                 <Text style={{
@@ -121,7 +150,9 @@ function Setting({ navigation }) {
                   left: distance.icon + 30,
                 }}> Log Out </Text>
               </View>
+              </TouchableOpacity>
             </View>
+           
           </View>
         </ScrollView>
 
