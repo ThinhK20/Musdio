@@ -12,30 +12,14 @@ import axios from "axios"
 function Profile({ navigation }) {
   const dispatch = useDispatch();
   const data = useSelector(state => state.musics)
-  const [user, setUser] = useState([]);
-  const [isLoadingUser, setisLoadingUser] = useState(true);
   const [songsUsers, setsongsUsers] = useState([]);
- 
-  const getUsers = async () => {
-    try {
-      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
-      const json = await response.json().then(data => {
-        setUser(data.data);
-      })
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setisLoadingUser(false);
-    }
-  }
-  useEffect(() => {
-    if (user.length == 0) {
-      getUsers();
-    }
-
-
-  }, []);
-
+  
+  let user = useSelector((state) => state.user);
+  user = user.userData
+  
+  console.log("Profile")
+  console.log(user)
+  console.log(data)
   useEffect(() => {
     if (data.length != 0 && user.length != 0) {
       data.forEach((m) => {
@@ -122,7 +106,7 @@ function Profile({ navigation }) {
           <View style= {styles.Avatar}>
           <Image
       style = {{height : '100%', width: '100%', borderRadius: 100}}
-      source={{uri: user.uri}}/>
+      source={{uri: user.avatar}}/>
           </View>
           <View style={styles.SquareContent}>
             <Text style={styles.Content}> {user.username}</Text>
@@ -202,8 +186,8 @@ const styles = StyleSheet.create({
   },
   Avatar: {
     marginTop: '1.5%',
-    width: '30%',
-    height: '20%',
+    height: 180,
+    width:180,
     borderRadius: 100,
     //backgroundColor: 'red',
     left: '35%',

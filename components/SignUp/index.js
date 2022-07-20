@@ -15,7 +15,7 @@ import { useState } from "react";
 import { auth } from "../Firebase";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as DocumentPicker from "expo-document-picker";
-import { ref, getDownloadURL, uploadBytesResumable, uploadBytes } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import { storage } from "../Firebase";
 export const FormInput = ({ navigation, route }) => {
   const { email } = route.params
@@ -62,8 +62,8 @@ export const FormInput = ({ navigation, route }) => {
     const response = await fetch(dataImg.uri)
     const blob = await response.blob();
     const storageRef = ref(storage, `User/Avatar/${dataImg.name}`);
+    console.log("AAA")
     const uploadTask = uploadBytesResumable(storageRef, blob);
-
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on('state_changed',
       (snapshot) => {
@@ -231,7 +231,7 @@ export function SignUp({ navigation }) {
 
   return (
     <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
-      <TouchableOpacity style={styles.prevBtn}>
+      <TouchableOpacity style={styles.prevBtn} onPress = {() => {navigation.navigate('Login')}}>
         <AntDesign name="left" size={24} color="black" />
       </TouchableOpacity>
 

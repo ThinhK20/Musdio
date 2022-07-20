@@ -9,22 +9,13 @@ import {auth} from '../Firebase'
 import { SafeAreaView, StatusBar, Platform, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { signOut } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function Setting({ navigation }) {
-  const [user, setUser] = useState([]);
-  const [isLoadingUser, setisLoadingUser] = useState(true);
-  const getUsers = async () => {
-    try {
-      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
-      const json = await response.json().then(data => {
-        setUser(data.data);
-      })
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setisLoadingUser(false);
-    }
-  }
+  let user = useSelector((state) => state.user);
+  user = user.userData
+  console.log(user)
   const check = () => {
     const user = auth.currentUser
     console.log(user.providerData[0].providerId)
@@ -62,11 +53,6 @@ function Setting({ navigation }) {
       ],
     )
   }
-  useEffect(() => {
-    if (user.length == 0) {
-      getUsers();
-    }
-  }, []);
   return (
 
 
@@ -87,7 +73,7 @@ function Setting({ navigation }) {
               <View style={styles.avatar}>
                 <Image
                   style={{ height: '100%', width: '100%', borderRadius: 100 }}
-                  source={{ uri: user.uri }} />
+                  source={{ uri: user.avatar }} />
               </View>
               <View style={styles.name}>
                 <Text style={{ color: 'white', fontWeight: "bold", fontSize: 28 }}> {user.username}</Text>

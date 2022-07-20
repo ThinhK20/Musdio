@@ -72,7 +72,7 @@ export default function LoadingSongs({ navigation }) {
       fetchAPI();
     } else {
       console.log("Unnecessary to fetch API");
-      navigation.navigate("NowPlaying");
+      navigation.navigate("Home");
     }
     return () => controller.abort();
   }, []);

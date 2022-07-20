@@ -14,30 +14,10 @@ function Playlist({ navigation }) {
   const dispatch = useDispatch();
   const data = useSelector(state => state.musics)
 
-  const [user, setUser] = useState([]);
-  const [isLoadingUser, setisLoadingUser] = useState(true);
   const [songsUsers, setsongsUsers] = useState([]);
   
-  const getUsers = async () => {
-    try {
-      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
-      const json = await response.json().then(data => {
-        setUser(data.data);
-      })
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setisLoadingUser(false);
-    }
-  }
-  useEffect(() => {
-   
-    if (user.length == 0) {
-      getUsers();
-    }
-  
-
-  }, []);
+  let user = useSelector((state) => state.user);
+  user = user.userData
 
   useEffect(() => {
     if (data.length != 0 && user.length != 0) {

@@ -8,6 +8,7 @@ const store = configureStore({
         musics: musicSlider,
         facebook: facebookSlider,
         user: userSlider,
+        general: generalSlider,
     }
 })
 
