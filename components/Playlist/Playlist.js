@@ -6,18 +6,25 @@ import { Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler'
 import { AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { setSongs } from "../Redux/musicSlider";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios"
 import { set } from 'firebase/database';
 
 
 function Playlist({ navigation }) {
-  const dispatch = useDispatch();
+ 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
   const [isLoadingUser, setisLoadingUser] = useState(true);
   const [songsUsers, setsongsUsers] = useState([]);
+
+  // storage musics (get API về)
+  const allOfSongs = useSelector(state => state.musics)
+  const dispatch = useDispatch();
+
+
+
   const getMusics = async () => {
     try {
       const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get');
