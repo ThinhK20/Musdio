@@ -11,33 +11,13 @@ import axios from "axios"
 
 
 function Playlist({ navigation }) {
-<<<<<<< HEAD
- 
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.musics)
+
   const [user, setUser] = useState([]);
   const [isLoadingUser, setisLoadingUser] = useState(true);
   const [songsUsers, setsongsUsers] = useState([]);
-
-  // storage musics (get API về)
-  const allOfSongs = useSelector(state => state.musics)
-  const dispatch = useDispatch();
-
-
-
-  const getMusics = async () => {
-    try {
-      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get');
-      const json = await response.json().then(data => {
-        dispatch(setSongs(data.data));
-        setData(data.data)
-      })
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  
   const getUsers = async () => {
     try {
       const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
@@ -51,22 +31,13 @@ function Playlist({ navigation }) {
     }
   }
   useEffect(() => {
-    if (data.length == 0) {
-      getMusics();
-    }
-    if (data.length == 0) {
+   
+    if (user.length == 0) {
       getUsers();
     }
   
-=======
-  const dispatch = useDispatch();
-  const data = useSelector(state => state.musics)
->>>>>>> b85aae4e7919da5f5e1580acbfc71fecfed86d5f
 
-  const [songsUsers, setsongsUsers] = useState([]);
-  
-  let user = useSelector((state) => state.user);
-  user = user.userData
+  }, []);
 
   useEffect(() => {
     if (data.length != 0 && user.length != 0) {
