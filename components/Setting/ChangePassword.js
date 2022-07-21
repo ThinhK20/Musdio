@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TextInput } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
@@ -22,14 +22,14 @@ function ChangePassword({ navigation }) {
           await reauthenticateWithCredential(user, check) 
             if(newPass == rePass){
                 await updatePassword(auth.currentUser, newPass)
-                alert("Change password succesfully !")
+                Alert.alert("Success","Change password succesfully !")
             }
             else{
-                alert("New password and re-enter password are not match.")
+                alert("Error","New password and re-enter password are not match.")
             }
         } catch(e) {
           console.log("Error message: ", e)
-          alert("Error change password.")
+          Alert.alert("Error","Error change password.")
         }
       })()
     }

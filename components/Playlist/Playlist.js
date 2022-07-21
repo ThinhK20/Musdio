@@ -8,10 +8,10 @@ import { useEffect, useState } from 'react';
 import { setSongs } from "../Redux/musicSlider";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios"
-import { set } from 'firebase/database';
 
 
 function Playlist({ navigation }) {
+<<<<<<< HEAD
  
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -58,8 +58,15 @@ function Playlist({ navigation }) {
       getUsers();
     }
   
+=======
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.musics)
+>>>>>>> b85aae4e7919da5f5e1580acbfc71fecfed86d5f
 
-  }, []);
+  const [songsUsers, setsongsUsers] = useState([]);
+  
+  let user = useSelector((state) => state.user);
+  user = user.userData
 
   useEffect(() => {
     if (data.length != 0 && user.length != 0) {

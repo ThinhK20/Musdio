@@ -2,56 +2,24 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
 import { setSongs } from "../Redux/musicSlider";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import axios from "axios"
 
 function Profile({ navigation }) {
   const dispatch = useDispatch();
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [user, setUser] = useState([]);
-  const [isLoadingUser, setisLoadingUser] = useState(true);
+  const data = useSelector(state => state.musics)
   const [songsUsers, setsongsUsers] = useState([]);
-  const getMusics = async () => {
-    try {
-      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get');
-      const json = await response.json().then(data => {
-        dispatch(setSongs(data.data));
-        setData(data.data)
-      })
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-  const getUsers = async () => {
-    try {
-      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
-      const json = await response.json().then(data => {
-        setUser(data.data);
-      })
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setisLoadingUser(false);
-    }
-  }
-  useEffect(() => {
-    if (data.length == 0) {
-      getMusics();
-    }
-    if (data.length == 0) {
-      getUsers();
-    }
-
-
-  }, []);
-
+  
+  let user = useSelector((state) => state.user);
+  user = user.userData
+  
+  console.log("Profile")
+  console.log(user)
+  console.log(data)
   useEffect(() => {
     if (data.length != 0 && user.length != 0) {
       data.forEach((m) => {
@@ -138,7 +106,7 @@ function Profile({ navigation }) {
           <View style= {styles.Avatar}>
           <Image
       style = {{height : '100%', width: '100%', borderRadius: 100}}
-      source={{uri: user.uri}}/>
+      source={{uri: user.avatar}}/>
           </View>
           <View style={styles.SquareContent}>
             <Text style={styles.Content}> {user.username}</Text>
@@ -218,8 +186,8 @@ const styles = StyleSheet.create({
   },
   Avatar: {
     marginTop: '1.5%',
-    width: '30%',
-    height: '20%',
+    height: 180,
+    width:180,
     borderRadius: 100,
     //backgroundColor: 'red',
     left: '35%',

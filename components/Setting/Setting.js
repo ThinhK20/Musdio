@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -8,22 +8,14 @@ import { useEffect, useState } from 'react';
 import {auth} from '../Firebase'
 import { SafeAreaView, StatusBar, Platform, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { signOut } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function Setting({ navigation }) {
-  const [user, setUser] = useState([]);
-  const [isLoadingUser, setisLoadingUser] = useState(true);
-  const getUsers = async () => {
-    try {
-      const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
-      const json = await response.json().then(data => {
-        setUser(data.data);
-      })
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setisLoadingUser(false);
-    }
-  }
+  let user = useSelector((state) => state.user);
+  user = user.userData
+  console.log(user)
   const check = () => {
     const user = auth.currentUser
     console.log(user.providerData[0].providerId)
@@ -34,11 +26,33 @@ function Setting({ navigation }) {
       navigation.navigate("ChangePassword")
     }
   }
-  useEffect(() => {
-    if (user.length == 0) {
-      getUsers();
-    }
-  }, []);
+  const confirm = () => {
+    Alert.alert(
+      "Confirm",
+      "Do you want to log out from app ?",
+      [
+        {
+          text: "Yes",
+          onPress : () =>{
+            try {
+              signOut(auth).then(() =>{
+                Alert.alert("Success", "Log out success.")
+                navigation.navigate("Login")
+              }
+              )
+            } catch(e) {
+              console.log("Error message: ", e)
+              Alert.alert("Error", "Error log out.")
+            }
+          }
+         
+        },
+        {
+          text: "No",
+        }
+      ],
+    )
+  }
   return (
 
 
@@ -59,7 +73,7 @@ function Setting({ navigation }) {
               <View style={styles.avatar}>
                 <Image
                   style={{ height: '100%', width: '100%', borderRadius: 100 }}
-                  source={{ uri: user.uri }} />
+                  source={{ uri: user.avatar }} />
               </View>
               <View style={styles.name}>
                 <Text style={{ color: 'white', fontWeight: "bold", fontSize: 28 }}> {user.username}</Text>
@@ -112,6 +126,7 @@ function Setting({ navigation }) {
                   }}> Change Password </Text>
                 </View>
               </TouchableOpacity>
+              <TouchableOpacity onPress = {confirm}>
               <View style={styles.formOption}>
                 <MaterialCommunityIcons name="logout" size={24} color="white" style={{ left: distance.icon }} />
                 <Text style={{
@@ -121,7 +136,9 @@ function Setting({ navigation }) {
                   left: distance.icon + 30,
                 }}> Log Out </Text>
               </View>
+              </TouchableOpacity>
             </View>
+           
           </View>
         </ScrollView>
 

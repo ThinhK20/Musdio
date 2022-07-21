@@ -4,27 +4,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { StatusBar, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 
 function SettingGeneral({ navigation }) {
-    const [user, setUser] = useState([]);
-    const [isLoadingUser, setisLoadingUser] = useState(true);
-    const getUsers = async () => {
-        try {
-            const response = await fetch('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/SaM1QW1nc2XwTIHAY5Cx');
-            const json = await response.json().then(data => {
-                setUser(data.data);
-            })
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setisLoadingUser(false);
-        }
-    }
-    useEffect(() => {
-        if (user.length == 0) {
-            getUsers();
-        }
-    }, []);
+    let user = useSelector((state) => state.user);
+    user = user.userData
     return (
         <LinearGradient
             colors={["#1565C0", "#000"]}
