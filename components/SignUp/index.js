@@ -131,11 +131,11 @@ export const FormInput = ({ navigation, route }) => {
 
   return (
     <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
-      <View style={styles.box}>
-        <View style={{ flexDirection: 'row', backgroundColor: 'rgb(76, 94, 192)', height: '5%', top: StatusBar.currentHeight }}>
-          <Text style={[styles.textHeader]}>Personal Info</Text>
+      <View style={[styles.box, { top: StatusBar.currentHeight }]}>
+        <View style={{ flexDirection: 'row', backgroundColor: 'rgb(76, 94, 192)', height: '5%' }}>
+          <Text style={[styles.textHeader,{marginLeft: '5%'}]}>Personal Info</Text>
         </View>
-        <View style={styles.boxInput}>
+        <View style={[styles.boxInput, { top: '0%' }]}>
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
 
             <TouchableOpacity onPress={() => {
@@ -151,50 +151,47 @@ export const FormInput = ({ navigation, route }) => {
             <Text style={{ paddingTop: 20 }}>Tap to change your avata</Text>
           </View>
 
-          <Text style={{ marginTop: 40 }}>Enter your username</Text>
-          <TextInput
-            placeholder="Enter username..."
-            style={styles.input}
-            onChangeText={(value) => setUsername(value)}
-          />
-          <Text style={{ marginTop: 20 }}>Choose your birthdate</Text>
-          <View style={[styles.input, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-            <Text>
-              {
-                date.toLocaleDateString()
-              }
-            </Text>
-            <AntDesign name="calendar" size={24} color="black" style={{}} onPress={showDatepicker} />
+          <View style={{ marginTop: '4%', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
+              <Text style={{ width: '80%' }} >Enter your username</Text>
+              <TextInput
+                placeholder="Enter username..."
+                style={[styles.input]}
+                onChangeText={(value) => setUsername(value)}
+              />
+            </View>
+
+            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
+              <Text style={{ width: '80%' }}>Choose your birthdate</Text>
+              <View style={[styles.input, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                <Text>
+                  {
+                    date.toLocaleDateString()
+                  }
+                </Text>
+                <AntDesign name="calendar" size={24} color="black" style={{}} onPress={showDatepicker} />
+              </View>
+
+            </View>
+            <View style={{ flexDirection: 'row', marginTop: 20 }}>
+              <Checkbox value={male} onValueChange={() => {
+                setMale(!male)
+                setFemale(false)
+              }} />
+              <Text style={{ fontSize: 18, marginLeft: 10, marginRight: 30 }}>Male</Text>
+              <Checkbox value={female} onValueChange={() => {
+                setMale(false)
+                setFemale(!female)
+              }} />
+              <Text style={{ fontSize: 18, marginLeft: 10 }}>Female</Text>
+            </View>
           </View>
-          {show && (
-            <DateTimePicker
-              value={date}
-              mode={mode}
-              display={"spinner"}
-              onChange={(event, value) => {
-                console.log(event, value)
-                onChange(event, value, show)
-              }}
-            />
-          )}
-          <View style={{ flexDirection: 'row', marginTop: 20 }}>
-            <Checkbox value={male} onValueChange={() => {
-              setMale(!male)
-              setFemale(false)
-            }} />
-            <Text style={{ fontSize: 18, marginLeft: 10, marginRight: 30 }}>Male</Text>
-            <Checkbox value={female} onValueChange={() => {
-              setMale(false)
-              setFemale(!female)
-            }} />
-            <Text style={{ fontSize: 18, marginLeft: 10 }}>Female</Text>
-          </View>
+          <TouchableOpacity
+            style={{ marginTop: 30, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Text style={styles.btn} onPress={() => handleSubmit()}>Submit</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={{ marginTop: 30, width: "80%" }}
-        >
-          <Text style={styles.btn} onPress={() => handleSubmit()}>Submit</Text>
-        </TouchableOpacity>
       </View>
     </LinearGradient>
   )
@@ -305,14 +302,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  prevBtn: {
-    position: "absolute",
-    top: "5%",
-    left: "2.5%",
-  },
   box: {
-    backgroundColor: 'white',
-    flex: 1
+    flex: 1,
+    width: '100%'
   },
   boxInput: {
     flex: 1,
@@ -331,7 +323,6 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "40%",
   },
-
   input: {
     borderWidth: 2,
     borderColor: "#000",
@@ -370,6 +361,5 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     textAlign: "center",
     width: '40%',
-
   },
 });
