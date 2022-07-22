@@ -82,28 +82,3 @@ export default function LoadingSongs({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 40,
-  },
-  LinearGradient: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 40,
-  },
-  text: {
-    fontSize: 20,
-    marginTop: 30,
-    color: "#fff",
-  },
-  image: {
-    width: 250,
-    height: 250,
-  },
-});

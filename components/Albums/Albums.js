@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, ImageBackground } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -83,7 +83,7 @@ const DATA = [
   },
 ];
 function Albums({navigation,route}) {
-  const {nameAlbum,Data}=route.params
+  // const {nameAlbum}=route.params
 
   const renderItem = ({ item }) =>  <Item id ={item.id} name={item.name}  img = {item.img} singer = {item.singer} navigation={navigation} />
   const Item = ({id,name, img, singer}) => (
@@ -106,11 +106,11 @@ function Albums({navigation,route}) {
   );
   return (
     <LinearGradient
-      colors={["#1565C0", "#000"]}
+      colors={["#27153E", "#000"]}
       end={[0.05, 0.5]}
       style={styles.LinearGradient}
     >
-    <View style={styles.container}>
+    <ImageBackground source={{uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701"}} resizeMode="cover" style={styles.container}>
         <View style={styles.header}>
        <TouchableOpacity style={styles.iconHeader}>
               <Ionicons name= "ios-chevron-back" size={40} color="white" fontWeight = 'bold' />
@@ -119,14 +119,13 @@ function Albums({navigation,route}) {
         </View>
     
         <View style={styles.Bottom}>
-          <View style={styles.Bar}></View>
          
           <View style={styles.Mid}> 
           <View style={{marginTop:5}}></View>
             <Image style={styles.imageAlbums} source={{uri: DATA[0].img}}></Image>
           </View>
           <View style={styles.Mid}>
-            <Text style={styles.nameAlbums}> {nameAlbum} </Text>
+            <Text style={styles.nameAlbums}> Nanashi Mumei </Text>
             <TouchableOpacity onPress={() => navigation.navigate("NowPlaying", {
           playID: DATA.map((_id)=>{
           return _id.id
@@ -144,16 +143,8 @@ function Albums({navigation,route}) {
           <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id} />
           
         </View> 
-        <View style={styles.Footer}></View>
         {/* <View style={styles.imageAlbums}></View> */}
-
-     
-        <View style={styles.ToolBar}>
-
-        </View>
-      </View>
-     
-
+        </ImageBackground>
     </LinearGradient>
 
   );
@@ -168,8 +159,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    top: StatusBar.currentHeight,
-
+    paddingTop: StatusBar.currentHeight,
   },
   header:{
     flex: 7,
@@ -189,7 +179,6 @@ const styles = StyleSheet.create({
     flex: 5,
   },
   Bottom:{
-    
     flex: 93,
    // backgroundColor: 'pink',
     borderBottomColor: 'white', 
@@ -231,7 +220,7 @@ const styles = StyleSheet.create({
   },
   playAlbums:{
     marginTop:'3%',
-    backgroundColor:'#7DD0F6',
+    backgroundColor:'#5300BC',
     borderRadius:15,
     width:150,
     height:50,
@@ -251,7 +240,6 @@ const styles = StyleSheet.create({
     width:'100%',
     height:200,
     borderRadius:10,
-    backgroundPosition: 'center',
   },
   item: {
     flex : 1,

@@ -171,7 +171,17 @@ export const FormInput = ({ navigation, route }) => {
                 </Text>
                 <AntDesign name="calendar" size={24} color="black" style={{}} onPress={showDatepicker} />
               </View>
-
+              {show && (
+              <DateTimePicker
+                value={date}
+                mode={mode}
+                display={"spinner"}
+                onChange={(event, value) => {
+                  console.log(event, value)
+                  onChange(event, value, show)
+                }}
+                />
+              )}
             </View>
             <View style={{ flexDirection: 'row', marginTop: 20 }}>
               <Checkbox value={male} onValueChange={() => {
