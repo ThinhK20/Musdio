@@ -12,15 +12,12 @@ import TopTreding from "./components/TopTrending/TopTreding";
 import Sleep from "./components/Sleep/Sleep";
 import ChangePassword from "./components/Setting/ChangePassword";
 import { SignUp,FormInput } from "./components/SignUp";
-import {User} from "./MVC/View/General/User"
 export default function App() {
-  console.log("AAAA")
   const Stack = createStackNavigator()
-
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="LoadingSongs" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Footer" component={Footer} />
           <Stack.Screen name="Setting" component={Setting} />
           <Stack.Screen name="SettingGeneral" component={SettingGeneral} />
