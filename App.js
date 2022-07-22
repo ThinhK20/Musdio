@@ -14,7 +14,6 @@ import ChangePassword from "./components/Setting/ChangePassword";
 import { SignUp,FormInput } from "./components/SignUp";
 export default function App() {
   const Stack = createStackNavigator()
-
   return (
     <Provider store={store}>
       <NavigationContainer>
