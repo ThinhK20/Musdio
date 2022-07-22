@@ -231,9 +231,10 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   SquareContact: {
-    marginLeft: '15%',
+    marginLeft: '7%',
+    marginRight: '7%',
     marginTop: '5%',
-    width: '70%',
+    width: '85%',
     height: '10%',
     borderRadius: 10,
     backgroundColor: '#C4C4C4',
@@ -286,7 +287,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   cdImage: {
-    width: '20%',
+    width: '25%',
     height: '150%',
     borderRadius: 100,
   },

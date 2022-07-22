@@ -31,7 +31,7 @@ function Playlist({ navigation }) {
     }
   }
   useEffect(() => {
-   
+
     if (user.length == 0) {
       getUsers();
     }

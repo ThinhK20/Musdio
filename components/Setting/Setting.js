@@ -78,7 +78,7 @@ function Setting({ navigation }) {
       <View style={styles.container}>
         <ScrollView style={{ flex: 1 }}>
           <View style={styles.header}>
-            <Ionicons style={styles.iconHeader} name="ios-chevron-back" size={28} color="white" />
+            <Ionicons style={styles.iconHeader} name="ios-chevron-back" size={28} color="white"  onPress= {() => navigation.goBack()}/>
             <Text style={styles.textHeader} >Setting</Text>
           </View>
           <View style={{ borderBottomColor: 'white', borderBottomWidth: 1.75 }} />
@@ -108,16 +108,6 @@ function Setting({ navigation }) {
                   fontWeight: '500',
                   left: distance.icon + 30,
                 }}> Profile </Text>
-              </View>
-
-              <View style={styles.formOption}>
-                <Feather name="sun" size={24} color="white" style={{ left: distance.icon }} />
-                <Text style={{
-                  color: 'white',
-                  fontSize: 25,
-                  fontWeight: '500',
-                  left: distance.icon + 30,
-                }}> Change Theme </Text>
               </View>
               <View style={styles.formOption}>
                 <FontAwesome5 name="users" size={24} color="white" style={{ left: distance.icon }} />
@@ -200,14 +190,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
 
     marginBottom: 10,
-    marginTop: 10,
+    marginTop: 30,
   },
   avatar: {
-    width: 90,
-    height: 90,
+    width: 80,
+    height: 80,
     backgroundColor: 'red',
     borderRadius: 100,
-    left: '10%'
+    marginLeft: '6%' 
   },
   name: {
     left: '35%',
@@ -221,7 +211,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   formOption: {
-    height: 100,
+    height: 90  ,
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 29,

@@ -6,7 +6,7 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  Animated,
+  Animated,ScrollView
 } from "react-native";
 import Slider from "react-native-slider";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -18,20 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Swipeable } from "react-native-gesture-handler";
 import { setTheme } from "../Redux/generalSlider";
 import { Easing } from "react-native";
-const LYRICS = [
-  {
-    id: 1,
-    text: "君の虜になってしまえばきっと",
-  },
-  {
-    id: 2,
-    text: "この夏は充実するのもっと",
-  },
-  {
-    id: 3,
-    text: "...",
-  },
-];
+
 
 function NowPlaying({ navigation, route }) {
   const { playID } = route.params;
@@ -46,7 +33,7 @@ function NowPlaying({ navigation, route }) {
     }
     return listSongs;
   })();
-
+  
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 
@@ -171,7 +158,7 @@ function NowPlaying({ navigation, route }) {
     let sliderValue =
       Number(
         onPlaybackStatusUpdate.positionMillis /
-          onPlaybackStatusUpdate.durationMillis
+        onPlaybackStatusUpdate.durationMillis
       ) - "0";
     if (!sliderValue) sliderValue = 0;
     if (!isChangeProgress) {
@@ -267,14 +254,14 @@ function NowPlaying({ navigation, route }) {
           style={styles.iconHeader}
           onPress={stopWhenBack}
         >
-          <Ionicons name="ios-chevron-back" size={28} color="white" style={theme === 'light' && styles.blackColor}  />
+          <Ionicons name="ios-chevron-back" size={28} color="white" style={theme === 'light' && styles.blackColor} />
         </TouchableOpacity>
-        <Text style={[styles.pageName, theme === 'dark' && styles.whiteColor ]}>Musdio</Text>
+        <Text style={[styles.pageName, theme === 'dark' && styles.whiteColor]}>Musdio</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate("Sleep")}
           style={styles.sleep}
         >
-          <FontAwesome5 name="cloud-moon" size={28} style={[{position: 'absolute', right: 20, top:"-70%"},theme === 'light' && styles.blackColor ]}  color="white" />
+          <FontAwesome5 name="cloud-moon" size={28} style={[{ position: 'absolute', right: 20, top: "-70%" }, theme === 'light' && styles.blackColor]} color="white" />
         </TouchableOpacity>
       </View>
 
@@ -308,23 +295,13 @@ function NowPlaying({ navigation, route }) {
         <Text style={[styles.songName, theme === "dark" && styles.whiteColor]}>
           {currentSong.name}
         </Text>
-        <View style={styles.lyricsBox}>
-          <FlatList
-            data={LYRICS}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <Text
-                style={[
-                  styles.lyricText,
-                  theme === "dark" && styles.whiteColor,
-                ]}
-              >
-                {item.text}
+        <ScrollView style={styles.lyricsBox}>
+            <View style={{ flexDirection: 'row', paddingLeft :'10%', paddingRight:'10%'}}>
+              <Text style={{ flex: 1, flexWrap: 'wrap', marginVertical:'2%', color:'white'}}>
+
               </Text>
-            )}
-          />
-        </View>
+            </View>
+        </ScrollView>
         <View style={styles.musicControl}>
           <TouchableOpacity
             style={styles.random}
@@ -467,10 +444,7 @@ const styles = StyleSheet.create({
   lyricsBox: {
     width: "100%",
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 40,
-    marginBottom: 40,
+    //backgroundColor: 'pink',
   },
   lyricText: {
     textAlign: "center",
