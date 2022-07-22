@@ -172,23 +172,23 @@ function NowPlaying({ navigation, route }) {
 
   // Handle event when user is dragging slider
   useEffect(() => {
-
-    sound.current.setOnPlaybackStatusUpdate((onPlaybackStatusUpdate) => {
-      let sliderValue =
-        Number(
-          onPlaybackStatusUpdate.positionMillis /
-            onPlaybackStatusUpdate.durationMillis
-        ) - "0";
-      if (!sliderValue) sliderValue = 0;
-      if (!isChangeProgress) {
-        setCurrentDuration(sliderValue);
-      }
-      // Handle event when the current song has been finished ==> Next song or just open random song
-      if (onPlaybackStatusUpdate.didJustFinish && !activeRepeatBtn) {
-        handleNextSong();
-      }
-    });
-  }, []);
+      sound.current.setOnPlaybackStatusUpdate((onPlaybackStatusUpdate) => {
+        let sliderValue =
+          Number(
+            onPlaybackStatusUpdate.positionMillis /
+              onPlaybackStatusUpdate.durationMillis
+          ) - "0";
+        if (!sliderValue) sliderValue = 0;
+        if (!isChangeProgress) {
+          setCurrentDuration(sliderValue);
+        }
+        // Handle event when the current song has been finished ==> Next song or just open random song
+        if (onPlaybackStatusUpdate.didJustFinish && !activeRepeatBtn) {
+          handleNextSong();
+        }
+      }, [isChangeProgress]);
+    
+  });
   const stopWhenBack = () => {
     if (playing) {
       sound.current.unloadAsync().then((resolve) => {
@@ -293,7 +293,7 @@ function NowPlaying({ navigation, route }) {
             style={styles.slider}
             minimumValue={0}
             maximumValue={1}
-            minimumTrackTintColor="#f3a952"
+            minimumTrackTintColor="#6C42A2"
             maximumTrackTintColor={theme === "dark" ? "#fff" : "#000"}
             thumbTintColor={theme === "dark" ? "#fff" : "#000"}
             value={currentDuration}
@@ -428,7 +428,7 @@ function NowPlaying({ navigation, route }) {
                 minimumValue={0}
                 maximumValue={1}
                 onValueChange={handleAdjustVolume}
-                minimumTrackTintColor="#007bff"
+                minimumTrackTintColor="rgb("
                 maximumTrackTintColor={theme === "dark" ? "#fff" : "#000"}
                 thumbTintColor={theme === "dark" ? "#fff" : "#000"}
               />
