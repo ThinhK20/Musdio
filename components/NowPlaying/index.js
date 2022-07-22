@@ -257,9 +257,9 @@ function NowPlaying({ navigation, route }) {
   return (
     <LinearGradient
       colors={
-        theme === "dark" ? ["#2f2b53", "#2f2b53"] : ["#f5f6fd", "#f5f6fd"]
+        theme === "dark" ? ["#1565C0", "#000"] : ["#f5f6fd", "#f5f6fd"]
       }
-      end={[1, 0.8]}
+      end={[0.05, 0.5]}
       style={styles.LinearGradient}
     >
       <View style={styles.pageStatusBar}>

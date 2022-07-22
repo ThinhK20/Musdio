@@ -7,6 +7,7 @@ import {
   View,
   Button,
   Image,
+  StatusBar
 } from "react-native";
 import Checkbox from 'expo-checkbox';
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -15,7 +16,7 @@ import { useState } from "react";
 import { auth } from "../Firebase";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as DocumentPicker from "expo-document-picker";
-import { ref, getDownloadURL, uploadBytesResumable} from "firebase/storage";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../Firebase";
 export const FormInput = ({ navigation, route }) => {
   const { email } = route.params
@@ -35,7 +36,10 @@ export const FormInput = ({ navigation, route }) => {
     return result
   };
 
-  const onChange = (event, selectedDate) => {
+  const onChange = (event, selectedDate, show) => {
+    console.log(event)
+    console.log(selectedDate)
+    console.log(show)
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);
@@ -113,12 +117,12 @@ export const FormInput = ({ navigation, route }) => {
             })
               .then((res) => res.json())
               .then((result) => console.log("done"))
-              .then(()=> {
+              .then(() => {
                 navigation.navigate('LoadingSongs')
               })
               .catch((err) => console.log(err))
           })
-          
+
       }
 
     );
@@ -127,9 +131,10 @@ export const FormInput = ({ navigation, route }) => {
 
   return (
     <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
-
       <View style={styles.box}>
-        <Text style={styles.textHeader}>Personal Info</Text>
+        <View style={{ flexDirection: 'row', backgroundColor: 'rgb(76, 94, 192)', height: '5%', top: StatusBar.currentHeight }}>
+          <Text style={[styles.textHeader]}>Personal Info</Text>
+        </View>
         <View style={styles.boxInput}>
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
 
@@ -166,7 +171,10 @@ export const FormInput = ({ navigation, route }) => {
               value={date}
               mode={mode}
               display={"spinner"}
-              onChange={onChange}
+              onChange={(event, value) => {
+                console.log(event, value)
+                onChange(event, value, show)
+              }}
             />
           )}
           <View style={{ flexDirection: 'row', marginTop: 20 }}>
@@ -211,8 +219,8 @@ export function SignUp({ navigation }) {
       createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
           console.log("User account created & signed in!");
-          console.log("1:",e)
-          navigation.navigate('FormInput',{email: e})
+          console.log("1:", e)
+          navigation.navigate('FormInput', { email: e })
         })
         .catch((error) => {
           if (error.code === "auth/email-already-in-use") {
@@ -231,42 +239,59 @@ export function SignUp({ navigation }) {
 
   return (
     <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
-      <TouchableOpacity style={styles.prevBtn} onPress = {() => {navigation.navigate('Login')}}>
-        <AntDesign name="left" size={24} color="black" />
-      </TouchableOpacity>
-
       <View style={styles.box}>
-        <Text style={styles.textHeader}>Sign Up</Text>
-        <Image
-          source={require("../../assets/images/SignUp.png")}
-          style={styles.img}
-        />
-        <View style={styles.boxInput}>
-          <TextInput
-            placeholder="Enter email..."
-            style={styles.input}
-            onChangeText={(value) => setEmail(value)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            placeholder="Enter password..."
-            style={styles.input}
-            onChangeText={(value) => setPassword(value)}
-          />
-          <TextInput
-            secureTextEntry={true}
-            placeholder="Enter confirm password..."
-            style={styles.input}
-            onChangeText={(value) => setCassword(value)}
-          />
-
+        <View style={{ flexDirection: 'row', backgroundColor: 'rgb(76, 94, 192)', height: '28%' }}>
+          <View style={{ flexDirection: 'column', marginTop: '18%' }}>
+            <Text style={styles.textHeader}>Musdio 🎧</Text>
+            <Text style={[styles.textHeader, { fontSize: 15 }]}>Welcome</Text>
+          </View>
+          <View style={{ marginTop: StatusBar.currentHeight }}>
+            <Image
+              source={require("../../assets/images/listen.png")}
+              style={{ height: 165, width: 210 }}
+            />
+          </View>
         </View>
-        <TouchableOpacity
-          style={{ marginTop: 30, width: "80%" }}
-          onPress={handleSubmit}
-        >
-          <Text style={styles.btn}>SignUp</Text>
-        </TouchableOpacity>
+        <View style={styles.boxInput}>
+          <View style={{ flexDirection: 'row', backgroundColor: 'rgb(223,223,223)', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}>
+            <TouchableOpacity style={{ width: '50%', alignItems: 'center' }} onPress={() => { navigation.navigate('Login') }} >
+              <Text style={[styles.textContent, styles.nonActive]}>Sign In</Text>
+            </TouchableOpacity>
+            <Text style={[styles.textContent, styles.Active]}>Sign Up</Text>
+          </View>
+          <View style={{ marginTop: '4%', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
+              <TextInput
+                placeholder="Enter email..."
+                style={styles.input}
+                onChangeText={(value) => setEmail(value)}
+              />
+            </View>
+            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
+              <TextInput
+                secureTextEntry={true}
+                placeholder="Enter password..."
+                style={styles.input}
+                onChangeText={(value) => setPassword(value)}
+              />
+            </View>
+            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
+              <TextInput
+                secureTextEntry={true}
+                placeholder="Enter confirm password..."
+                style={styles.input}
+                onChangeText={(value) => setCassword(value)}
+              />
+            </View>
+          </View>
+
+          <TouchableOpacity
+            style={{ marginTop: 30, justifyContent: 'center', alignItems: 'center' }}
+            onPress={handleSubmit}
+          >
+            <Text style={styles.btn}>SignUp</Text>
+          </TouchableOpacity>
+        </View>
 
       </View>
     </LinearGradient>
@@ -286,36 +311,31 @@ const styles = StyleSheet.create({
     left: "2.5%",
   },
   box: {
-    marginTop: "10%",
-    width: "80%",
-    marginBottom: "10%",
-    backgroundColor: "#fff",
-    borderRadius: 20,
+    backgroundColor: 'white',
+    flex: 1
+  },
+  boxInput: {
     flex: 1,
-    alignItems: "center",
-    paddingTop: "10%",
-    position: 'relative',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    top: '-3%'
   },
   textHeader: {
     fontSize: 26,
-    left: 10,
-    paddingTop: 10,
     zIndex: 1,
     fontWeight: "400",
-    position: "absolute",
+    color: 'white',
+    marginLeft: '15%',
   },
   img: {
     width: "80%",
     height: "40%",
   },
-  boxInput: {
-    width: "80%",
-    marginTop: 30,
-  },
+
   input: {
     borderWidth: 2,
     borderColor: "#000",
-    minWidth: 270,
+    width: '80%',
     textAlignVertical: "center",
     padding: 10,
     paddingLeft: 20,
@@ -324,6 +344,24 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     shadowColor: "#000",
   },
+  textContent: {
+    fontSize: 24,
+    width: '50%',
+    textAlign: 'center',
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  nonActive: {
+    backgroundColor: 'rgb(223,223,223)',
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    borderBottomLeftRadius: 12
+  },
+  Active: {
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    backgroundColor: 'white'
+  },
   btn: {
     backgroundColor: "#00B0FF",
     padding: 10,
@@ -331,5 +369,7 @@ const styles = StyleSheet.create({
     color: "#000",
     borderRadius: 20,
     textAlign: "center",
+    width: '40%',
+
   },
 });

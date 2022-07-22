@@ -103,16 +103,19 @@ function Profile({ navigation }) {
         <View style={styles.Bottom}>
           <View style={styles.Bar}>
           </View>
+          <View style = {{justifyContent: 'center',
+    alignItems: 'center',}}>
           <View style= {styles.Avatar}>
           <Image
       style = {{height : '100%', width: '100%', borderRadius: 100}}
       source={{uri: user.avatar}}/>
           </View>
+          </View>
           <View style={styles.SquareContent}>
             <Text style={styles.Content}> {user.username}</Text>
           </View>
           <View style={styles.SquareContact}>
-            <Text style={styles.ContentContact} numberOfLines={1}>Email: {user.email}</Text>
+            <Text style={styles.ContentContact} >Email: {user.email}</Text>
           </View>
           <View style={styles.SquareContent}>
             <Text style={styles.Content}>Birthdate: {user.birthdate}</Text>
@@ -190,7 +193,7 @@ const styles = StyleSheet.create({
     width:180,
     borderRadius: 100,
     //backgroundColor: 'red',
-    left: '35%',
+    
   },
   SquareContent: {
     marginTop: '2.5%',
@@ -215,11 +218,9 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   SquareContact: {
-    marginLeft: '15%',
     marginTop: '5%',
-    width: '70%',
     height: '10%',
-    borderRadius: 10,
+    borderRadius: 25,
     backgroundColor: '#C4C4C4',
     justifyContent: 'center',
     alignItems: 'center',

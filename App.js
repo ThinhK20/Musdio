@@ -12,12 +12,15 @@ import TopTreding from "./components/TopTrending/TopTreding";
 import Sleep from "./components/Sleep/Sleep";
 import ChangePassword from "./components/Setting/ChangePassword";
 import { SignUp,FormInput } from "./components/SignUp";
+import {User} from "./MVC/View/General/User"
 export default function App() {
+  console.log("AAAA")
   const Stack = createStackNavigator()
+
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="SignUp" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="FormInput" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Footer" component={Footer} />
           <Stack.Screen name="Setting" component={Setting} />
           <Stack.Screen name="SettingGeneral" component={SettingGeneral} />
@@ -33,13 +36,13 @@ export default function App() {
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Albums" component={Albums} />
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
-          <Stack.Screen name="FormInput" component={FormInput} />
+          <Stack.Screen name="FormInput" component={FormInput} initialParams={{ playID: '9XOr8Yi7cWYLnSDwfSJibjExJ7d2' }} />
 
         </Stack.Navigator>
 
       </NavigationContainer>
     </Provider>
-  );
+  )
 }
 
 const styles = StyleSheet.create({

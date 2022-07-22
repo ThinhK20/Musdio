@@ -42,15 +42,22 @@ const Search = ({ navigation }) => {
   };
 
   const ItemView = ({ item }) => {
-    const input = item.name + '-' + item.singer;
+    const name = item.name;
+    const singer = item.singer
     return (
       // Flat List Item
       <TouchableOpacity onPress={() => getItem(item)}>
         <View style={styles.itemView} >
           <Image style={styles.itemStyle} source={{ uri: item.img }} />
-          <Text style={{ fontWeight: 'bold' }}>
-            {input.toUpperCase()}
+          <View style = {{flexDirection: 'column'}}>
+
+          <Text style={{ fontWeight: 'bold',fontSize: 16 }}>
+            {`${name.toUpperCase()}`}
           </Text>
+          <Text style= {{color: 'gray', fontSize: 12,fontWeight: 'bold'}}>
+          {`${singer.toUpperCase()}`}
+          </Text>
+          </View>
         </View>
       </TouchableOpacity>
 
@@ -63,9 +70,10 @@ const Search = ({ navigation }) => {
       // Flat List Item Separator
       <View
         style={{
-          height: 0.5,
+          borderWidth: 0.2,
           width: '100%',
           backgroundColor: '#C8C8C8',
+          marginTop: 10
         }}
       />
     );
