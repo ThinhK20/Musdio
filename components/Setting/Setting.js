@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert ,ImageBackground} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -57,10 +57,12 @@ function Setting({ navigation }) {
 
 
     <LinearGradient
-      colors={["#1565C0", "#000"]}
-      end={[0.05, 0.5]}
+    colors={["#27153E", "#27153E"]}
+    end={[0.05, 0.5]}
       style={styles.LinearGradient}
     >
+    <ImageBackground source={{uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701"}} resizeMode="cover" style={styles.container}>
+
       <View style={styles.container}>
         <ScrollView style={{ flex: 1 }}>
           <View style={styles.header}>
@@ -133,6 +135,7 @@ function Setting({ navigation }) {
         </ScrollView>
 
       </View>
+      </ImageBackground>
     </LinearGradient>
 
 
@@ -166,6 +169,7 @@ const styles = StyleSheet.create({
   },
   iconHeader: {
     width: '42%',
+    paddingLeft: 15,
   },
   body: {
     flex: 1,

@@ -16,9 +16,7 @@ export default function LoadingSongs({ navigation }) {
     const controller = new AbortController();
     const fetchUser = async () => {
       const id =  auth.currentUser.uid;
-      console.log(id)
       try {
-        console.log("Running axios user...");
         await axios
           .get(
             `https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/${id}`,
@@ -43,7 +41,6 @@ export default function LoadingSongs({ navigation }) {
     };
     const fetchAPI = async () => {
       try {
-        console.log("Running axios song...");
         await axios
           .get(
             "https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get/",
@@ -56,7 +53,6 @@ export default function LoadingSongs({ navigation }) {
             dispatch(setSongs(response.data.data));
           })
           .then(() => {
-            console.log("AAAA")
             fetchUser()
           });
       } catch (error) {
@@ -68,7 +64,6 @@ export default function LoadingSongs({ navigation }) {
       }
     };
     if (songs.length === 0) {
-      console.log("Fetching API....");
       fetchAPI();
     } else {
       console.log("Unnecessary to fetch API");
@@ -87,28 +82,3 @@ export default function LoadingSongs({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 40,
-  },
-  LinearGradient: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 40,
-  },
-  text: {
-    fontSize: 20,
-    marginTop: 30,
-    color: "#fff",
-  },
-  image: {
-    width: 250,
-    height: 250,
-  },
-});

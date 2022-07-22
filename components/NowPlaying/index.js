@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Animated,
   ImageBackground,
-  Easing
+  Easing,ScrollView
+
 } from "react-native";
 import Slider from "react-native-slider";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -172,23 +173,23 @@ function NowPlaying({ navigation, route }) {
 
   // Handle event when user is dragging slider
   useEffect(() => {
-
-    sound.current.setOnPlaybackStatusUpdate((onPlaybackStatusUpdate) => {
-      let sliderValue =
-        Number(
-          onPlaybackStatusUpdate.positionMillis /
-            onPlaybackStatusUpdate.durationMillis
-        ) - "0";
-      if (!sliderValue) sliderValue = 0;
-      if (!isChangeProgress) {
-        setCurrentDuration(sliderValue);
-      }
-      // Handle event when the current song has been finished ==> Next song or just open random song
-      if (onPlaybackStatusUpdate.didJustFinish && !activeRepeatBtn) {
-        handleNextSong();
-      }
-    });
-  }, []);
+      sound.current.setOnPlaybackStatusUpdate((onPlaybackStatusUpdate) => {
+        let sliderValue =
+          Number(
+            onPlaybackStatusUpdate.positionMillis /
+              onPlaybackStatusUpdate.durationMillis
+          ) - "0";
+        if (!sliderValue) sliderValue = 0;
+        if (!isChangeProgress) {
+          setCurrentDuration(sliderValue);
+        }
+        // Handle event when the current song has been finished ==> Next song or just open random song
+        if (onPlaybackStatusUpdate.didJustFinish && !activeRepeatBtn) {
+          handleNextSong();
+        }
+      }, [isChangeProgress]);
+    
+  });
   const stopWhenBack = () => {
     if (playing) {
       sound.current.unloadAsync().then((resolve) => {
@@ -293,7 +294,7 @@ function NowPlaying({ navigation, route }) {
             style={styles.slider}
             minimumValue={0}
             maximumValue={1}
-            minimumTrackTintColor="#f3a952"
+            minimumTrackTintColor="#6C42A2"
             maximumTrackTintColor={theme === "dark" ? "#fff" : "#000"}
             thumbTintColor={theme === "dark" ? "#fff" : "#000"}
             value={currentDuration}
@@ -308,23 +309,13 @@ function NowPlaying({ navigation, route }) {
           >
             {currentSong.singer}
           </Text>
-          <View style={styles.lyricsBox}>
-            <FlatList
-              data={LYRICS}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              renderItem={({ item }) => (
-                <Text
-                  style={[
-                    styles.lyricText,
-                    theme === "dark" && styles.whiteColor,
-                  ]}
-                >
-                  {item.text}
-                </Text>
-              )}
-            />
-          </View>
+          <ScrollView style={styles.lyricsBox}>
+            <View style={{ flexDirection: 'row', paddingLeft :'10%', paddingRight:'10%'}}>
+              <Text style={{ flex: 1, flexWrap: 'wrap', color:'white'}}>
+                  Lyrics here....
+              </Text>
+            </View>
+        </ScrollView>
           <View style={styles.musicControl}>
             <TouchableOpacity
               style={styles.random}
@@ -428,7 +419,7 @@ function NowPlaying({ navigation, route }) {
                 minimumValue={0}
                 maximumValue={1}
                 onValueChange={handleAdjustVolume}
-                minimumTrackTintColor="#007bff"
+                minimumTrackTintColor="rgb("
                 maximumTrackTintColor={theme === "dark" ? "#fff" : "#000"}
                 thumbTintColor={theme === "dark" ? "#fff" : "#000"}
               />
@@ -530,8 +521,7 @@ const styles = StyleSheet.create({
   lyricsBox: {
     width: "100%",
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+
     marginTop: 40,
     marginBottom: 40,
   },
