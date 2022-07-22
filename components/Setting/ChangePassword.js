@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Alert, ImageBackground } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
@@ -35,10 +35,12 @@ function ChangePassword({ navigation }) {
     }
     return (
         <LinearGradient
-            colors={["#1565C0", "#000"]}
+        colors={["#27153E", "#27153E"]}
             end={[0.05, 0.5]}
             style={styles.LinearGradient}
         >
+        <ImageBackground source={{uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701"}} resizeMode="cover" style={styles.container}>
+
             <View style={styles.container}>
                 <View style={styles.header}>
                     <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.goBack()}>
@@ -102,7 +104,7 @@ function ChangePassword({ navigation }) {
             </View>
 
 
-
+</ImageBackground>
         </LinearGradient>
 
     );
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        top: StatusBar.currentHeight,
+        paddingTop: StatusBar.currentHeight,
 
     },
     header: {

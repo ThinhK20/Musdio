@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Animated,
   ImageBackground,
-  Easing
+  Easing,ScrollView
+
 } from "react-native";
 import Slider from "react-native-slider";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -308,23 +309,13 @@ function NowPlaying({ navigation, route }) {
           >
             {currentSong.singer}
           </Text>
-          <View style={styles.lyricsBox}>
-            <FlatList
-              data={LYRICS}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              renderItem={({ item }) => (
-                <Text
-                  style={[
-                    styles.lyricText,
-                    theme === "dark" && styles.whiteColor,
-                  ]}
-                >
-                  {item.text}
-                </Text>
-              )}
-            />
-          </View>
+          <ScrollView style={styles.lyricsBox}>
+            <View style={{ flexDirection: 'row', paddingLeft :'10%', paddingRight:'10%'}}>
+              <Text style={{ flex: 1, flexWrap: 'wrap', color:'white'}}>
+                  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+              </Text>
+            </View>
+        </ScrollView>
           <View style={styles.musicControl}>
             <TouchableOpacity
               style={styles.random}
@@ -530,8 +521,7 @@ const styles = StyleSheet.create({
   lyricsBox: {
     width: "100%",
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+
     marginTop: 40,
     marginBottom: 40,
   },
