@@ -3,6 +3,7 @@ import { Button, View } from "react-native";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, setDoc, doc  } from 'firebase/firestore'
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCoX-FtTXOHj_IcZ6riFi3vjLc9LLw8fqo",
@@ -17,7 +18,7 @@ export const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-
+export const storage = getStorage(app)
 
 
 

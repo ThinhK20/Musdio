@@ -2,12 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import facebookSlider from "./facebookSlider";
 import generalSlider from "./generalSlider";
 import musicSlider from "./musicSlider";
-
+import userSlider from "./userSlider"
 const store = configureStore({
     reducer: {
         musics: musicSlider,
         facebook: facebookSlider,
-        general: generalSlider
+        user: userSlider,
+        general: generalSlider,
     }
 })
 

@@ -10,17 +10,16 @@ import {
 } from "react-native";
 import Slider from "react-native-slider";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, memo } from "react";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { Swipeable } from "react-native-gesture-handler";
 import { setTheme } from "../Redux/generalSlider";
 import { Easing } from "react-native";
 
-
 function NowPlaying({ navigation, route }) {
+  console.log("Nowplaying....");
   const { playID } = route.params;
   const songs = (() => {
     const source_songs = useSelector((state) => state.musics);
@@ -37,7 +36,8 @@ function NowPlaying({ navigation, route }) {
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
 
-  const [activeSwipe, setActiveSwipe] = useState(false);
+  const [openOptionsMenu, setOpenOptionsMenu] = useState(false);
+
   const [playing, setPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
@@ -52,6 +52,7 @@ function NowPlaying({ navigation, route }) {
   const sound = useRef(new Audio.Sound());
   // Handle event when user clicked repeat button
   const handleRepeatSong = () => {
+    console.log("<<<");
     if (!activeRepeatBtn) {
       setActiveRepeatBtn(!activeRepeatBtn);
       sound.current.setIsLoopingAsync(true);
@@ -63,6 +64,9 @@ function NowPlaying({ navigation, route }) {
 
   // Handle event when user clicked when user clicked random button ==> Set random number and active button
   useEffect(() => {
+    console.log("<<<");
+
+    console.log("Use Effect active random");
     if (activeRandomBtn) {
       let randomNumber;
       do {
@@ -70,10 +74,12 @@ function NowPlaying({ navigation, route }) {
       } while (randomNumber === currentIndex);
       setRandomNumber(randomNumber);
     }
-  });
+  }, [activeRandomBtn]);
 
   // Handle event when user clicked the next button ==> Set new current index & new current song
   const handleNextSong = () => {
+    console.log("<<<");
+
     if (!activeRandomBtn) {
       if (currentIndex + 1 > songs.length - 1) {
         setCurrentIndex((prevIndex) => {
@@ -96,6 +102,8 @@ function NowPlaying({ navigation, route }) {
 
   // Handle event when user clicked the prev button
   const handlePrevSong = () => {
+    console.log("<<<");
+
     if (!activeRandomBtn) {
       if (currentIndex - 1 < 0) {
         setCurrentIndex((prevIndex) => {
@@ -117,6 +125,7 @@ function NowPlaying({ navigation, route }) {
   };
   // Change duration song when user is dragging the slider
   const handleDraggingSlider = (value) => {
+    console.log("handle dragging");
     sound.current.getStatusAsync().then((result) => {
       sound.current.setPositionAsync(value * result.durationMillis);
       setIsChangeProgess(false);
@@ -124,33 +133,35 @@ function NowPlaying({ navigation, route }) {
   };
 
   // Handle event when user clicked the play/pause button
-  const playSound = async () => {
+  const playSound = () => {
+    console.log("Play sound");
     if (!playing) {
       setPlaying(!playing);
-      console.log("Playing sound");
-      await sound.current.playAsync();
+      sound.current.playAsync();
     } else {
       setPlaying(!playing);
-      console.log("Pausing sound...");
-      await sound.current.pauseAsync();
+      sound.current.pauseAsync();
     }
   };
 
   // stream mode
   // Handle event when current index change ==> Unload old and load new song
   useEffect(() => {
-    (async () => {
-      try {
-        await sound.current.loadAsync({ uri: currentSong.uri });
-        if (playing) {
-          await sound.current.playAsync();
-        }
-      } catch {
-        console.log("Loading available...");
+    console.log("test");
+    try {
+      if (currentSong) {
+        sound.current.loadAsync({ uri: currentSong.uri });
       }
-    })();
+      if (playing) {
+        sound.current.playAsync();
+      }
+    } catch {
+      console.log("Loading available...");
+    }
 
-    return () => sound.current.unloadAsync();
+    return () => {
+      return sound.current.unloadAsync();
+    };
   }, [currentIndex]);
 
   // Handle event when user is dragging slider
@@ -192,7 +203,7 @@ function NowPlaying({ navigation, route }) {
   };
   const stopWhenBack = async () => {
     if (playing) {
-      await sound.current.unloadAsync().then((resolve) => {
+      sound.current.unloadAsync().then((resolve) => {
         setPlaying(!playing);
         navigation.navigate("Home");
       });
@@ -211,6 +222,7 @@ function NowPlaying({ navigation, route }) {
 
   useEffect(() => {
     try {
+      console.log("Use Effect playing");
       if (playing) {
         Animated.loop(
           Animated.timing(rotateValueHolder, {
@@ -231,7 +243,6 @@ function NowPlaying({ navigation, route }) {
       console.log("Setting CD animated...");
     }
   }, [playing]);
-  //-------------------------------------------------------------------
 
   const handleTheme = () => {
     if (theme == "dark") {
@@ -239,6 +250,16 @@ function NowPlaying({ navigation, route }) {
     } else {
       dispatch(setTheme("dark"));
     }
+  };
+
+  const handleAdjustVolume = (value) => {
+    if (sound.current != null) {
+      sound.current.setVolumeAsync(value);
+    }
+  };
+
+  const handleOpenOptionsMenu = () => {
+    setOpenOptionsMenu(!openOptionsMenu);
   };
 
   return (
@@ -264,7 +285,6 @@ function NowPlaying({ navigation, route }) {
           <FontAwesome5 name="cloud-moon" size={28} style={[{ position: 'absolute', right: 20, top: "-70%" }, theme === 'light' && styles.blackColor]} color="white" />
         </TouchableOpacity>
       </View>
-
 
       <View style={styles.container}>
         <Text
@@ -298,7 +318,7 @@ function NowPlaying({ navigation, route }) {
         <ScrollView style={styles.lyricsBox}>
             <View style={{ flexDirection: 'row', paddingLeft :'10%', paddingRight:'10%'}}>
               <Text style={{ flex: 1, flexWrap: 'wrap', marginVertical:'2%', color:'white'}}>
-
+                  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
               </Text>
             </View>
         </ScrollView>
@@ -365,11 +385,65 @@ function NowPlaying({ navigation, route }) {
           </TouchableOpacity>
         </View>
       </View>
+
+      <View style={[styles.optionsMenu, openOptionsMenu && styles.openMenu]}>
+        <TouchableOpacity style={styles.optionsItem}>
+          <View style={styles.optionsItemContent}>
+            <AntDesign
+              name="heart"
+              size={24}
+              color="white"
+              style={styles.optionsItemIcon}
+            />
+            <Text style={styles.optionsItemText}>Add into favorite list</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.optionsItem}>
+          <View style={styles.optionsItemContent}>
+            <AntDesign
+              name="clockcircleo"
+              size={24}
+              color="white"
+              style={styles.optionsItemIcon}
+            />
+            <Text style={styles.optionsItemText}>Set sleep timer</Text>
+          </View>
+        </TouchableOpacity>
+        <View style={styles.optionsItem}>
+          <View style={styles.optionsItemContent}>
+            <Text style={styles.optionsItemText}>Setting volume</Text>
+          </View>
+          <View style={styles.optionsVolumeBox}>
+            <Feather
+              name="volume"
+              size={24}
+              color="white"
+              style={styles.optionsItemIcon}
+            />
+            <Slider
+              style={styles.optionsVolumeSlider}
+              minimumValue={0}
+              maximumValue={1}
+              onValueChange={handleAdjustVolume}
+              minimumTrackTintColor="#007bff"
+              maximumTrackTintColor={theme === "dark" ? "#fff" : "#000"}
+              thumbTintColor={theme === "dark" ? "#fff" : "#000"}
+            />
+
+            <Feather
+              name="volume-2"
+              size={24}
+              color="white"
+              style={styles.optionsItemIcon}
+            />
+          </View>
+        </View>
+      </View>
     </LinearGradient>
   );
 }
 
-export default NowPlaying;
+export default memo(NowPlaying);
 
 const styles = StyleSheet.create({
   LinearGradient: {
@@ -397,9 +471,9 @@ const styles = StyleSheet.create({
   iconHeader: {
     position: "absolute",
     left: "5%",
-    top: '5%',
-    color: '#FFFFFF',
-    zIndex: 99
+    top: "5%",
+    color: "#FFFFFF",
+    zIndex: 99,
   },
   pageName: {
     fontSize: 20,
@@ -475,5 +549,57 @@ const styles = StyleSheet.create({
   },
   random: {
     marginRight: 40,
+  },
+  options: {
+    position: "absolute",
+    right: -20,
+    top: "-200%",
+    fontSize: 20,
+    padding: 40,
+  },
+
+  optionsMenu: {
+    position: "absolute",
+    top: "10%",
+    right: -300,
+    height: "100%",
+    backgroundColor: "#000",
+    width: 300,
+    opacity: 1,
+  },
+  openMenu: {
+    right: 0,
+  },
+
+  optionsItem: {
+    padding: 20,
+    flexDirection: "column",
+    backgroundColor: "#121212",
+    marginBottom: 20,
+    marginTop: 20,
+    position: "relative",
+  },
+  optionsItemText: {
+    color: "#fff",
+    fontSize: 20,
+    marginLeft: 20,
+  },
+  optionsItemIcon: {},
+  optionsItemContent: {
+    flexDirection: "row",
+  },
+  optionsVolumeBox: {
+    marginTop: 20,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  optionsVolumeSlider: {
+    flex: 1,
+    marginRight: 10,
+    height: 2,
+  },
+  radioButtons: {
+    color: "red",
+    backgroundColor: "#fff",
   },
 });
