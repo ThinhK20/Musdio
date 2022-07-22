@@ -188,9 +188,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   Avatar: {
-    marginTop: '1.5%',
-    height: 180,
-    width:180,
+    marginTop: '7%',
+    height: 130,
+    width:130,
     borderRadius: 100,
     //backgroundColor: 'red',
     
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   cdImage: {
-    width: '20%',
+    width: '25%',
     height: '150%',
     borderRadius: 100,
   },

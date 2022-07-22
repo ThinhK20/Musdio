@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, Text, StyleSheet, View, FlatList, Image, TouchableOpacity } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { useDispatch, useSelector } from "react-redux";
-
+import { Ionicons } from '@expo/vector-icons';
 const Search = ({ navigation }) => {
 
   const [search, setSearch] = useState('');
@@ -44,6 +44,7 @@ const Search = ({ navigation }) => {
   const ItemView = ({ item }) => {
     const name = item.name;
     const singer = item.singer
+    const view = item.view
     return (
       // Flat List Item
       <TouchableOpacity onPress={() => getItem(item)}>
@@ -51,12 +52,18 @@ const Search = ({ navigation }) => {
           <Image style={styles.itemStyle} source={{ uri: item.img }} />
           <View style = {{flexDirection: 'column'}}>
 
-          <Text style={{ fontWeight: 'bold',fontSize: 16 }}>
+          <Text style={{ fontWeight: 'bold',fontSize: 16,color:'white'}}>
             {`${name.toUpperCase()}`}
           </Text>
-          <Text style= {{color: 'gray', fontSize: 12,fontWeight: 'bold'}}>
+          <Text style= {{color: 'gray', fontSize: 10,fontWeight: 'bold',marginTop:'3%'}}>
           {`${singer.toUpperCase()}`}
           </Text>
+          <View style={{ marginTop:'3%',flexDirection: 'row',}}>
+            <Ionicons name= "ios-play" size={12} color="gray" fontWeight = 'bold' /> 
+            <Text style={{ fontWeight: 'bold',fontSize: 9,color:'gray'}}>
+              {view}
+          </Text>
+          </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -87,7 +94,7 @@ const Search = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1,backgroundColor:'black' }}>
       <View style={styles.container}>
         <SearchBar
           round
@@ -110,22 +117,24 @@ const Search = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     marginTop: 30
   },
   itemStyle: {
+    backgroundColor:'black',
     padding: '10%',
     height: 50,
     width: 50,
     marginRight: '10%',
-    borderRadius: 100,
+    borderRadius: 10,
 
   },
   itemView: {
+    backgroundColor:'black',
     marginTop: '5%',
     flexDirection: 'row',
-    //alignContent:'center',
     alignItems: 'center',
+    marginLeft:'5%',
   }
 });
 

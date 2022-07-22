@@ -30,7 +30,7 @@ function TopTrending({navigation}) {
   const dispatch = useDispatch();
   const data = useSelector(state => state.musics)
   const renderItem = ({ item, index }) => {
-    return (<Item id = {item.id} title={item.name} img={item.img} single={item.singer} index={index + 1}  navigation = {navigation}/>)
+    return (<Item id = {item.id} title={item.name} img={item.img} singer={item.singer} index={index + 1}  navigation = {navigation}/>)
   };
   return (
     <LinearGradient
