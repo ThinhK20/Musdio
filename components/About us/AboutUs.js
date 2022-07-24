@@ -38,64 +38,86 @@
 //     };
 
 import React, { useState, useRef } from 'react'
-import { SafeAreaView, View, ScrollView, Text, Dimensions, TouchableOpacity, Animated, StyleSheet, ToastAndroid } from 'react-native'
+import { SafeAreaView, View, ScrollView, Text, Dimensions, TouchableOpacity, Animated, StyleSheet, ToastAndroid, ImageBackground } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
-import CountDownTimer from "react-native-countdown-timer-hooks";
+import { LinearGradient } from "expo-linear-gradient";
 
 
 
 const AboutUs = () => {
 
   return (
-    <View >
-      <View  style={{ flexDirection: 'row', }}>
-        <TouchableOpacity style={styles.iconBack}>
-          <Ionicons name="ios-chevron-back" size={40} color="white" fontWeight='bold' />
-        </TouchableOpacity>
-        <View style={{paddingTop:'10%',alignItems: 'center',justifyContent:'center',alignContent:'center',paddingLeft:'10%'}}>
-          <Text> ABOUT US</Text>
-        </View>
-      </View>
-
-      <View style={styles.location} >
-        <View style={styles.item}>
-          <Text style={styles.group} > MUSDIO APP</Text>
-        </View>
-      </View>
-      <View style={styles.location} >
-        <View style={styles.item2}>
-          <Text style={styles.group} > Member implemented</Text>
-          <View style={{ paddingTop: '30%' }}>
-            <Text style={styles.group2} > 1. Trần Tuấn Minh</Text>
+    <LinearGradient
+      colors={["#27153E", "#27153E"]
+      }
+      style={styles.LinearGradient}
+    >
+      <ImageBackground source={{ uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701" }} resizeMode="cover" style={styles.image}>
+        <View >
+          <View style={{ flexDirection: 'row', }}>
+            <TouchableOpacity style={styles.iconBack}>
+              <Ionicons name="ios-chevron-back" size={40} color="white" fontWeight='bold' />
+            </TouchableOpacity>
+            <View style={{ paddingTop: '1%', alignItems: 'center', justifyContent: 'center', alignContent: 'center', paddingLeft: '10%' }}>
+              <Text style={{
+                fontSize: 14,
+                fontWeight: 'bold',
+                color: 'white',
+              }}> ABOUT US</Text>
+            </View>
           </View>
-          <Text style={styles.group2} > 2. Nguyễn Đăng Minh</Text>
-          <Text style={styles.group2} > 3. Nguyễn Phát Thịnh</Text>
-          <Text style={styles.group2} > 4. Nguyễn Sanh Tài</Text>
+
+          <View style={styles.location} >
+            <View style={styles.item}>
+              <Text style={styles.group} > MUSDIO APP</Text>
+            </View>
+          </View>
+          <View style={styles.location} >
+            <View style={styles.item2}>
+              <Text style={styles.group4} >Member</Text>
+              <View style={{ paddingTop: '30%' }}>
+                <Text style={styles.group2} > 1. Trần Tuấn Minh</Text>
+              </View>
+              <Text style={styles.group2} > 2. Nguyễn Đăng Minh</Text>
+              <Text style={styles.group2} > 3. Nguyễn Phát Thịnh</Text>
+              <Text style={styles.group2} > 4. Nguyễn Sanh Tài</Text>
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+      </ImageBackground>
+    </LinearGradient>
   )
 }
+
 const styles = StyleSheet.create({
   location: {
     //alignContent: 'center',
     alignItems: 'center',
     //justifyContent: 'center',
     // paddingTop:'30%',
-    backgroundColor: 'blue',
+    //backgroundColor: 'blue',
 
   },
   iconBack: {
-    paddingTop: '10%',
-    paddingLeft: '5%',
     width: '30%',
-    backgroundColor: "red",
+    paddingRight:"10%"
   },
   group: {
     fontSize: 25,
     fontWeight: 'bold',
     color: 'white',
-    padding: 30
+    padding: 30,
+    backgroundColor: '#A821FF',
+    borderRadius: 30,
+  },
+  group4: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'white',
+    padding: 30,
+    backgroundColor: '#A821FF',
+    borderRadius: 30,
+    paddingLeft:'27%',
   },
   group2: {
     fontSize: 25,
@@ -103,19 +125,28 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   item: {
-    width: '80%',
+    width: '100%',
     height: '35%',
-    backgroundColor: 'red',
     borderRadius: 25,
     alignContent: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },
   item2: {
-    width: '80%',
+    width: '100%',
     height: '65%',
-    backgroundColor: 'red',
     borderRadius: 30,
-  }
+  },
+  LinearGradient: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  image: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingTop: 40
+  },
 });
 export default AboutUs
