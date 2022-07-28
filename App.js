@@ -12,12 +12,13 @@ import TopTreding from "./components/TopTrending/TopTreding";
 import Sleep from "./components/Sleep/Sleep";
 import ChangePassword from "./components/Setting/ChangePassword";
 import { SignUp,FormInput } from "./components/SignUp";
+import AboutUs from "./components/About us/AboutUs";
 export default function App() {
   const Stack = createStackNavigator()
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="AboutUs" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Footer" component={Footer} />
           <Stack.Screen name="Setting" component={Setting} />
           <Stack.Screen name="SettingGeneral" component={SettingGeneral} />
@@ -32,6 +33,7 @@ export default function App() {
           <Stack.Screen name="Sleep" component={Sleep}/>
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Albums" component={Albums} />
+          <Stack.Screen name="AboutUs" component={AboutUs} />
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
           <Stack.Screen name="FormInput" component={FormInput} initialParams={{ playID: '9XOr8Yi7cWYLnSDwfSJibjExJ7d2' }} />
 

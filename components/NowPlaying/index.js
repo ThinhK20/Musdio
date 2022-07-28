@@ -312,7 +312,7 @@ function NowPlaying({ navigation, route }) {
           <ScrollView style={styles.lyricsBox}>
             <View style={{ flexDirection: 'row', paddingLeft :'10%', paddingRight:'10%'}}>
               <Text style={{ flex: 1, flexWrap: 'wrap', color:'white'}}>
-                  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                  Lyrics here....
               </Text>
             </View>
         </ScrollView>

@@ -26,7 +26,7 @@
 
 //     export default () => {
 //         return (
-            
+
 //           <NativeBaseProvider>
 //             <Center flex={1} px="10">
 //                 <AboutUs />
@@ -36,184 +36,102 @@
 //           </NativeBaseProvider>
 //         );
 //     };
-    
-import React, { useState,useRef } from 'react'
-import { SafeAreaView, View, ScrollView, Text, Dimensions, TouchableOpacity, Animated,StyleSheet,ToastAndroid } from 'react-native'
+
+import React, { useState, useRef } from 'react'
+import { SafeAreaView, View, Image,ScrollView, Text, Dimensions, TouchableOpacity, Animated, StyleSheet, ToastAndroid, ImageBackground } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
-import CountDownTimer from "react-native-countdown-timer-hooks";
+import { LinearGradient } from "expo-linear-gradient";
+import reactDom from 'react-dom';
 
 
 
 const AboutUs = () => {
 
-    const { height, width } = Dimensions.get('window')
-    const SCREEN_HEIGHT = Math.round(height)
-    const SCREEN_WIDTH = Math.round(width)
-    // Animation
-    const startValue = new Animated.Value(Math.round(height + height * 0.7))
-    const endValue = Math.round(height - height * 0.7)
-    const duration = 1000
-
-
-    const [saveTime,setSaveTime]=useState(false);
-    const refTimer = useRef();
-    const [timerEnd, setTimerEnd] = useState(0);
-    const showToastSetSuccessTime = () => {
-        _showBottomView('HIDE')
-        refTimer.current.resetTimer()
-        ToastAndroid.show(
-          "The set was successful.",
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER
-        );
-        _showBottomView('HIDE')
-      };
-      const showToastTurnOff = () => {
-        ToastAndroid.show(
-          "Turn off was successful.",
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER
-        );
-      };
-
-    const timerCallbackFunc = () => {
-        console.log('minh');
-    };
-
-    const _showBottomView = (key) => {
-       
-        const toValue = key === 'HIDE' ? height : endValue
-
-        Animated.timing(startValue, {
-            toValue,
-            duration: duration,
-            useNativeDriver: true,
-        }).start()
-
-    }
-
-    return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-
-            {/* Header */}
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'black', margin: 5 }}>
-                <Text>
-                    Header
-                </Text>
+  return (
+    <LinearGradient
+      colors={["#27153E", "#27153E"]
+      }
+      style={styles.LinearGradient}
+    >
+      <ImageBackground source={{ uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701" }} resizeMode="cover" style={styles.image}>
+        <View>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity style={{ padding: 30 }}>
+              <Ionicons name="ios-chevron-back" size={40} color="white" fontWeight='bold' />
+            </TouchableOpacity>
+            <View style={styles.header}>
+              <Text style={{ fontSize: 24, color: 'white', fontWeight: 'bold', marginLeft: '-6%' }}>
+                ABOUT US
+              </Text>
             </View>
-
-            <View style={{ flex: 9, borderWidth: 1, borderColor: 'black', margin: 5 }}>
-                <ScrollView
-                    style={{ flex: 1 }}>
-
-                    {/* Title View */}
-
-                    <View style={{ height: SCREEN_HEIGHT * 0.2, width: '95%', borderColor: 'black', borderWidth: 1, marginLeft: '2.5%', marginTop: SCREEN_HEIGHT * 0.01, alignItems: 'center', justifyContent: 'center', }}>
-                        <TouchableOpacity
-                            activeOpacity={0.85}
-                            onPress={() => _showBottomView()}
-                            style={{ height: SCREEN_HEIGHT * 0.065, width: '75%', borderRadius: 5, borderWidth: 1, borderColor: 'green', alignItems: 'center', justifyContent: 'center', }}>
-                            <Text>
-                                SHOW BOTTOM VIEW
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
-            </View>
-
-            {/* Bottom view */}
-        
-            <Animated.View
-                style={[
-                    {
-                        position: 'absolute',
-                        height: height * 0.7,
-                        width: width,
-                        backgroundColor: 'blue',
-                        alignItems: 'center', justifyContent: 'center',
-                        borderTopRightRadius: 23, borderTopLeftRadius: 23,
-                        transform: [
-                            {
-                                translateY: startValue
-                            },
-                        ],
-                    },
-                ]} >
-                <View>
-                  <TouchableOpacity
-                      activeOpacity={0.1}
-                      onPress={() => _showBottomView('HIDE')}
-                      style={{ width: '75%', borderRadius: 5, borderWidth: 1,marginLeft:'70%',marginBottom:'10%'}}>
-                      <View>
-                        <Ionicons name="chevron-down" size={25} color="white" />
-                      </View>
-                  </TouchableOpacity>
-                  <View style={styles.TimeScreen}>
-                    <CountDownTimer
-                            ref={refTimer}
-                            timestamp={timerEnd}
-                            timerCallback={timerCallbackFunc}
-                            containerStyle={{
-                            height: 56,
-                            width: 120,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: 35,
-                            backgroundColor: "#2196f3",
-                            }}
-                            textStyle={{
-                            fontSize: 25,
-                            color: "#FFFFFF",
-                            fontWeight: "500",
-                            letterSpacing: 0.25,
-                            }}
-                        />
-                    </View>
-                </View>
-                  <TouchableOpacity style={styles.TimeButton}   onPress={() => {
-                    setTimerEnd(5 * 60),showToastSetSuccessTime(),_showBottomView('HIDE')}}>
-                    <View >
-                      <Text>5p</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.TimeButton} >
-                    <View >
-                      <Text>15p</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.TimeButton} >
-                    <View >
-                      <Text>30p</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.TimeButton} >
-                    <View >
-                      <Text>1h</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.TimeButton} >
-                    <View >
-                      <Text>Cancel</Text>
-                    </View>
-                  </TouchableOpacity>
-
-            </Animated.View>
-
-        </SafeAreaView>
-    )
+          </View>
+          <View style={styles.display}>
+            <TouchableOpacity>
+              <View style={styles.butom}>
+                <Image style={styles.CDImage} source={{uri: 'https://scontent.xx.fbcdn.net/v/t1.15752-9/290548197_503683528233220_8691048569569969850_n.png?_nc_cat=109&ccb=1-7&_nc_sid=aee45a&_nc_ohc=jNe7MsgwZ3UAX8dPRBe&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVKYZHHIBQQu8n7hYkz8R-jksxclDsU5pt2QnVU8zXAGMw&oe=6305893F'}} />
+              </View>
+              <Text style={{paddingLeft:25,fontSize:18,color:'white',fontWeight:'600'}}> Trần Tuấn Minh </Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View style={styles.butom}>
+              <Image style={styles.CDImage} source={{uri: 'https://scontent.xx.fbcdn.net/v/t1.15752-9/290965560_4886898538082951_5836641614305850718_n.png?_nc_cat=106&ccb=1-7&_nc_sid=aee45a&_nc_ohc=CWzwSxk-zZYAX8exjNV&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVJKOYLFPmurv_QboBB_XZTsCnDyMjQfO6c0gGZQCD-gXg&oe=63040451'}} />
+              </View>
+              <Text style={{paddingLeft:25,fontSize:18,color:'white',fontWeight:'600'}}> Nguyễn Đăng Minh </Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View style={styles.butom}>
+              <Image style={styles.CDImage} source={{uri: 'https://scontent.fsgn5-2.fna.fbcdn.net/v/t1.15752-9/294889061_417514530352329_1718781898845123060_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=ae9488&_nc_ohc=Vy94xle6vTAAX_v5bcu&_nc_ht=scontent.fsgn5-2.fna&oh=03_AVK0exCOW_bgDtwxoiJlhgspTPcjoUe3kINijNsgdRtpSQ&oe=63063145'}} />
+              </View>
+            </TouchableOpacity>
+            
+            <TouchableOpacity>
+              <View style={styles.butom}>
+              <Image style={styles.CDImage} source={{uri: 'https://scontent.fsgn5-13.fna.fbcdn.net/v/t1.15752-9/289873096_724234605676315_7238915175904753965_n.png?stp=cp0_dst-png&_nc_cat=106&ccb=1-7&_nc_sid=ae9488&_nc_ohc=_ShadFODFxgAX_TJMiY&tn=3T8UXKUZPmicUvrP&_nc_ht=scontent.fsgn5-13.fna&oh=03_AVJv284AXrf2bbs06HB9bATVFZ38dJ7STOhuJH-VYBoHqA&oe=6303FCB4'}} />
+              </View>
+            </TouchableOpacity>
+            <Text style={{paddingLeft:25,fontSize:18,color:'white',fontWeight:'600'}}> Nguyễn Phát Thịnh</Text>
+            <Text style={{paddingRight:10,fontSize:18,color:'white',fontWeight:'600'}}> Nguyễn Sanh Tài </Text>
+          </View>
+        </View>
+      </ImageBackground>
+    </LinearGradient>
+  )
 }
+
 const styles = StyleSheet.create({
- TimeButton:{
-    backgroundColor:'red',
-    color:'red',
-    height:'10%',
-    width:'100%',
-    alignItems: 'center', justifyContent: 'center',
-    marginBottom:20,
- },
- TimeScreen:{
-    alignItems: 'center', justifyContent: 'center',
-    marginBottom:20,
- }
+  header: {
+    marginTop: 30, alignContent: 'center', alignItems: 'center', justifyContent: 'center', marginLeft: '-8%',
+    width: '80%', height: '30%',marginTop:40,
+  },
+  butom: {
+    backgroundColor: 'red',
+    height:130,
+    width:130,
+    margin:30,
+    marginTop:40
+
+  },
+  display:{
+    display:'flex',
+    flexDirection :"row",
+    flexWrap:'wrap',
+    justifyContent:"space-between",
+
+  },
+  CDImage:{
+    height:130,
+    width:130,
+  },
+  LinearGradient: {
+    width: "100%",
+    height: '100%',
+    justifyContent: "flex-start",
+  },
+  image: {
+    width: "100%",
+    height: '100%',
+    justifyContent: "flex-start",
+  },
+
 });
 export default AboutUs
