@@ -32,12 +32,7 @@ export default function App() {
           <Stack.Screen name="TopTreding" component={TopTreding} />
           <Stack.Screen name="Sleep" component={Sleep}/>
           <Stack.Screen name="SignUp" component={SignUp} />
-<<<<<<< HEAD
           <Stack.Screen name="Albums" component={Albums} initialParams = {{nameAlbum:'test',Data:['2Q4ITzM0aLxpwZugrHKC']}}/>
-=======
-          <Stack.Screen name="Albums" component={Albums} />
-          <Stack.Screen name="AboutUs" component={AboutUs} />
->>>>>>> fcaebab16052c77f2a52cdc204bd06bcb6d66594
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
           <Stack.Screen name="AboutUs" component={AboutUs} />
           <Stack.Screen name="Forgot" component={Forgot} />
