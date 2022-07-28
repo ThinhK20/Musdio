@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
         top: '25%',
         width: '80%',
         height: '30%',
-        backgroundColor: 'gray',
+        backgroundColor:'#1b4c96',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     button: {
         fontWeight: 'bold',
         fontSize: 22, 
-        color: 'black', 
+        color: 'white', 
         textAlign: 'center' 
       },
 });

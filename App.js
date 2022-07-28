@@ -19,7 +19,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="AboutUs" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Footer" component={Footer} />
           <Stack.Screen name="Setting" component={Setting} />
           <Stack.Screen name="NowPlaying" component={NowPlaying} initialParams={{ playID: '2Q4ITzM0aLxpwZugrHKC' }}/>
@@ -32,7 +32,12 @@ export default function App() {
           <Stack.Screen name="TopTreding" component={TopTreding} />
           <Stack.Screen name="Sleep" component={Sleep}/>
           <Stack.Screen name="SignUp" component={SignUp} />
+<<<<<<< HEAD
           <Stack.Screen name="Albums" component={Albums} initialParams = {{nameAlbum:'test',Data:['2Q4ITzM0aLxpwZugrHKC']}}/>
+=======
+          <Stack.Screen name="Albums" component={Albums} />
+          <Stack.Screen name="AboutUs" component={AboutUs} />
+>>>>>>> fcaebab16052c77f2a52cdc204bd06bcb6d66594
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
           <Stack.Screen name="AboutUs" component={AboutUs} />
           <Stack.Screen name="Forgot" component={Forgot} />
