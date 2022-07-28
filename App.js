@@ -19,7 +19,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="AboutUs" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="LoadingSongs" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Footer" component={Footer} />
           <Stack.Screen name="Setting" component={Setting} />
           <Stack.Screen name="NowPlaying" component={NowPlaying} initialParams={{ playID: '2Q4ITzM0aLxpwZugrHKC' }}/>

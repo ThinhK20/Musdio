@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TextComponent , ImageBackground} from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextComponent, ImageBackground } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
@@ -15,7 +15,7 @@ function Playlist({ navigation }) {
   const data = useSelector(state => state.musics)
 
   const [songsUsers, setsongsUsers] = useState([]);
-  
+
   let user = useSelector((state) => state.user);
   user = user.userData
 
@@ -33,7 +33,7 @@ function Playlist({ navigation }) {
       });
     }
   }, [data, user]);
- 
+
   const renderRightView = (id) => {
     return (
       <View style={styles.swipe}>
@@ -44,7 +44,7 @@ function Playlist({ navigation }) {
             })
               .then(response => {
                 setsongsUsers(oldData => {
-                    const newData = oldData.filter(song => {
+                  const newData = oldData.filter(song => {
                     return song.id != id;
                   });
                   return newData
@@ -89,27 +89,26 @@ function Playlist({ navigation }) {
   const renderItem = ({ item }) => <Item id={item.id} title={item.name} img={item.img} single={item.singer} navigation={navigation} />;
   return (
     <LinearGradient
-    colors={["#27153E", "#27153E"]}
+      colors={["#27153E", "#27153E"]}
       end={[0.05, 0.5]}
       style={styles.LinearGradient}
     >
-    <ImageBackground source={{uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701"}} resizeMode="cover" style={styles.container}>
+      <ImageBackground source={{ uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701" }} resizeMode="cover" style={styles.container}>
 
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.iconHeader} onPress= {() => navigation.goBack()}>
-            <Ionicons name="ios-chevron-back" size={28} color="white" fontWeight='bold' />
-          </TouchableOpacity>
-          <Text style={styles.textHeader} >My Playlist</Text>
-        </View>
-        <View style={styles.Bottom}>
-          <View style={styles.Bar}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.goBack()}>
+              <Ionicons name="ios-chevron-back" size={28} color="white" fontWeight='bold' />
+            </TouchableOpacity>
+            <Text style={styles.textHeader} >My Playlist</Text>
           </View>
-          <FlatList data={songsUsers} renderItem={renderItem} keyExtractor={item => item.id} />
+          <View style={styles.Bottom}>
+
+            <FlatList data={songsUsers} renderItem={renderItem} keyExtractor={item => item.id} />
+          </View>
+          <View style={styles.ToolBar}>
+          </View>
         </View>
-        <View style={styles.ToolBar}>
-        </View>
-      </View>
       </ImageBackground>
     </LinearGradient>
   );
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
     width: '40%'
   },
   textHeader: {
-   
+
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20,

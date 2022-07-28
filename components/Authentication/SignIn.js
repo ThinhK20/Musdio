@@ -51,14 +51,15 @@ function Login({ navigation }) {
       <View style={styles.box}>
         <View style={{ flexDirection: 'row', backgroundColor: '#242526', height: '28%' }}>
           <View style={{ flexDirection: 'column', marginTop: '18%' }}>
-            <Text style={styles.textHeader}>Musdio 🎧</Text>
+            {/* <Text style={styles.textHeader}>Musdio 🎧</Text> */}
             {/* <Text style={[styles.textHeader, { fontSize: 15 }]}>Welcome</Text> */}
           </View>
-          <View style={{ paddingTop: StatusBar.currentHeight }}>
+          <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', paddingTop: '7%', flexDirection: 'row' }}>
             <Image
-              source={{ uri: 'https://reactnative.dev/img/tiny_logo.png',}}
-              style={{ height: 165, width: 210 }}
+              source={{ uri: 'https://media.discordapp.net/attachments/977411778671677471/1002243690024153190/logo-removebg-preview.png', }}
+              style={{ height: 150, width: 150 }}
             />
+            <Text style={{ color: 'white', fontSize: 30, fontWeight: '900', paddingBottom: '5%', marginLeft: '-7%' }}> Musdio </Text>
           </View>
         </View>
 
@@ -122,9 +123,9 @@ function Login({ navigation }) {
             backgroundColor: '#242526'
           }}
         >
-          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1, backgroundColor: 'white' }} />
+          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1, backgroundColor: 'white', borderColor: 'white' }} />
           <Text style={{ margin: 20, fontSize: 17, color: 'white' }}>Or continue with</Text>
-          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1, backgroundColor: 'white' }} />
+          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1, backgroundColor: 'white', borderColor: 'white' }} />
         </View>
         <View style={[styles.boxSocial, { backgroundColor: '#242526' }]}>
           <LoginFacebook navigation={navigation} />

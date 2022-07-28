@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
@@ -6,12 +6,12 @@ import { auth } from "../Firebase/index"
 import { useDispatch, useSelector } from "react-redux";
 import { setSongs } from "../Redux/musicSlider";
 import { setUser } from "../Redux/userSlider";
-
+import { Spinner, HStack, Heading, Center, NativeBaseProvider } from "native-base";
 export default function LoadingSongs({ navigation }) {
   const dispatch = useDispatch();
   const songs = useSelector((state) => state.musics);
   const user = useSelector((state) => state.user)
-  const [temp,setTemp] = useState([])
+  const [temp, setTemp] = useState([])
   useEffect(() => {
     const controller = new AbortController();
     const fetchUser = async () => {
@@ -56,7 +56,7 @@ export default function LoadingSongs({ navigation }) {
           })
           .then((temp) => {
             fetchUser()
-            
+
           });
       } catch (error) {
         if (axios.isCancel(error)) {
@@ -76,16 +76,33 @@ export default function LoadingSongs({ navigation }) {
   }, []);
 
   return (
-    <View
-      style={{ alignItems: "center", justifyContent: "center", height: "100%", backgroundColor: '#27153E' }}
-    >
-      <Image
-        source={require("../../assets/images/listen.png")}
-        style={{ height: 165, width: 210 }}
-      />
-      <Text style={{ color: "white", fontWeight: "bold", fontSize: 20,paddingTop: 20 }}>
+
+    <NativeBaseProvider backgroundColor={'#242526'}>
+      <Center flex={1} px="3" backgroundColor={'#242526'}>
+      <View
+        style={{ justifyContent: "flex-end", height: "50%", paddingLeft: '-10%', backgroundColor: '#242526',top:'-10%' }}
+      >
+        <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', paddingRight: '10%' }}>
+          <Image
+            source={{ uri: 'https://media.discordapp.net/attachments/977411778671677471/1002243690024153190/logo-removebg-preview.png', }}
+            style={{ height: 250, width: 250 }}
+          />
+          <Text style={{ color: 'white', fontSize: 35, fontWeight: '900', marginLeft: '-15%' }}> Musdio </Text>
+        </View>
+        {/* <Text style={{ color: "white", fontWeight: "600", fontSize: 30,paddingTop: '2%' }}>
         Loading...
-      </Text>
-    </View>
+      </Text> */}
+      </View>
+        <HStack space={2} justifyContent="center" backgroundColor={'#242526'}>
+
+          <Spinner accessibilityLabel="Loading posts" size={"lg"} />
+          <Heading color="white" fontSize={"3xl"}>
+            Loading
+          </Heading>
+
+        </HStack>
+      </Center>
+    </NativeBaseProvider >
+
   );
 }

@@ -73,7 +73,6 @@ function Setting({ navigation }) {
               <Ionicons style={styles.iconHeader} name="ios-chevron-back" size={28} color="white" onPress={() => navigation.goBack()} />
               <Text style={styles.textHeader} >Setting</Text>
             </View>
-            <View style={{ borderBottomColor: 'white', borderBottomWidth: 1.75 }} />
             <View style={styles.body}>
               <View style={styles.basicInfo}>
                 <View style={styles.avatar}>

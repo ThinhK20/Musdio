@@ -41,7 +41,8 @@ import React, { useState, useRef } from 'react'
 import { SafeAreaView, View, Image,ScrollView, Text, Dimensions, TouchableOpacity, Animated, StyleSheet, ToastAndroid, ImageBackground } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from "expo-linear-gradient";
-import reactDom from 'react-dom';
+
+
 
 
 
@@ -56,19 +57,19 @@ const AboutUs = () => {
       <ImageBackground source={{ uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701" }} resizeMode="cover" style={styles.image}>
         <View>
           <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity style={{ padding: 30 }}>
+            <TouchableOpacity style={{ paddingTop: 40,paddingLeft:20 }}>
               <Ionicons name="ios-chevron-back" size={40} color="white" fontWeight='bold' />
             </TouchableOpacity>
             <View style={styles.header}>
-              <Text style={{ fontSize: 24, color: 'white', fontWeight: 'bold', marginLeft: '-6%' }}>
-                ABOUT US
+              <Text style={{ fontSize: 24, color: 'white', fontWeight: 'bold', marginLeft: '12%' }}>
+               About Us
               </Text>
             </View>
           </View>
           <View style={styles.display}>
             <TouchableOpacity>
               <View style={styles.butom}>
-                <Image style={styles.CDImage} source={{uri: 'https://scontent.xx.fbcdn.net/v/t1.15752-9/290548197_503683528233220_8691048569569969850_n.png?_nc_cat=109&ccb=1-7&_nc_sid=aee45a&_nc_ohc=jNe7MsgwZ3UAX8dPRBe&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVKYZHHIBQQu8n7hYkz8R-jksxclDsU5pt2QnVU8zXAGMw&oe=6305893F'}} />
+                <Image style={styles.CDImage} source={{uri: 'https://cdn.discordapp.com/attachments/977411778671677471/1002269147343884398/unknown.png'}} />
               </View>
               <Text style={{paddingLeft:25,fontSize:18,color:'white',fontWeight:'600'}}> Trần Tuấn Minh </Text>
             </TouchableOpacity>
@@ -82,15 +83,17 @@ const AboutUs = () => {
               <View style={styles.butom}>
               <Image style={styles.CDImage} source={{uri: 'https://scontent.fsgn5-2.fna.fbcdn.net/v/t1.15752-9/294889061_417514530352329_1718781898845123060_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=ae9488&_nc_ohc=Vy94xle6vTAAX_v5bcu&_nc_ht=scontent.fsgn5-2.fna&oh=03_AVK0exCOW_bgDtwxoiJlhgspTPcjoUe3kINijNsgdRtpSQ&oe=63063145'}} />
               </View>
+              <Text style={{paddingLeft:25,fontSize:18,color:'white',fontWeight:'600'}}> Nguyễn Phát Thịnh</Text>
             </TouchableOpacity>
             
             <TouchableOpacity>
               <View style={styles.butom}>
               <Image style={styles.CDImage} source={{uri: 'https://scontent.fsgn5-13.fna.fbcdn.net/v/t1.15752-9/289873096_724234605676315_7238915175904753965_n.png?stp=cp0_dst-png&_nc_cat=106&ccb=1-7&_nc_sid=ae9488&_nc_ohc=_ShadFODFxgAX_TJMiY&tn=3T8UXKUZPmicUvrP&_nc_ht=scontent.fsgn5-13.fna&oh=03_AVJv284AXrf2bbs06HB9bATVFZ38dJ7STOhuJH-VYBoHqA&oe=6303FCB4'}} />
               </View>
+              <Text style={{paddingLeft:20,fontSize:18,color:'white',fontWeight:'600'}}> Nguyễn Sanh Tài </Text>
             </TouchableOpacity>
-            <Text style={{paddingLeft:25,fontSize:18,color:'white',fontWeight:'600'}}> Nguyễn Phát Thịnh</Text>
-            <Text style={{paddingRight:10,fontSize:18,color:'white',fontWeight:'600'}}> Nguyễn Sanh Tài </Text>
+            
+           
           </View>
         </View>
       </ImageBackground>
@@ -104,12 +107,11 @@ const styles = StyleSheet.create({
     width: '80%', height: '30%',marginTop:40,
   },
   butom: {
-    backgroundColor: 'red',
     height:130,
     width:130,
     margin:30,
-    marginTop:40
-
+    marginTop:40,
+    borderRadius:30,
   },
   display:{
     display:'flex',
@@ -121,6 +123,7 @@ const styles = StyleSheet.create({
   CDImage:{
     height:130,
     width:130,
+    borderRadius:30,
   },
   LinearGradient: {
     width: "100%",

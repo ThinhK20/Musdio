@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch } from "react-redux";
-import {auth} from '../Firebase'
+import { auth } from '../Firebase'
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 
 import { FontAwesome } from '@expo/vector-icons';
@@ -12,99 +12,97 @@ import { useState } from "react";
 function ChangePassword({ navigation }) {
     const dispatch = useDispatch();
     const [curPass, setcurPass] = useState('')
-    const [newPass, setnewPass] = useState(''); 
-    const [rePass, setrePass] = useState(''); 
-    const check =  () => {
-       (async () => {
-        const user = auth.currentUser 
-        const check = await EmailAuthProvider.credential(user.email, curPass) 
-        try {
-          await reauthenticateWithCredential(user, check) 
-            if(newPass == rePass){
-                await updatePassword(auth.currentUser, newPass)
-                Alert.alert("Success","Change password succesfully !")
+    const [newPass, setnewPass] = useState('');
+    const [rePass, setrePass] = useState('');
+    const check = () => {
+        (async () => {
+            const user = auth.currentUser
+            const check = await EmailAuthProvider.credential(user.email, curPass)
+            try {
+                await reauthenticateWithCredential(user, check)
+                if (newPass == rePass) {
+                    await updatePassword(auth.currentUser, newPass)
+                    Alert.alert("Success", "Change password succesfully !")
+                }
+                else {
+                    alert("Error", "New password and re-enter password are not match.")
+                }
+            } catch (e) {
+                console.log("Error message: ", e)
+                Alert.alert("Error", "Error change password.")
             }
-            else{
-                alert("Error","New password and re-enter password are not match.")
-            }
-        } catch(e) {
-          console.log("Error message: ", e)
-          Alert.alert("Error","Error change password.")
-        }
-      })()
+        })()
     }
     return (
         <LinearGradient
-        colors={["#27153E", "#27153E"]}
+            colors={["#27153E", "#27153E"]}
             end={[0.05, 0.5]}
             style={styles.LinearGradient}
         >
-        <ImageBackground source={{uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701"}} resizeMode="cover" style={styles.container}>
+            <ImageBackground source={{ uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701" }} resizeMode="cover" style={styles.container}>
 
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.goBack()}>
-                        <Ionicons name="ios-chevron-back" size={28} color="white" fontWeight='bold' />
-                    </TouchableOpacity>
-                    <Text style={styles.textHeader} >Change Password</Text>
+                <View style={styles.container}>
+                    <View style={styles.header}>
+                        <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.goBack()}>
+                            <Ionicons name="ios-chevron-back" size={28} color="white" fontWeight='bold' />
+                        </TouchableOpacity>
+                        <Text style={styles.textHeader} >Change Password</Text>
+                    </View>
+                    <View style={styles.Bottom}>
+                        <View style={styles.Text}>
+                            <View style={{ paddingTop: '4%', paddingRight: '5%' }}>
+                                <FontAwesome name="edit" size={24} color="white" />
+                            </View>
+                            <TextInput
+                                placeholder="Enter current password"
+                                placeholderTextColor="white"
+                                secureTextEntry={true}
+                                style={styles.input}
+                                onChangeText={newText => setcurPass(newText)}
+
+                            >
+                            </TextInput>
+                        </View>
+                        <View style={styles.Text}>
+                            <View style={{ paddingTop: '4%', paddingRight: '5%' }}>
+                                <FontAwesome name="edit" size={24} color="white" />
+                            </View>
+                            <TextInput
+                                placeholder="Enter new password"
+                                placeholderTextColor="white"
+                                secureTextEntry={true}
+                                style={styles.input}
+                                onChangeText={newText => setnewPass(newText)}
+                            />
+                        </View>
+                        <View style={styles.Text}>
+                            <View style={{ paddingTop: '4%', paddingRight: '5%' }}>
+                                <FontAwesome name="edit" size={24} color="white" />
+                            </View>
+                            <TextInput
+                                placeholder="Re-enter new password"
+                                placeholderTextColor="white"
+                                secureTextEntry={true}
+                                style={styles.input}
+                                onChangeText={newText => setrePass(newText)}
+
+                            />
+                        </View>
+                        <TouchableOpacity onPress={check}>
+                            <View style={styles.Button}>
+                                <Text style={styles.button}>
+                                    Change
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.Bottom}>
-                    <View style={styles.Bar}>
-                    </View>
-                    <View style={styles.Text}>
-                        <View style={{ paddingTop: '4%', paddingRight: '5%' }}>
-                            <FontAwesome name="edit" size={24} color="white" />
-                        </View>
-                        <TextInput
-                            placeholder="Enter current password"
-                            placeholderTextColor="white"
-                            secureTextEntry = {true}
-                            style={styles.input}
-                            onChangeText={newText => setcurPass(newText)}
+                <View style={styles.ToolBar}>
 
-                        >
-                        </TextInput>
-                    </View>
-                    <View style={styles.Text}>
-                        <View style={{ paddingTop: '4%', paddingRight: '5%' }}>
-                            <FontAwesome name="edit" size={24} color="white" />
-                        </View>
-                        <TextInput
-                            placeholder="Enter new password"
-                            placeholderTextColor="white"
-                            secureTextEntry = {true}
-                            style={styles.input}
-                            onChangeText={newText => setnewPass(newText)}
-                        />
-                    </View>
-                    <View style={styles.Text}>
-                        <View style={{ paddingTop: '4%', paddingRight: '5%' }}>
-                            <FontAwesome name="edit" size={24} color="white" />
-                        </View>
-                        <TextInput
-                            placeholder="Re-enter new password"
-                            placeholderTextColor="white"
-                            secureTextEntry = {true}
-                            style={styles.input}
-                            onChangeText={newText => setrePass(newText)}
-
-                        />
-                    </View>
-                    <TouchableOpacity onPress = {check}>
-                    <View style={styles.Button}>
-                        <Text style={styles.button}>
-                            Change
-                        </Text>
-                    </View>
-                    </TouchableOpacity>
                 </View>
-            </View>
-            <View style={styles.ToolBar}>
-
-            </View>
 
 
-</ImageBackground>
+            </ImageBackground>
         </LinearGradient>
 
     );
@@ -177,22 +175,22 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     Button: {
-        left: '10%',    
-        top: '25%',
-        width: '80%',
+        left: '13%',
+        top: '40%',
+        width: '78%',
         height: '30%',
-        backgroundColor:'#1b4c96',
+        backgroundColor: '#7a56d4',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 10,
+        borderRadius: 20,
 
     },
     button: {
         fontWeight: 'bold',
-        fontSize: 22, 
-        color: 'white', 
-        textAlign: 'center' 
-      },
+        fontSize: 22,
+        color: 'white',
+        textAlign: 'center'
+    },
 });
 export default ChangePassword
 
