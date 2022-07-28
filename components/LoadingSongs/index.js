@@ -77,7 +77,7 @@ export default function LoadingSongs({ navigation }) {
       style={{ alignItems: "center", justifyContent: "center", height: "100%", backgroundColor: '#000' }}
     >
       <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
-        Loading API...
+        Loading...
       </Text>
     </View>
   );
