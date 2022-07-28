@@ -6,12 +6,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Setting, SettingGeneral, HomeScreen, Profile, Playlist, Login, LoadingSongs, NowPlaying} from './components/'
 import Albums from "./components/Albums/Albums"
-import Footer from "./components/Footer/Footer";
-import Search from "./components/Search/Search";
-import TopTreding from "./components/TopTrending/TopTreding";
-import Sleep from "./components/Sleep/Sleep";
-import ChangePassword from "./components/Setting/ChangePassword";
-import { SignUp,FormInput } from "./components/SignUp";
+import Footer from "./components/General/Footer";
+import Search from "./components/General/Search";
+import TopTreding from "./components/Albums/TopTreding";
+import Sleep from "./components/Song/Sleep";
+import ChangePassword from "./components/General/ChangePassword";
+import { SignUp,FormInput } from "./components/Authentication/SignUp";
+import AboutUs from "./components/General/AboutUs"
+import { Forgot } from "./components/Authentication/ForgotPassword";
 export default function App() {
   const Stack = createStackNavigator()
   return (
@@ -20,7 +22,6 @@ export default function App() {
         <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Footer" component={Footer} />
           <Stack.Screen name="Setting" component={Setting} />
-          <Stack.Screen name="SettingGeneral" component={SettingGeneral} />
           <Stack.Screen name="NowPlaying" component={NowPlaying} initialParams={{ playID: '2Q4ITzM0aLxpwZugrHKC' }}/>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Profile" component={Profile} />
@@ -31,8 +32,12 @@ export default function App() {
           <Stack.Screen name="TopTreding" component={TopTreding} />
           <Stack.Screen name="Sleep" component={Sleep}/>
           <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="Albums" component={Albums} />
+          <Stack.Screen name="Albums" component={Albums} initialParams = {{nameAlbum:'test',Data:['2Q4ITzM0aLxpwZugrHKC']}}/>
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
+          <Stack.Screen name="AboutUs" component={AboutUs} />
+          <Stack.Screen name="Forgot" component={Forgot} />
+
+
           <Stack.Screen name="FormInput" component={FormInput} initialParams={{ playID: '9XOr8Yi7cWYLnSDwfSJibjExJ7d2' }} />
 
         </Stack.Navigator>

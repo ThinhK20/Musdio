@@ -196,7 +196,8 @@ function NowPlaying({ navigation, route }) {
         setPlaying(!playing);
         navigation.navigate("Home");
       });
-    } else {
+    } 
+    else {
       navigation.goBack();
     }
   };
@@ -392,7 +393,7 @@ function NowPlaying({ navigation, route }) {
               <Text style={styles.optionsItemText}>Add into favorite list</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionsItem}>
+          <TouchableOpacity style={styles.optionsItem} onPress = {() => { navigation.navigate('Sleep')}}>
             <View style={styles.optionsItemContent}>
               <AntDesign
                 name="clockcircleo"

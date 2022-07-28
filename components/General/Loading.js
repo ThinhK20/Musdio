@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
-import {auth} from "../Firebase/index"
+import { auth } from "../Firebase/index"
 import { useDispatch, useSelector } from "react-redux";
 import { setSongs } from "../Redux/musicSlider";
 import { setUser } from "../Redux/userSlider";
@@ -11,7 +11,7 @@ export default function LoadingSongs({ navigation }) {
   const dispatch = useDispatch();
   const songs = useSelector((state) => state.musics);
   const user = useSelector((state) => state.user)
-  
+  const [temp,setTemp] = useState([])
   useEffect(() => {
     const controller = new AbortController();
     const fetchUser = async () => {
@@ -49,11 +49,14 @@ export default function LoadingSongs({ navigation }) {
             }
           )
           .then((response) => {
-            console.log(response.data)
+            // console.log(response.data)
+            setTemp(response.data)
             dispatch(setSongs(response.data.data));
+            return response.data.data
           })
-          .then(() => {
+          .then((temp) => {
             fetchUser()
+            
           });
       } catch (error) {
         if (axios.isCancel(error)) {
@@ -74,10 +77,14 @@ export default function LoadingSongs({ navigation }) {
 
   return (
     <View
-      style={{ alignItems: "center", justifyContent: "center", height: "100%", backgroundColor: '#000' }}
+      style={{ alignItems: "center", justifyContent: "center", height: "100%", backgroundColor: '#27153E' }}
     >
-      <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
-        Loading API...
+      <Image
+        source={require("../../assets/images/listen.png")}
+        style={{ height: 165, width: 210 }}
+      />
+      <Text style={{ color: "white", fontWeight: "bold", fontSize: 20,paddingTop: 20 }}>
+        Loading...
       </Text>
     </View>
   );

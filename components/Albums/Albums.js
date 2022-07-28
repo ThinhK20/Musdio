@@ -11,7 +11,8 @@ import { color } from 'react-native-elements/dist/helpers';
 
 function Albums({navigation,route}) {
    const {nameAlbum,Data}=route.params
-   
+  console.log("DATA:")
+  console.log(Data)
 
   const renderItem = ({ item }) =>  <Item id ={item.id} name={item.name}  img = {item.img} singer = {item.singer} navigation={navigation} />
   const Item = ({id,name, img, singer}) => (
@@ -40,7 +41,7 @@ function Albums({navigation,route}) {
     >
     <ImageBackground source={{uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701"}} resizeMode="cover" style={styles.container}>
         <View style={styles.header}>
-       <TouchableOpacity style={styles.iconHeader}>
+       <TouchableOpacity style={styles.iconHeader} onPress = {() => navigation.navigate("Home")}>
               <Ionicons name= "ios-chevron-back" size={40} color="white" fontWeight = 'bold' />
          </TouchableOpacity>
               <Text style={styles.textHeader} >Albums</Text>
@@ -50,12 +51,12 @@ function Albums({navigation,route}) {
          
           <View style={styles.Mid}> 
           <View style={{marginTop:5}}></View>
-            <Image style={styles.imageAlbums} source={{uri: DATA[0].img}}></Image>
+            <Image style={styles.imageAlbums} source={{uri: Data[0].img}}></Image>
           </View>
           <View style={styles.Mid}>
             <Text style={styles.nameAlbums}> {nameAlbum} </Text>
             <TouchableOpacity onPress={() => navigation.navigate("NowPlaying", {
-          playID: DATA.map((_id)=>{
+          playID: Data.map((_id)=>{
           return _id.id
           })
         })}>
