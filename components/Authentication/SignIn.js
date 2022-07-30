@@ -1,4 +1,3 @@
-import { LinearGradient } from "expo-linear-gradient";
 import {
   Image,
   StyleSheet,
@@ -9,12 +8,13 @@ import {
   KeyboardAvoidingView,
   StatusBar
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import LoginFacebook from "../LoginWithFacebook";
-import LoginGoogle from "../LoginWithGoogle";
+import LoginFacebook from "./LoginFacebook";
+import { LinearGradient } from "expo-linear-gradient";
+import LoginGoogle from "./LoginGoogle";
 import { useState } from "react";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../Firebase/index";
+import { auth } from "../Firebase/index"
+import ImageLogIn from '../../assets/adaptive-icon.png'
 
 function Login({ navigation }) {
   const [email, setEmail] = useState('')
@@ -47,34 +47,35 @@ function Login({ navigation }) {
       });
   }
   return (
-    <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
+    <LinearGradient style={styles.container} colors={["#242526", "#242526"]}>
       <View style={styles.box}>
-        <View style={{ flexDirection: 'row', backgroundColor: 'rgb(76, 94, 192)', height: '28%' }}>
+        <View style={{ flexDirection: 'row', backgroundColor: '#242526', height: '28%' }}>
           <View style={{ flexDirection: 'column', marginTop: '18%' }}>
-            <Text style={styles.textHeader}>Musdio 🎧</Text>
-            <Text style={[styles.textHeader, { fontSize: 15 }]}>Welcome</Text>
+            {/* <Text style={styles.textHeader}>Musdio 🎧</Text> */}
+            {/* <Text style={[styles.textHeader, { fontSize: 15 }]}>Welcome</Text> */}
           </View>
-          <View style={{ marginTop: StatusBar.currentHeight}}>
+          <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', paddingTop: '7%', flexDirection: 'row' }}>
             <Image
-              source={require("../../assets/images/listen.png")}
-              style={{ height: 165, width: 210 }}
+              source={{ uri: 'https://media.discordapp.net/attachments/977411778671677471/1002243690024153190/logo-removebg-preview.png', }}
+              style={{ height: 150, width: 150 }}
             />
+            <Text style={{ color: 'white', fontSize: 30, fontWeight: '900', paddingBottom: '5%', marginLeft: '-7%' }}> Musdio </Text>
           </View>
         </View>
 
         <View style={styles.boxInput}>
-          <View style={{ flexDirection: 'row', backgroundColor: 'rgb(223,223,223)', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}>
-
+          <View style={{ flexDirection: 'row', backgroundColor: '#242526', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}>
             <Text style={[styles.textContent, styles.Active]}>Sign In</Text>
-            <TouchableOpacity style ={{width: '50%',alignItems: 'center'}} onPress = {() =>{ navigation.navigate('SignUp')}} >
-            <Text style={[styles.textContent, styles.nonActive]}>Sign Up</Text>
+            <TouchableOpacity style={{ width: '50%', alignItems: 'center', backgroundColor: '#303134' }} onPress={() => { navigation.navigate('SignUp') }} >
+              <Text style={[styles.textContent, styles.nonActive]}>Sign Up</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={{ marginTop: '4%', justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{ marginTop: '4%', justifyContent: 'center', alignItems: 'center' }}>
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
               <TextInput
-                placeholder="Enter username..."
+                placeholder="Enter email..."
+                placeholderTextColor="white"
                 style={styles.input}
                 onChangeText={(value) => {
                   setEmail(value)
@@ -83,7 +84,7 @@ function Login({ navigation }) {
               />
               {
                 checkEmail ?
-                  <Text style={{ color: 'red', width: '80%' }}>This field must be email</Text>
+                  <Text style={{ color: 'yellow', width: '80%' }}>This field must be email</Text>
                   : null
               }
             </View>
@@ -91,6 +92,8 @@ function Login({ navigation }) {
               <TextInput
                 secureTextEntry={true}
                 placeholder="Enter password..."
+                placeholderTextColor="white"
+
                 style={styles.input}
                 onChangeText={(value) => {
                   setPassword(value)
@@ -99,17 +102,17 @@ function Login({ navigation }) {
               />
               {
                 checkPassword ?
-                  <Text style={{ color: 'blue', width: '80%' }}>Length of password limit is 6</Text>
+                  <Text style={{ color: 'yellow', width: '80%' }}>Length of password limit is 6</Text>
                   : null
               }
             </View>
-            <View style = {{width: '80%'}}>
-            <Text style = {{textAlign: 'right',fontSize:15}}>Forgot your password?</Text>
-            </View>
+            <TouchableOpacity style={{ width: '80%' }} onPress={() => { navigation.navigate('Forgot') }}>
+              <Text style={{ textAlign: 'right', fontSize: 15, color: 'white' }}>Forgot your password?</Text>
+            </TouchableOpacity>
           </View>
-        <TouchableOpacity style={{ marginTop: 30,justifyContent:'center',alignItems:'center' }} onPress={() => { handleSubmit() }}>
-          <Text style={styles.btn}>Login</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={{ marginTop: 30, justifyContent: 'center', alignItems: 'center' }} onPress={() => { handleSubmit() }}>
+            <Text style={styles.btn}>Sign In</Text>
+          </TouchableOpacity>
         </View>
 
         <View
@@ -117,13 +120,14 @@ function Login({ navigation }) {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
+            backgroundColor: '#242526'
           }}
         >
-          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1 }} />
-          <Text style={{ margin: 20, fontSize: 17 }}>Or continue with</Text>
-          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1 }} />
+          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1, backgroundColor: 'white', borderColor: 'white' }} />
+          <Text style={{ margin: 20, fontSize: 17, color: 'white' }}>Or continue with</Text>
+          <Text style={{ borderBottomWidth: 1, height: 1, flex: 1, backgroundColor: 'white', borderColor: 'white' }} />
         </View>
-        <View style={styles.boxSocial}>
+        <View style={[styles.boxSocial, { backgroundColor: '#242526' }]}>
           <LoginFacebook navigation={navigation} />
           <LoginGoogle navigation={navigation} />
         </View>
@@ -150,7 +154,8 @@ const styles = StyleSheet.create({
     width: '50%',
     textAlign: 'center',
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    color: 'white'
   },
   iconSocial: {
     width: 50,
@@ -165,7 +170,7 @@ const styles = StyleSheet.create({
   },
   box: {
     // alignItems: "center",
-    backgroundColor: 'white',
+    backgroundColor: '#242526',
     flex: 1
   },
   textHeader: {
@@ -176,7 +181,6 @@ const styles = StyleSheet.create({
     marginLeft: '15%',
   },
   nonActive: {
-    backgroundColor: 'rgb(223,223,223)',
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     borderBottomLeftRadius: 12
@@ -184,7 +188,7 @@ const styles = StyleSheet.create({
   Active: {
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
-    backgroundColor: 'white'
+    backgroundColor: '#242526'
   },
   img: {
     width: "80%",
@@ -194,28 +198,27 @@ const styles = StyleSheet.create({
     flex: 1,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    top: '-3%'
+    top: '-3%',
+    backgroundColor: '#242526'
   },
   input: {
-    borderWidth: 2,
-    borderColor: "#000",
     width: '80%',
     textAlignVertical: "center",
-    padding: 10,
+    padding: 18,
     paddingLeft: 20,
     borderRadius: 20,
     marginTop: 20,
     shadowColor: "#000",
-
+    color: 'white',
+    backgroundColor: '#38304c',
   },
   btn: {
-    backgroundColor: "#00B0FF",
+    backgroundColor: "#7a56d4",
     padding: 10,
-    fontSize: 15,
-    color: "#000",
+    fontSize: 23,
+    color: "white",
     borderRadius: 20,
     textAlign: "center",
     width: '40%',
-
   },
 });

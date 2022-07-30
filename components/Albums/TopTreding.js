@@ -48,8 +48,7 @@ function TopTrending({navigation}) {
           <Text style={styles.textHeader} >Top Treding</Text>
         </View>
         <View style={styles.Bottom}>
-          <View style={styles.Bar}>
-          </View>
+ 
           <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.id} />
          </View>
 

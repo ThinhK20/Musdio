@@ -24,11 +24,11 @@ export const FormInput = ({ navigation, route }) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [img, setImg] = useState('https://firebasestorage.googleapis.com/v0/b/musdio-6ec90.appspot.com/o/User%2FDefaultAvata%2Fdefault.png?alt=media&token=229c6f28-2544-4477-a5b4-4714234d3d8a');
+  const [img, setImg] = useState('https://firebasestorage.googleapis.com/v0/b/musdio-6ec90.appspot.com/o/User%2FDefaultAvata%2Flisten.png?alt=media&token=320cbedc-9446-4419-a02b-da030add5a3b');
   const [male, setMale] = useState(true)
   const [female, setFemale] = useState(false)
   const [dataImg, setDataImg] = useState([])
-  const [avatarUrl, setAvatarUrl] = useState('https://firebasestorage.googleapis.com/v0/b/musdio-6ec90.appspot.com/o/User%2FDefaultAvata%2Fdefault.png?alt=media&token=229c6f28-2544-4477-a5b4-4714234d3d8a')
+  const [avatarUrl, setAvatarUrl] = useState('https://firebasestorage.googleapis.com/v0/b/musdio-6ec90.appspot.com/o/User%2FDefaultAvata%2Flisten.png?alt=media&token=320cbedc-9446-4419-a02b-da030add5a3b')
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({
       type: 'image/*'
@@ -130,12 +130,12 @@ export const FormInput = ({ navigation, route }) => {
   }
 
   return (
-    <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
+    <LinearGradient style={styles.container} colors={["#242526", "#242526"]}>
       <View style={[styles.box, { top: StatusBar.currentHeight }]}>
-        <View style={{ flexDirection: 'row', backgroundColor: 'rgb(76, 94, 192)', height: '5%' }}>
-          <Text style={[styles.textHeader,{marginLeft: '5%'}]}>Personal Info</Text>
+        <View style={{ flexDirection: 'row', backgroundColor: '#242526', height: '5%' }}>
+          <Text style={[styles.textHeader, { marginLeft: '5%' }]}>Personal Info</Text>
         </View>
-        <View style={[styles.boxInput, { top: '0%' }]}>
+        <View style={[styles.boxInput, { top: '0%',backgroundColor: '#242526' }]}>
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
 
             <TouchableOpacity onPress={() => {
@@ -148,38 +148,39 @@ export const FormInput = ({ navigation, route }) => {
 
               <Image style={{ height: 150, width: 150, borderRadius: 100, marginTop: 10 }} source={{ uri: img }} />
             </TouchableOpacity>
-            <Text style={{ paddingTop: 20 }}>Tap to change your avata</Text>
+            <Text style={{ paddingTop: 20,color: 'white',fontSize: 21 }}>Tap to change your avata</Text>
           </View>
 
           <View style={{ marginTop: '4%', justifyContent: 'center', alignItems: 'center' }}>
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
-              <Text style={{ width: '80%' }} >Enter your username</Text>
+              <Text style={{ width: '80%',color: 'white' }} >Enter your username</Text>
               <TextInput
                 placeholder="Enter username..."
+                placeholderTextColor="white" 
                 style={[styles.input]}
                 onChangeText={(value) => setUsername(value)}
               />
             </View>
 
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
-              <Text style={{ width: '80%' }}>Choose your birthdate</Text>
+              <Text style={{ width: '80%', color: 'white'}}>Choose your birthdate</Text>
               <View style={[styles.input, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                <Text>
+                <Text style = {{color: 'white'}}>
                   {
                     date.toLocaleDateString()
                   }
                 </Text>
-                <AntDesign name="calendar" size={24} color="black" style={{}} onPress={showDatepicker} />
+                <AntDesign name="calendar" size={24} color="white" style={{}} onPress={showDatepicker} />
               </View>
               {show && (
-              <DateTimePicker
-                value={date}
-                mode={mode}
-                display={"spinner"}
-                onChange={(event, value) => {
-                  console.log(event, value)
-                  onChange(event, value, show)
-                }}
+                <DateTimePicker
+                  value={date}
+                  mode={mode}
+                  display={"spinner"}
+                  onChange={(event, value) => {
+                    console.log(event, value)
+                    onChange(event, value, show)
+                  }}
                 />
               )}
             </View>
@@ -188,12 +189,12 @@ export const FormInput = ({ navigation, route }) => {
                 setMale(!male)
                 setFemale(false)
               }} />
-              <Text style={{ fontSize: 18, marginLeft: 10, marginRight: 30 }}>Male</Text>
+              <Text style={{ fontSize: 18, marginLeft: 10, marginRight: 30,color: 'white' }}>Male</Text>
               <Checkbox value={female} onValueChange={() => {
                 setMale(false)
                 setFemale(!female)
               }} />
-              <Text style={{ fontSize: 18, marginLeft: 10 }}>Female</Text>
+              <Text style={{ fontSize: 18, marginLeft: 10,color: 'white' }}>Female</Text>
             </View>
           </View>
           <TouchableOpacity
@@ -245,23 +246,24 @@ export function SignUp({ navigation }) {
   };
 
   return (
-    <LinearGradient style={styles.container} colors={["#FBFBFB", "#588CDA"]}>
+    <LinearGradient style={styles.container} colors={["#242526", "#242526"]}>
       <View style={styles.box}>
-        <View style={{ flexDirection: 'row', backgroundColor: 'rgb(76, 94, 192)', height: '28%' }}>
+        <View style={{ flexDirection: 'row', backgroundColor: '#242526', height: '28%' }}>
           <View style={{ flexDirection: 'column', marginTop: '18%' }}>
-            <Text style={styles.textHeader}>Musdio 🎧</Text>
-            <Text style={[styles.textHeader, { fontSize: 15 }]}>Welcome</Text>
+            {/* <Text style={styles.textHeader}>Musdio 🎧</Text> */}
+            {/* <Text style={[styles.textHeader, { fontSize: 15 }]}>Welcome</Text> */}
           </View>
-          <View style={{ marginTop: StatusBar.currentHeight }}>
+          <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', paddingTop: '7%', flexDirection: 'row' }}>
             <Image
-              source={require("../../assets/images/listen.png")}
-              style={{ height: 165, width: 210 }}
+              source={{ uri: 'https://media.discordapp.net/attachments/977411778671677471/1002243690024153190/logo-removebg-preview.png', }}
+              style={{ height: 150, width: 150 }}
             />
+            <Text style={{ color: 'white', fontSize: 30, fontWeight: '900', paddingBottom: '5%', marginLeft: '-7%' }}> Musdio </Text>
           </View>
         </View>
         <View style={styles.boxInput}>
-          <View style={{ flexDirection: 'row', backgroundColor: 'rgb(223,223,223)', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}>
-            <TouchableOpacity style={{ width: '50%', alignItems: 'center' }} onPress={() => { navigation.navigate('Login') }} >
+          <View style={{ flexDirection: 'row', backgroundColor: '#242526', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}>
+            <TouchableOpacity style={{ width: '50%', alignItems: 'center', backgroundColor: '#303134' }} onPress={() => { navigation.navigate('Login') }} >
               <Text style={[styles.textContent, styles.nonActive]}>Sign In</Text>
             </TouchableOpacity>
             <Text style={[styles.textContent, styles.Active]}>Sign Up</Text>
@@ -270,6 +272,7 @@ export function SignUp({ navigation }) {
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
               <TextInput
                 placeholder="Enter email..."
+                placeholderTextColor="white" 
                 style={styles.input}
                 onChangeText={(value) => setEmail(value)}
               />
@@ -278,6 +281,7 @@ export function SignUp({ navigation }) {
               <TextInput
                 secureTextEntry={true}
                 placeholder="Enter password..."
+                placeholderTextColor="white" 
                 style={styles.input}
                 onChangeText={(value) => setPassword(value)}
               />
@@ -285,6 +289,7 @@ export function SignUp({ navigation }) {
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
               <TextInput
                 secureTextEntry={true}
+                placeholderTextColor="white" 
                 placeholder="Enter confirm password..."
                 style={styles.input}
                 onChangeText={(value) => setCassword(value)}
@@ -296,7 +301,7 @@ export function SignUp({ navigation }) {
             style={{ marginTop: 30, justifyContent: 'center', alignItems: 'center' }}
             onPress={handleSubmit}
           >
-            <Text style={styles.btn}>SignUp</Text>
+            <Text style={styles.btn}>Sign Up</Text>
           </TouchableOpacity>
         </View>
 
@@ -309,18 +314,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+  },
+  boxSocial: {
+    width: "100%",
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
+  },
+  textContent: {
+    fontSize: 24,
+    width: '50%',
+    textAlign: 'center',
+    paddingTop: 10,
+    paddingBottom: 10,
+    color: 'white'
+  },
+  iconSocial: {
+    width: 50,
+    height: 50,
+    margin: 20,
+    marginTop: 5,
+  },
+  prevBtn: {
+    position: "absolute",
+    top: "5%",
+    left: "2.5%",
   },
   box: {
-    flex: 1,
-    width: '100%'
-  },
-  boxInput: {
-    flex: 1,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    top: '-3%'
+    // alignItems: "center",
+    backgroundColor: '#242526',
+    flex: 1
   },
   textHeader: {
     fontSize: 26,
@@ -329,31 +352,7 @@ const styles = StyleSheet.create({
     color: 'white',
     marginLeft: '15%',
   },
-  img: {
-    width: "80%",
-    height: "40%",
-  },
-  input: {
-    borderWidth: 2,
-    borderColor: "#000",
-    width: '80%',
-    textAlignVertical: "center",
-    padding: 10,
-    paddingLeft: 20,
-    borderRadius: 20,
-    marginTop: 10,
-    marginBottom: 10,
-    shadowColor: "#000",
-  },
-  textContent: {
-    fontSize: 24,
-    width: '50%',
-    textAlign: 'center',
-    paddingTop: 10,
-    paddingBottom: 10
-  },
   nonActive: {
-    backgroundColor: 'rgb(223,223,223)',
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     borderBottomLeftRadius: 12
@@ -361,13 +360,35 @@ const styles = StyleSheet.create({
   Active: {
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
-    backgroundColor: 'white'
+    backgroundColor: '#242526'
+  },
+  img: {
+    width: "80%",
+    height: "40%",
+  },
+  boxInput: {
+    flex: 1,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    top: '-3%',
+    backgroundColor: '#242526'
+  },
+  input: {
+    width: '80%',
+    textAlignVertical: "center",
+    padding: 18,
+    paddingLeft: 20,
+    borderRadius: 20,
+    marginTop: 20,
+    shadowColor: "#000",
+    color: 'white',
+    backgroundColor: '#38304c',
   },
   btn: {
-    backgroundColor: "#00B0FF",
+    backgroundColor: "#7a56d4",
     padding: 10,
-    fontSize: 20,
-    color: "#000",
+    fontSize: 23,
+    color: "white",
     borderRadius: 20,
     textAlign: "center",
     width: '40%',

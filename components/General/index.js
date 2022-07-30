@@ -103,8 +103,6 @@ function Profile({ navigation }) {
           <Text style={styles.textHeader} >Profile</Text>
         </View>
         <View style={styles.Bottom}>
-          <View style={styles.Bar}>
-          </View>
           <View style = {{justifyContent: 'center',
     alignItems: 'center',}}>
           <View style= {styles.Avatar}>
