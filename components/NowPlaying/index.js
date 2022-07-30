@@ -8,15 +8,31 @@ import {
   TouchableOpacity,
   Animated,
   ImageBackground,
-  Easing,ScrollView
-
+  Easing,
+  ScrollView,
+  Pressable,
+  useWindowDimensions,
+  Alert,
 } from "react-native";
+import {
+  Button,
+  Actionsheet,
+  useDisclose,
+  Center,
+  NativeBaseProvider,
+  Divider,
+} from "native-base";
 import Slider from "react-native-slider";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
-import { FontAwesome5, Entypo } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  FontAwesome5,
+  Entypo,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setTheme } from "../Redux/generalSlider";
 import { memo } from "react";
@@ -37,6 +53,7 @@ const LYRICS = [
 
 function NowPlaying({ navigation, route }) {
   const { playID } = route.params;
+  const { isOpen, onOpen, onClose } = useDisclose();
   const songs = (() => {
     const source_songs = useSelector((state) => state.musics);
     const listSongs = [];
@@ -90,7 +107,6 @@ function NowPlaying({ navigation, route }) {
 
   // Handle event when user clicked the next button ==> Set new current index & new current song
   const handleNextSong = () => {
-
     if (!activeRandomBtn) {
       if (currentIndex + 1 > songs.length - 1) {
         setCurrentIndex((prevIndex) => {
@@ -113,7 +129,6 @@ function NowPlaying({ navigation, route }) {
 
   // Handle event when user clicked the prev button
   const handlePrevSong = () => {
-
     if (!activeRandomBtn) {
       if (currentIndex - 1 < 0) {
         setCurrentIndex((prevIndex) => {
@@ -173,7 +188,8 @@ function NowPlaying({ navigation, route }) {
 
   // Handle event when user is dragging slider
   useEffect(() => {
-      sound.current.setOnPlaybackStatusUpdate((onPlaybackStatusUpdate) => {
+    sound.current.setOnPlaybackStatusUpdate(
+      (onPlaybackStatusUpdate) => {
         let sliderValue =
           Number(
             onPlaybackStatusUpdate.positionMillis /
@@ -187,8 +203,9 @@ function NowPlaying({ navigation, route }) {
         if (onPlaybackStatusUpdate.didJustFinish && !activeRepeatBtn) {
           handleNextSong();
         }
-      }, [isChangeProgress]);
-    
+      },
+      [isChangeProgress]
+    );
   });
   const stopWhenBack = () => {
     if (playing) {
@@ -250,14 +267,25 @@ function NowPlaying({ navigation, route }) {
     setOpenOptionsMenu(!openOptionsMenu);
   };
 
+  const handleOpenSleepTimer = () => {
+      setOpenOptionsMenu(false)
+      onOpen() 
+  }
+
   return (
     <LinearGradient
       colors={
-        theme === "dark" ? ["#27153E","#27153E" ] : ["#f5f6fd", "#f5f6fd"]
+        theme === "dark" ? ["#27153E", "#27153E"] : ["#f5f6fd", "#f5f6fd"]
       }
       style={styles.LinearGradient}
     >
-      <ImageBackground source={{uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701"}} resizeMode="cover" style={styles.image}>
+      <ImageBackground
+        source={{
+          uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701",
+        }}
+        resizeMode="cover"
+        style={styles.image}
+      >
         <View style={styles.pageStatusBar}>
           <TouchableOpacity style={styles.iconHeader} onPress={stopWhenBack}>
             <Ionicons
@@ -267,7 +295,9 @@ function NowPlaying({ navigation, route }) {
               style={theme === "light" && styles.blackColor}
             />
           </TouchableOpacity>
-          <Text style={[styles.pageName, theme === "dark" && styles.whiteColor]}>
+          <Text
+            style={[styles.pageName, theme === "dark" && styles.whiteColor]}
+          >
             Playing Now
           </Text>
           <TouchableOpacity onPress={handleOpenOptionsMenu}>
@@ -283,9 +313,8 @@ function NowPlaying({ navigation, route }) {
         <View style={styles.container}>
           <Text
             style={[styles.playlistText, theme === "dark" && styles.whiteColor]}
-          >
-          </Text>
-        
+          ></Text>
+
           <Animated.Image
             style={[styles.cdImage, { transform: [{ rotate: rotateData }] }]}
             source={{ uri: currentSong.img }}
@@ -301,7 +330,9 @@ function NowPlaying({ navigation, route }) {
             onSlidingStart={() => setIsChangeProgess(true)}
             onSlidingComplete={handleDraggingSlider}
           />
-          <Text style={[styles.songName, theme === "dark" && styles.whiteColor]}>
+          <Text
+            style={[styles.songName, theme === "dark" && styles.whiteColor]}
+          >
             {currentSong.name}
           </Text>
           <Text
@@ -310,12 +341,18 @@ function NowPlaying({ navigation, route }) {
             {currentSong.singer}
           </Text>
           <ScrollView style={styles.lyricsBox}>
-            <View style={{ flexDirection: 'row', paddingLeft :'10%', paddingRight:'10%'}}>
-              <Text style={{ flex: 1, flexWrap: 'wrap', color:'white'}}>
-                  Lyrics here....
+            <View
+              style={{
+                flexDirection: "row",
+                paddingLeft: "10%",
+                paddingRight: "10%",
+              }}
+            >
+              <Text style={{ flex: 1, flexWrap: "wrap", color: "white" }}>
+                Lyrics here....
               </Text>
             </View>
-        </ScrollView>
+          </ScrollView>
           <View style={styles.musicControl}>
             <TouchableOpacity
               style={styles.random}
@@ -325,7 +362,11 @@ function NowPlaying({ navigation, route }) {
                 name="random"
                 size={20}
                 color={
-                  activeRandomBtn ? "#1db954" : theme === "dark" ? "#fff" : "#000"
+                  activeRandomBtn
+                    ? "#1db954"
+                    : theme === "dark"
+                    ? "#fff"
+                    : "#000"
                 }
               />
             </TouchableOpacity>
@@ -361,7 +402,10 @@ function NowPlaying({ navigation, route }) {
                 />
               )}
             </TouchableOpacity>
-            <TouchableOpacity style={styles.stepforward} onPress={handleNextSong}>
+            <TouchableOpacity
+              style={styles.stepforward}
+              onPress={handleNextSong}
+            >
               <FontAwesome
                 name="step-forward"
                 size={24}
@@ -373,7 +417,11 @@ function NowPlaying({ navigation, route }) {
                 name="repeat"
                 size={20}
                 color={
-                  activeRepeatBtn ? "#1db954" : theme === "dark" ? "#fff" : "#000"
+                  activeRepeatBtn
+                    ? "#1db954"
+                    : theme === "dark"
+                    ? "#fff"
+                    : "#000"
                 }
               />
             </TouchableOpacity>
@@ -400,7 +448,61 @@ function NowPlaying({ navigation, route }) {
                 color="white"
                 style={styles.optionsItemIcon}
               />
-              <Text style={styles.optionsItemText}>Set sleep timer</Text>
+              <Text style={styles.optionsItemText} onPress={handleOpenSleepTimer}>
+                Set sleep timer
+              </Text>
+              <NativeBaseProvider>
+                <Center style={styles.layoutSleepTimer} >
+                  <Actionsheet isOpen={isOpen} onClose={onClose}  >
+                    <Actionsheet.Content backgroundColor="black">
+                      <Actionsheet.Item  backgroundColor="black"
+                        onPress={() => alert(1)}
+                        _text={{
+                          color: "blue.500",
+                        }}
+                      >
+                        15 minutes
+                      </Actionsheet.Item>
+                      <Actionsheet.Item
+                       backgroundColor="black"
+                        onPress={() => alert(1)}
+                        _text={{
+                          color: "blue.500",
+                        }}
+                      >
+                        30 minutes
+                      </Actionsheet.Item>
+                      <Actionsheet.Item
+                       backgroundColor="black"
+                        onPress={() => alert(1)}
+                        _text={{
+                          color: "blue.500",
+                        }}
+                      >
+                        45 minutes
+                      </Actionsheet.Item>
+                      <Actionsheet.Item
+                       backgroundColor="black"
+                        onPress={() => alert(1)}
+                        _text={{
+                          color: "blue.500",
+                        }}
+                      >
+                        1 hour
+                      </Actionsheet.Item>
+                      <Actionsheet.Item
+                       backgroundColor="black"
+                        onPress={() => alert(1)}
+                        _text={{
+                          color: "blue.500",
+                        }}
+                      >
+                        Cancel
+                      </Actionsheet.Item>
+                    </Actionsheet.Content>
+                  </Actionsheet>
+                </Center>
+              </NativeBaseProvider>
             </View>
           </TouchableOpacity>
           <View style={styles.optionsItem}>
@@ -452,7 +554,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingTop: 40
+    paddingTop: 40,
   },
   blackColor: {
     color: "#000",
@@ -467,7 +569,6 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     borderColor: "#000",
-
   },
   iconHeader: {
     position: "absolute",
@@ -500,7 +601,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     marginTop: 10,
     opacity: 0.8,
-    color: "#796e87"
+    color: "#796e87",
   },
   cdImage: {
     width: 150,
@@ -607,5 +708,6 @@ const styles = StyleSheet.create({
     color: "red",
     backgroundColor: "#fff",
   },
-  
+  layoutSleepTimer: {
+  }
 });
