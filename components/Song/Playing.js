@@ -20,20 +20,7 @@ import { FontAwesome5, Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setTheme } from "../Redux/generalSlider";
 import { memo } from "react";
-const LYRICS = [
-  {
-    id: 1,
-    text: "君の虜になってしまえばきっと",
-  },
-  {
-    id: 2,
-    text: "この夏は充実するのもっと",
-  },
-  {
-    id: 3,
-    text: "...",
-  },
-];
+
 
 function NowPlaying({ navigation, route }) {
   const { playID } = route.params;
@@ -250,7 +237,24 @@ function NowPlaying({ navigation, route }) {
   const handleOpenOptionsMenu = () => {
     setOpenOptionsMenu(!openOptionsMenu);
   };
-
+  const handleLyric = () => {
+    var a = currentSong.lyric
+    let newString = ""
+    pre_index = 0
+    for(var i = 0; i < a.length ; i++){
+      if(a[i] == a[i].toUpperCase() && i != 0 && a[i]>= 'A' && a[i] <='Z'){
+        var temp = a.slice(pre_index , i)
+        newString = newString + temp + "\n"
+        pre_index = i
+      }
+      if(i == a.length - 1){
+        var temp = a.slice(pre_index , a.length)
+        newString = newString + temp + "\n"
+    
+      }
+    }
+    return newString
+  };
   return (
     <LinearGradient
       colors={
@@ -312,8 +316,8 @@ function NowPlaying({ navigation, route }) {
           </Text>
           <ScrollView style={styles.lyricsBox}>
             <View style={{ flexDirection: 'row', paddingLeft :'10%', paddingRight:'10%'}}>
-              <Text style={{ flex: 1, flexWrap: 'wrap', color:'white'}}>
-                  Lyrics here....
+              <Text style={{ flex: 1, flexWrap: 'wrap', color:'white', fontSize : 20, fontWeight: 'bold', opacity: 0.5}}>
+                  {handleLyric()}
               </Text>
             </View>
         </ScrollView>
@@ -498,7 +502,7 @@ const styles = StyleSheet.create({
   },
   artistName: {
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: "bold",
     marginTop: 10,
     opacity: 0.8,
     color: "#796e87"

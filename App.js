@@ -19,14 +19,14 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="LoadingSongs" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="SignIn" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Footer" component={Footer} />
           <Stack.Screen name="Setting" component={Setting} />
           <Stack.Screen name="NowPlaying" component={NowPlaying} initialParams={{ playID: '2Q4ITzM0aLxpwZugrHKC' }}/>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="Playlist" component={Playlist} />
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="SignIn" component={Login} />
           <Stack.Screen name="LoadingSongs" component={LoadingSongs} />
           <Stack.Screen name="Search" component={Search} />
           <Stack.Screen name="TopTreding" component={TopTreding} />
