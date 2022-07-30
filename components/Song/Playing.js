@@ -254,7 +254,6 @@ function NowPlaying({ navigation, route }) {
   const handleOpenOptionsMenu = () => {
     setOpenOptionsMenu(!openOptionsMenu);
   };
-<<<<<<< HEAD
   const handleLyric = () => {
     var a = currentSong.lyric
     let newString = ""
@@ -273,14 +272,6 @@ function NowPlaying({ navigation, route }) {
     }
     return newString
   };
-=======
-
-  const handleOpenSleepTimer = () => {
-      setOpenOptionsMenu(false)
-      onOpen() 
-  }
-
->>>>>>> 8c7216e6ec8229c71fc8892b067108bd42e61ac3
   return (
     <LinearGradient
       colors={
@@ -350,21 +341,9 @@ function NowPlaying({ navigation, route }) {
             {currentSong.singer}
           </Text>
           <ScrollView style={styles.lyricsBox}>
-<<<<<<< HEAD
             <View style={{ flexDirection: 'row', paddingLeft :'10%', paddingRight:'10%'}}>
               <Text style={{ flex: 1, flexWrap: 'wrap', color:'white', fontSize : 20, fontWeight: 'bold', opacity: 0.5}}>
                   {handleLyric()}
-=======
-            <View
-              style={{
-                flexDirection: "row",
-                paddingLeft: "10%",
-                paddingRight: "10%",
-              }}
-            >
-              <Text style={{ flex: 1, flexWrap: "wrap", color: "white" }}>
-                Lyrics here....
->>>>>>> 8c7216e6ec8229c71fc8892b067108bd42e61ac3
               </Text>
             </View>
           </ScrollView>
