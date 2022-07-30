@@ -36,8 +36,6 @@ export default function App() {
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
           <Stack.Screen name="AboutUs" component={AboutUs} />
           <Stack.Screen name="Forgot" component={Forgot} />
-
-
           <Stack.Screen name="FormInput" component={FormInput} initialParams={{ playID: '9XOr8Yi7cWYLnSDwfSJibjExJ7d2' }} />
 
         </Stack.Navigator>
