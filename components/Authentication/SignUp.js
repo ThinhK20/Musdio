@@ -133,7 +133,7 @@ export const FormInput = ({ navigation, route }) => {
     <LinearGradient style={styles.container} colors={["#242526", "#242526"]}>
       <View style={[styles.box, { top: StatusBar.currentHeight }]}>
         <View style={{ flexDirection: 'row', backgroundColor: '#242526', height: '5%' }}>
-          <Text style={[styles.textHeader, { marginLeft: '5%' }]}>Personal Info</Text>
+          <Text style={[styles.textHeader, { marginLeft: '30%' , fontWeight: 'bold'}]}>Personal Info</Text>
         </View>
         <View style={[styles.boxInput, { top: '0%',backgroundColor: '#242526' }]}>
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
@@ -263,7 +263,7 @@ export function SignUp({ navigation }) {
         </View>
         <View style={styles.boxInput}>
           <View style={{ flexDirection: 'row', backgroundColor: '#242526', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}>
-            <TouchableOpacity style={{ width: '50%', alignItems: 'center', backgroundColor: '#303134' }} onPress={() => { navigation.navigate('Login') }} >
+            <TouchableOpacity style={{ width: '50%', alignItems: 'center', backgroundColor: '#303134' }} onPress={() => { navigation.navigate('SignIn') }} >
               <Text style={[styles.textContent, styles.nonActive]}>Sign In</Text>
             </TouchableOpacity>
             <Text style={[styles.textContent, styles.Active]}>Sign Up</Text>
