@@ -13,6 +13,7 @@ import {
   Pressable,
   useWindowDimensions,
   Alert,
+  ToastAndroid,
 } from "react-native";
 import {
   Button,
@@ -37,6 +38,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTheme } from "../Redux/generalSlider";
 import { memo } from "react";
 
+<<<<<<< Updated upstream
+=======
+
+const LYRICS = [
+  {
+    id: 1,
+    text: "君の虜になってしまえばきっと",
+  },
+  {
+    id: 2,
+    text: "この夏は充実するのもっと",
+  },
+  {
+    id: 3,
+    text: "...",
+  },
+];
+>>>>>>> Stashed changes
 
 function NowPlaying({ navigation, route }) {
   const { playID } = route.params;
@@ -254,6 +273,7 @@ function NowPlaying({ navigation, route }) {
   const handleOpenOptionsMenu = () => {
     setOpenOptionsMenu(!openOptionsMenu);
   };
+<<<<<<< Updated upstream
   const handleLyric = () => {
     var a = currentSong.lyric
     let newString = ""
@@ -272,6 +292,32 @@ function NowPlaying({ navigation, route }) {
     }
     return newString
   };
+=======
+  const handleCloseSleepTimer = () =>{
+    onClose()
+  }
+  const handleSetSuccessTime = () => {
+    ToastAndroid.show(
+      "The set was successful.",
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER
+    );
+    onClose()
+  };
+  const handleTurnOff = () => {
+    ToastAndroid.show(
+      "Turn off was successful.",
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER
+    );
+        onClose()
+  };
+  const handleOpenSleepTimer = () => {
+      setOpenOptionsMenu(false)
+      onOpen() 
+  }
+
+>>>>>>> Stashed changes
   return (
     <LinearGradient
       colors={
@@ -434,7 +480,7 @@ function NowPlaying({ navigation, route }) {
               <Text style={styles.optionsItemText}>Add into favorite list</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionsItem} onPress = {() => { navigation.navigate('Sleep')}}>
+          <TouchableOpacity style={styles.optionsItem} onPress = {() => handleOpenSleepTimer()}>
             <View style={styles.optionsItemContent}>
               <AntDesign
                 name="clockcircleo"
@@ -442,53 +488,53 @@ function NowPlaying({ navigation, route }) {
                 color="white"
                 style={styles.optionsItemIcon}
               />
-              <Text style={styles.optionsItemText} onPress={handleOpenSleepTimer}>
+              <Text style={styles.optionsItemText} onPress={()=>handleOpenSleepTimer()}>
                 Set sleep timer
               </Text>
               <NativeBaseProvider>
                 <Center style={styles.layoutSleepTimer} >
                   <Actionsheet isOpen={isOpen} onClose={onClose}  >
-                    <Actionsheet.Content backgroundColor="black">
-                      <Actionsheet.Item  backgroundColor="black"
-                        onPress={() => alert(1)}
+                    <Actionsheet.Content backgroundColor="#3d3d5c">
+                      <Actionsheet.Item  backgroundColor="#3d3d5c"
+                        onPress={() => handleSetSuccessTime()}
                         _text={{
-                          color: "blue.500",
+                          color: "white",
                         }}
                       >
                         15 minutes
                       </Actionsheet.Item>
                       <Actionsheet.Item
-                       backgroundColor="black"
-                        onPress={() => alert(1)}
+                       backgroundColor="#3d3d5c"
+                        onPress={() => handleSetSuccessTime()}
                         _text={{
-                          color: "blue.500",
+                          color: "white",
                         }}
                       >
                         30 minutes
                       </Actionsheet.Item>
                       <Actionsheet.Item
-                       backgroundColor="black"
-                        onPress={() => alert(1)}
+                       backgroundColor="#3d3d5c"
+                        onPress={() => handleSetSuccessTime()}
                         _text={{
-                          color: "blue.500",
+                          color: "white",
                         }}
                       >
                         45 minutes
                       </Actionsheet.Item>
                       <Actionsheet.Item
-                       backgroundColor="black"
-                        onPress={() => alert(1)}
+                       backgroundColor="#3d3d5c"
+                        onPress={() => handleSetSuccessTime()}
                         _text={{
-                          color: "blue.500",
+                          color: "white",
                         }}
                       >
                         1 hour
                       </Actionsheet.Item>
                       <Actionsheet.Item
-                       backgroundColor="black"
-                        onPress={() => alert(1)}
+                       backgroundColor="#3d3d5c"
+                        onPress={() => handleTurnOff()}
                         _text={{
-                          color: "blue.500",
+                          color: "white",
                         }}
                       >
                         Cancel
