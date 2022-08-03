@@ -3,24 +3,17 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  FlatList,
   TouchableOpacity,
   Animated,
   ImageBackground,
   Easing,
   ScrollView,
-  Pressable,
-  useWindowDimensions,
-  Alert,
 } from "react-native";
 import {
-  Button,
   Actionsheet,
   useDisclose,
   Center,
   NativeBaseProvider,
-  Divider,
 } from "native-base";
 import Slider from "react-native-slider";
 import { useEffect, useState, useRef, useMemo } from "react";
@@ -28,55 +21,34 @@ import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import {
   FontAwesome,
-  FontAwesome5,
   Entypo,
-  MaterialIcons,
-  MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setTheme } from "../Redux/generalSlider";
 import { memo } from "react";
-const LYRICS = [
-  {
-    id: 1,
-    text: "君の虜になってしまえばきっと",
-  },
-  {
-    id: 2,
-    text: "この夏は充実するのもっと",
-  },
-  {
-    id: 3,
-    text: "...",
-  },
-];
 
 function NowPlaying({ navigation, route }) {
   const { playID } = route.params;
   const { isOpen, onOpen, onClose } = useDisclose();
-  const songs = (() => {
-    const source_songs = useSelector((state) => state.musics);
-    const listSongs = [];
+  const source_songs = useSelector((state) => state.musics);
+  const [activeRandomBtn, setActiveRandomBtn] = useState(false);
+  const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
+  const [openOptionsMenu, setOpenOptionsMenu] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentSong, setCurrentSong] = useState(() => {
+    const songs = [];
     for (let value of playID) {
       const song = source_songs.find((obj) => obj.id == value);
       if (song) {
-        listSongs.push(song);
+        songs.push(song);
       }
     }
-    return listSongs;
-  })();
-
-  const [activeRandomBtn, setActiveRandomBtn] = useState(false);
-  const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
-
-  const [openOptionsMenu, setOpenOptionsMenu] = useState(false);
-
-  const [playing, setPlaying] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
+    return songs[currentIndex]
+  });
   const [currentDuration, setCurrentDuration] = useState(0);
   const [isChangeProgress, setIsChangeProgess] = useState(false);
-
+  console.log("Running...")
   const [randomNumber, setRandomNumber] = useState();
 
   const dispatch = useDispatch();
@@ -206,7 +178,7 @@ function NowPlaying({ navigation, route }) {
       },
       [isChangeProgress]
     );
-  });
+  }, []);
   const stopWhenBack = () => {
     if (playing) {
       sound.current.unloadAsync().then((resolve) => {
@@ -222,10 +194,10 @@ function NowPlaying({ navigation, route }) {
   // Rotate CD Animation
   let rotateValueHolder = useRef(new Animated.Value(0)).current;
 
-  const rotateData = rotateValueHolder.interpolate({
+  const rotateData = useRef(rotateValueHolder.interpolate({
     inputRange: [0, 1],
     outputRange: ["0deg", "360deg"],
-  });
+  })).current;
 
   useEffect(() => {
     try {

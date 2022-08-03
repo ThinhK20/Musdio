@@ -66,7 +66,6 @@ export const FormInput = ({ navigation, route }) => {
     const response = await fetch(dataImg.uri)
     const blob = await response.blob();
     const storageRef = ref(storage, `User/Avatar/${dataImg.name}`);
-    console.log("AAA")
     const uploadTask = uploadBytesResumable(storageRef, blob);
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on('state_changed',
