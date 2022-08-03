@@ -37,7 +37,7 @@ function Setting({ navigation }) {
             try {
               signOut(auth).then(() => {
                 Alert.alert("Success", "Log out success.")
-                navigation.navigate("Login")
+                navigation.navigate("SignIn")
               }
               )
             } catch (e) {
