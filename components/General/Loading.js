@@ -25,7 +25,6 @@ export default function LoadingSongs({ navigation }) {
             }
           )
           .then((response) => {
-            console.log(response.data)
             dispatch(setUser(response.data.data));
           })
           .then(() => {

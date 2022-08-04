@@ -49,7 +49,6 @@ function NowPlaying({ navigation, route }) {
   });
   const [currentDuration, setCurrentDuration] = useState(0);
   const [isChangeProgress, setIsChangeProgess] = useState(false);
-  console.log("Running...")
   const [randomNumber, setRandomNumber] = useState();
 
   const dispatch = useDispatch();
