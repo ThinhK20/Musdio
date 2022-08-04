@@ -47,6 +47,7 @@ function Playlist({ navigation }) {
                   const newData = oldData.filter(song => {
                     return song.id != id;
                   });
+                  Alert("Removed Successfully !")
                   return newData
                 })
               })

@@ -38,25 +38,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTheme } from "../Redux/generalSlider";
 import { memo } from "react";
 
-<<<<<<< Updated upstream
-=======
-
-const LYRICS = [
-  {
-    id: 1,
-    text: "君の虜になってしまえばきっと",
-  },
-  {
-    id: 2,
-    text: "この夏は充実するのもっと",
-  },
-  {
-    id: 3,
-    text: "...",
-  },
-];
->>>>>>> Stashed changes
-
 function NowPlaying({ navigation, route }) {
   const { playID } = route.params;
   const { isOpen, onOpen, onClose } = useDisclose();
@@ -74,7 +55,7 @@ function NowPlaying({ navigation, route }) {
 
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
-
+  const [checkTimer, setCheckTimer] = useState(0)
   const [openOptionsMenu, setOpenOptionsMenu] = useState(false);
 
   const [playing, setPlaying] = useState(false);
@@ -99,7 +80,10 @@ function NowPlaying({ navigation, route }) {
       sound.current.setIsLoopingAsync(false);
     }
   };
-
+  const handleOpenSleepTimer = () => {
+    setOpenOptionsMenu(false)
+    onOpen()
+  }
   // Handle event when user clicked when user clicked random button ==> Set random number and active button
   useEffect(() => {
     if (activeRandomBtn) {
@@ -199,7 +183,7 @@ function NowPlaying({ navigation, route }) {
         let sliderValue =
           Number(
             onPlaybackStatusUpdate.positionMillis /
-              onPlaybackStatusUpdate.durationMillis
+            onPlaybackStatusUpdate.durationMillis
           ) - "0";
         if (!sliderValue) sliderValue = 0;
         if (!isChangeProgress) {
@@ -219,7 +203,7 @@ function NowPlaying({ navigation, route }) {
         setPlaying(!playing);
         navigation.navigate("Home");
       });
-    } 
+    }
     else {
       navigation.goBack();
     }
@@ -269,55 +253,57 @@ function NowPlaying({ navigation, route }) {
       sound.current.setVolumeAsync(value);
     }
   };
-
-  const handleOpenOptionsMenu = () => {
-    setOpenOptionsMenu(!openOptionsMenu);
-  };
-<<<<<<< Updated upstream
-  const handleLyric = () => {
-    var a = currentSong.lyric
-    let newString = ""
-    pre_index = 0
-    for(var i = 0; i < a.length ; i++){
-      if(a[i] == a[i].toUpperCase() && i != 0 && a[i]>= 'A' && a[i] <='Z'){
-        var temp = a.slice(pre_index , i)
-        newString = newString + temp + "\n"
-        pre_index = i
-      }
-      if(i == a.length - 1){
-        var temp = a.slice(pre_index , a.length)
-        newString = newString + temp + "\n"
-    
-      }
-    }
-    return newString
-  };
-=======
-  const handleCloseSleepTimer = () =>{
-    onClose()
-  }
-  const handleSetSuccessTime = () => {
+  const handleSetSuccessTime = (timer) => {
+    console.log(timer)
+    onClose();
     ToastAndroid.show(
       "The set was successful.",
       ToastAndroid.SHORT,
       ToastAndroid.CENTER
     );
-    onClose()
-  };
+    console.log("set 15p" + checkTimer)
+    clearTimeout(checkTimer);
+     setCheckTimer( setTimeout(() => {
+      ToastAndroid.show(
+        "Song has been stopped",
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER
+      );
+      console.log('pause' + checkTimer);
+      setPlaying(false);
+      sound.current.pauseAsync();
+    }, timer));
+  }
   const handleTurnOff = () => {
     ToastAndroid.show(
       "Turn off was successful.",
       ToastAndroid.SHORT,
       ToastAndroid.CENTER
     );
-        onClose()
+    clearTimeout(checkTimer);
+    onClose();
   };
-  const handleOpenSleepTimer = () => {
-      setOpenOptionsMenu(false)
-      onOpen() 
-  }
+  const handleOpenOptionsMenu = () => {
+    setOpenOptionsMenu(!openOptionsMenu);
+  };
+  const handleLyric = () => {
+    var a = currentSong.lyric
+    let newString = ""
+    pre_index = 0
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] == a[i].toUpperCase() && i != 0 && a[i] >= 'A' && a[i] <= 'Z') {
+        var temp = a.slice(pre_index, i)
+        newString = newString + temp + "\n"
+        pre_index = i
+      }
+      if (i == a.length - 1) {
+        var temp = a.slice(pre_index, a.length)
+        newString = newString + temp + "\n"
 
->>>>>>> Stashed changes
+      }
+    }
+    return newString
+  };
   return (
     <LinearGradient
       colors={
@@ -387,9 +373,9 @@ function NowPlaying({ navigation, route }) {
             {currentSong.singer}
           </Text>
           <ScrollView style={styles.lyricsBox}>
-            <View style={{ flexDirection: 'row', paddingLeft :'10%', paddingRight:'10%'}}>
-              <Text style={{ flex: 1, flexWrap: 'wrap', color:'white', fontSize : 20, fontWeight: 'bold', opacity: 0.5}}>
-                  {handleLyric()}
+            <View style={{ flexDirection: 'row', paddingLeft: '10%', paddingRight: '10%' }}>
+              <Text style={{ flex: 1, flexWrap: 'wrap', color: 'white', fontSize: 20, fontWeight: 'bold', opacity: 0.5 }}>
+                {handleLyric()}
               </Text>
             </View>
           </ScrollView>
@@ -405,8 +391,8 @@ function NowPlaying({ navigation, route }) {
                   activeRandomBtn
                     ? "#1db954"
                     : theme === "dark"
-                    ? "#fff"
-                    : "#000"
+                      ? "#fff"
+                      : "#000"
                 }
               />
             </TouchableOpacity>
@@ -460,8 +446,8 @@ function NowPlaying({ navigation, route }) {
                   activeRepeatBtn
                     ? "#1db954"
                     : theme === "dark"
-                    ? "#fff"
-                    : "#000"
+                      ? "#fff"
+                      : "#000"
                 }
               />
             </TouchableOpacity>
@@ -480,7 +466,7 @@ function NowPlaying({ navigation, route }) {
               <Text style={styles.optionsItemText}>Add into favorite list</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionsItem} onPress = {() => handleOpenSleepTimer()}>
+          <TouchableOpacity style={styles.optionsItem} onPress={() => handleOpenSleepTimer()}>
             <View style={styles.optionsItemContent}>
               <AntDesign
                 name="clockcircleo"
@@ -488,24 +474,24 @@ function NowPlaying({ navigation, route }) {
                 color="white"
                 style={styles.optionsItemIcon}
               />
-              <Text style={styles.optionsItemText} onPress={()=>handleOpenSleepTimer()}>
+              <Text style={styles.optionsItemText} onPress={() => handleOpenSleepTimer()}>
                 Set sleep timer
               </Text>
               <NativeBaseProvider>
                 <Center style={styles.layoutSleepTimer} >
                   <Actionsheet isOpen={isOpen} onClose={onClose}  >
                     <Actionsheet.Content backgroundColor="#3d3d5c">
-                      <Actionsheet.Item  backgroundColor="#3d3d5c"
-                        onPress={() => handleSetSuccessTime()}
+                      <Actionsheet.Item backgroundColor="#3d3d5c"
+                        onPress={() => { handleSetSuccessTime(15 * 1000) }}
                         _text={{
                           color: "white",
                         }}
                       >
-                        15 minutes
+                        15 seconds
                       </Actionsheet.Item>
                       <Actionsheet.Item
-                       backgroundColor="#3d3d5c"
-                        onPress={() => handleSetSuccessTime()}
+                        backgroundColor="#3d3d5c"
+                        onPress={() => handleSetSuccessTime(30 *60* 1000)}
                         _text={{
                           color: "white",
                         }}
@@ -513,8 +499,8 @@ function NowPlaying({ navigation, route }) {
                         30 minutes
                       </Actionsheet.Item>
                       <Actionsheet.Item
-                       backgroundColor="#3d3d5c"
-                        onPress={() => handleSetSuccessTime()}
+                        backgroundColor="#3d3d5c"
+                        onPress={() => handleSetSuccessTime(45 *60* 1000)}
                         _text={{
                           color: "white",
                         }}
@@ -522,8 +508,8 @@ function NowPlaying({ navigation, route }) {
                         45 minutes
                       </Actionsheet.Item>
                       <Actionsheet.Item
-                       backgroundColor="#3d3d5c"
-                        onPress={() => handleSetSuccessTime()}
+                        backgroundColor="#3d3d5c"
+                        onPress={() => handleSetSuccessTime(60*60 * 1000)}
                         _text={{
                           color: "white",
                         }}
@@ -531,7 +517,7 @@ function NowPlaying({ navigation, route }) {
                         1 hour
                       </Actionsheet.Item>
                       <Actionsheet.Item
-                       backgroundColor="#3d3d5c"
+                        backgroundColor="#3d3d5c"
                         onPress={() => handleTurnOff()}
                         _text={{
                           color: "white",
