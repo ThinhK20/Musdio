@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { FlatList } from "native-base";
 
 const isLoggedin = false
 const userData = null
@@ -16,10 +17,15 @@ const userSlider = createSlice({
         },
         setImageStatus(state) {
             state.isImageLoading = !state.isImageLoading
-        } 
+        },
+        deleteUserInfo(state){
+            state.userData = null
+            state.isImageLoading = false
+            state.isLoggedin = false
+        }
     }
 })
 
 const { actions } = userSlider
-export const { setLogginStatus, setUser, setImageAvatarStatus } = actions
+export const { setLogginStatus, setUser, setImageAvatarStatus,deleteUserInfo } = actions
 export default userSlider.reducer

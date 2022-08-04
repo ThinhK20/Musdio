@@ -11,12 +11,17 @@ import {
 import LoginFacebook from "./LoginFacebook";
 import { LinearGradient } from "expo-linear-gradient";
 import LoginGoogle from "./LoginGoogle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../Firebase/index"
 import ImageLogIn from '../../assets/adaptive-icon.png'
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAllSongs } from '../Redux/musicSlider';
+import { deleteUserInfo } from '../Redux/userSlider';
 
 function Login({ navigation }) {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('');
 
@@ -46,6 +51,11 @@ function Login({ navigation }) {
         alert(errorCode + "\n" + errorMessage)
       });
   }
+
+  useEffect(() =>{
+    dispatch(deleteAllSongs())
+    dispatch(deleteUserInfo())
+  },[])
   return (
     <LinearGradient style={styles.container} colors={["#242526", "#242526"]}>
       <View style={styles.box}>

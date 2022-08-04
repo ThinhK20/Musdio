@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TextComponent, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextComponent, ImageBackground, ToastAndroid } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { setSongs } from "../Redux/musicSlider";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios"
+import { auth } from '../Firebase';
 
 
 function Playlist({ navigation }) {
@@ -18,7 +19,7 @@ function Playlist({ navigation }) {
 
   let user = useSelector((state) => state.user);
   user = user.userData
-
+  console.log(user['favoriteMusics'])
   useEffect(() => {
     if (data.length != 0 && user.length != 0) {
       data.forEach((m) => {
@@ -39,7 +40,7 @@ function Playlist({ navigation }) {
       <View style={styles.swipe}>
         <TouchableOpacity
           onPress={() => {
-            axios.put('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/delete/favoriteSong/SaM1QW1nc2XwTIHAY5Cx', {
+            axios.put(`https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/delete/favoriteSong/` + auth.currentUser.uid, {
               musicId: id
             })
               .then(response => {
@@ -47,7 +48,11 @@ function Playlist({ navigation }) {
                   const newData = oldData.filter(song => {
                     return song.id != id;
                   });
-                  Alert("Removed Successfully !")
+                  ToastAndroid.show(
+                    "Removed Successfully !",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER
+                  );
                   return newData
                 })
               })

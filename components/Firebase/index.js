@@ -1,7 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { Button, View } from "react-native";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore, setDoc, doc  } from 'firebase/firestore'
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
@@ -24,25 +21,4 @@ export const storage = getStorage(app)
 
 
 
-function ChatScreen() {
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  
 
-  const sendDataToFirebase = async () => {
-    const firestore = getFirestore();
-
-    await setDoc(doc(firestore, "users", "20127334"), {
-      phone: "0783877917",
-      name: "Thịnh Nguyễn",
-      age: "20",
-    });
-  };
-
-  return (
-    <View>
-      <Button title="Send data" onPress={sendDataToFirebase} />
-    </View>
-  );
-}
-
-export default ChatScreen;
