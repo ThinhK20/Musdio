@@ -30,6 +30,7 @@ import { memo } from "react";
 
 function NowPlaying({ navigation, route }) {
   const { playID } = route.params;
+  console.log(playID)
   const { isOpen, onOpen, onClose } = useDisclose();
   const source_songs = useSelector((state) => state.musics);
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
@@ -37,16 +38,14 @@ function NowPlaying({ navigation, route }) {
   const [openOptionsMenu, setOpenOptionsMenu] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentSong, setCurrentSong] = useState(() => {
-    const songs = [];
-    for (let value of playID) {
-      const song = source_songs.find((obj) => obj.id == value);
-      if (song) {
-        songs.push(song);
-      }
+  const songs = [];
+  for (let value of playID) {
+    const song = source_songs.find((obj) => obj.id == value);
+    if (song) {
+      songs.push(song);
     }
-    return songs[currentIndex]
-  });
+  }
+  const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
   const [currentDuration, setCurrentDuration] = useState(0);
   const [isChangeProgress, setIsChangeProgess] = useState(false);
   console.log("Running...")
@@ -54,7 +53,7 @@ function NowPlaying({ navigation, route }) {
 
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.general);
-
+  const [checkTimer, setCheckTimer] = useState(0)
   const sound = useRef(new Audio.Sound());
   // Handle event when user clicked repeat button
   const handleRepeatSong = () => {
@@ -135,6 +134,7 @@ function NowPlaying({ navigation, route }) {
   // Handle event when user clicked the play/pause button
   const playSound = () => {
     if (!playing) {
+      console.log(currentIndex)
       setPlaying(!playing);
       sound.current.playAsync();
     } else {

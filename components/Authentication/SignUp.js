@@ -62,69 +62,98 @@ export const FormInput = ({ navigation, route }) => {
     console.log(email)
     const userId = auth.currentUser.uid;
     console.log(userId);
-    dataImg.name = `${userId}.jpg`
-    const response = await fetch(dataImg.uri)
-    const blob = await response.blob();
-    const storageRef = ref(storage, `User/Avatar/${dataImg.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, blob);
-    // Listen for state changes, errors, and completion of the upload.
-    uploadTask.on('state_changed',
-      (snapshot) => {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        switch (snapshot.state) {
-          case 'paused':
-            break;
-          case 'running':
-            break;
-        }
-      },
-      (error) => {
-        switch (error.code) {
-          case 'storage/unauthorized':
-            break;
-          case 'storage/canceled':
-            // User canceled the upload
-            break;
+    if (dataImg.length != 0) {
+      dataImg.name = `${userId}.jpg`
+      console.log(dataImg.uri)
+      const response = await fetch(dataImg.uri)
+      const blob = await response.blob();
+      const storageRef = ref(storage, `User/Avatar/${dataImg.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, blob);
+      // Listen for state changes, errors, and completion of the upload.
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          switch (snapshot.state) {
+            case 'paused':
+              break;
+            case 'running':
+              break;
+          }
+        },
+        (error) => {
+          switch (error.code) {
+            case 'storage/unauthorized':
+              break;
+            case 'storage/canceled':
+              // User canceled the upload
+              break;
 
-          // ...
+            // ...
 
-          case 'storage/unknown':
-            break;
-        }
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref)
-          .then((downloadURL) => {
-            setAvatarUrl(downloadURL)
-            console.log(downloadURL)
-            let USER = {
-              "username": username,
-              "email": email,
-              "avatar": downloadURL,
-              "birthdate": date.toLocaleDateString(),
-              "gender": male == true ? "Male" : "Female",
-            }
-            let url = "https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/post/" + userId
-            console.log(url)
-            fetch(url, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(USER),
-            })
-              .then((res) => res.json())
-              .then((result) => console.log("done"))
-              .then(() => {
-                navigation.navigate('LoadingSongs')
+            case 'storage/unknown':
+              break;
+          }
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadURL) => {
+              setAvatarUrl(downloadURL)
+              console.log(downloadURL)
+              let USER = {
+                "username": username,
+                "email": email,
+                "avatar": downloadURL,
+                "birthdate": date.toLocaleDateString(),
+                "gender": male == true ? "Male" : "Female",
+              }
+              console.log(USER)
+              let url = "https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/post/" + userId
+              console.log(url)
+              fetch(url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(USER),
               })
-              .catch((err) => console.log(err))
-          })
+                .then((res) => res.json())
+                .then((result) => console.log("done"))
+                .then(() => {
+                  navigation.navigate('LoadingSongs')
+                })
+                .catch((err) => console.log(err))
+            })
 
+        }
+
+      );
+    }
+    else{
+      let USER = {
+        "username": username,
+        "email": email,
+        "avatar": avatarUrl,
+        "birthdate": date.toLocaleDateString(),
+        "gender": male == true ? "Male" : "Female",
       }
-
-    );
+      console.log(USER)
+      let url = "https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/post/" + userId
+      console.log(url)
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(USER),
+      })
+        .then((res) => res.json())
+        .then((result) => console.log("done"))
+        .then(() => {
+          navigation.navigate('LoadingSongs')
+        })
+        .catch((err) => console.log(err))
+    }
 
   }
 
@@ -132,9 +161,9 @@ export const FormInput = ({ navigation, route }) => {
     <LinearGradient style={styles.container} colors={["#242526", "#242526"]}>
       <View style={[styles.box, { top: StatusBar.currentHeight }]}>
         <View style={{ flexDirection: 'row', backgroundColor: '#242526', height: '5%' }}>
-          <Text style={[styles.textHeader, { marginLeft: '30%' , fontWeight: 'bold'}]}>Personal Info</Text>
+          <Text style={[styles.textHeader, { marginLeft: '30%', fontWeight: 'bold' }]}>Personal Info</Text>
         </View>
-        <View style={[styles.boxInput, { top: '0%',backgroundColor: '#242526' }]}>
+        <View style={[styles.boxInput, { top: '0%', backgroundColor: '#242526' }]}>
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
 
             <TouchableOpacity onPress={() => {
@@ -147,24 +176,24 @@ export const FormInput = ({ navigation, route }) => {
 
               <Image style={{ height: 150, width: 150, borderRadius: 100, marginTop: 10 }} source={{ uri: img }} />
             </TouchableOpacity>
-            <Text style={{ paddingTop: 20,color: 'white',fontSize: 21 }}>Tap to change your avata</Text>
+            <Text style={{ paddingTop: 20, color: 'white', fontSize: 21 }}>Tap to change your avata</Text>
           </View>
 
           <View style={{ marginTop: '4%', justifyContent: 'center', alignItems: 'center' }}>
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
-              <Text style={{ width: '80%',color: 'white' }} >Enter your username</Text>
+              <Text style={{ width: '80%', color: 'white' }} >Enter your username</Text>
               <TextInput
                 placeholder="Enter username..."
-                placeholderTextColor="white" 
+                placeholderTextColor="white"
                 style={[styles.input]}
                 onChangeText={(value) => setUsername(value)}
               />
             </View>
 
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
-              <Text style={{ width: '80%', color: 'white'}}>Choose your birthdate</Text>
+              <Text style={{ width: '80%', color: 'white' }}>Choose your birthdate</Text>
               <View style={[styles.input, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                <Text style = {{color: 'white'}}>
+                <Text style={{ color: 'white' }}>
                   {
                     date.toLocaleDateString()
                   }
@@ -188,12 +217,12 @@ export const FormInput = ({ navigation, route }) => {
                 setMale(!male)
                 setFemale(false)
               }} />
-              <Text style={{ fontSize: 18, marginLeft: 10, marginRight: 30,color: 'white' }}>Male</Text>
+              <Text style={{ fontSize: 18, marginLeft: 10, marginRight: 30, color: 'white' }}>Male</Text>
               <Checkbox value={female} onValueChange={() => {
                 setMale(false)
                 setFemale(!female)
               }} />
-              <Text style={{ fontSize: 18, marginLeft: 10,color: 'white' }}>Female</Text>
+              <Text style={{ fontSize: 18, marginLeft: 10, color: 'white' }}>Female</Text>
             </View>
           </View>
           <TouchableOpacity
@@ -271,7 +300,7 @@ export function SignUp({ navigation }) {
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
               <TextInput
                 placeholder="Enter email..."
-                placeholderTextColor="white" 
+                placeholderTextColor="white"
                 style={styles.input}
                 onChangeText={(value) => setEmail(value)}
               />
@@ -280,7 +309,7 @@ export function SignUp({ navigation }) {
               <TextInput
                 secureTextEntry={true}
                 placeholder="Enter password..."
-                placeholderTextColor="white" 
+                placeholderTextColor="white"
                 style={styles.input}
                 onChangeText={(value) => setPassword(value)}
               />
@@ -288,7 +317,7 @@ export function SignUp({ navigation }) {
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 14 }}>
               <TextInput
                 secureTextEntry={true}
-                placeholderTextColor="white" 
+                placeholderTextColor="white"
                 placeholder="Enter confirm password..."
                 style={styles.input}
                 onChangeText={(value) => setCassword(value)}

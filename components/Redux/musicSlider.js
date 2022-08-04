@@ -13,10 +13,13 @@ const musicSlider = createSlice({
         },
         setSongs(state, action) {
             return state = [...action.payload]
+        },
+        deleteAllSongs(state) {
+            return []
         }
     }
 })
 
 const { actions } = musicSlider
-export const { addMusic, removeMusic, setSongs } = actions
+export const { addMusic, removeMusic, setSongs,deleteAllSongs } = actions
 export default musicSlider.reducer

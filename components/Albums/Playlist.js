@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { setSongs } from "../Redux/musicSlider";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios"
+import { auth } from '../Firebase';
 
 
 function Playlist({ navigation }) {
@@ -18,7 +19,7 @@ function Playlist({ navigation }) {
 
   let user = useSelector((state) => state.user);
   user = user.userData
-
+  console.log(user['favoriteMusics'])
   useEffect(() => {
     if (data.length != 0 && user.length != 0) {
       data.forEach((m) => {
@@ -39,7 +40,7 @@ function Playlist({ navigation }) {
       <View style={styles.swipe}>
         <TouchableOpacity
           onPress={() => {
-            axios.put('https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/delete/favoriteSong/SaM1QW1nc2XwTIHAY5Cx', {
+            axios.put(`https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/delete/favoriteSong/` + auth.currentUser.uid, {
               musicId: id
             })
               .then(response => {
