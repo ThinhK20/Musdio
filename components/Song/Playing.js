@@ -15,7 +15,8 @@ import {
   useDisclose,
   Center,
   NativeBaseProvider,
-} from "native-base";
+} from "native-base"; 
+import axios from 'axios'
 import Slider from "react-native-slider";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
@@ -23,12 +24,18 @@ import { Audio } from "expo-av";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { memo } from "react";
+import { auth } from "../Firebase";
+import { addFavoriteSong } from "../Redux/userSlider";
 
 const AnimatedSlider = Animated.createAnimatedComponent(Slider);
 
 function NowPlaying({ navigation, route }) {
   const { playID } = route.params;
-  const { isOpen, onOpen, onClose } = useDisclose();
+  const { isOpen, onOpen, onClose } = useDisclose(); 
+
+  const userData = useSelector((state) => state.user)
+ 
+  const dispatch = useDispatch()
 
   const source_songs = useSelector((state) => state.musics);
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
@@ -52,7 +59,9 @@ function NowPlaying({ navigation, route }) {
 
   const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
   const [randomNumber, setRandomNumber] = useState();
-  const [volume, setVolume] = useState(1)
+  const [volume, setVolume] = useState(1) 
+
+  const [addFavoriteList, setAddFavoriteList] = useState(false)
 
   const { theme } = useSelector((state) => state.general);
   const [checkTimer, setCheckTimer] = useState(0);
@@ -179,7 +188,6 @@ function NowPlaying({ navigation, route }) {
 
   };
 
-  console.log("Render...");
 
   const playSound = () => {
     if (!playing) { 
@@ -208,7 +216,7 @@ function NowPlaying({ navigation, route }) {
   const pauseSliderAnimated = () => { 
     if (sliderValueHolder) {
       sliderValueHolder?.stopAnimation(() => {
-        sliderValueHolder.extractOffset();
+        sliderValueHolder?.extractOffset();
       })
     }
   }
@@ -330,6 +338,45 @@ function NowPlaying({ navigation, route }) {
     }
     return newString;
   };
+
+  useEffect(() => {
+    const favoriteMusics = userData.userData.favoriteMusics
+    favoriteMusics.forEach((songId) => {
+      if (songId == currentSong.id) { 
+        setAddFavoriteList(true)  
+        return 
+      }
+    })   
+  }, [])
+
+  const handleAddFavoriteList = () => { 
+    if (addFavoriteList === false) {
+      const userId = auth.currentUser.uid 
+      const updateUrl = "https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/add/favoriteSong/" + userId 
+      axios.put(updateUrl, {
+        "musicId": currentSong.id 
+      })
+        .then(() => {
+          dispatch(addFavoriteSong(currentSong.id))
+          setAddFavoriteList(true)
+        })
+        .then(() => {
+          ToastAndroid.show(
+            "Add song into favorite list successfully",
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER
+          );
+        })
+        .catch(error => {
+          console.log("Error message: ", error)
+        })
+
+    }
+  }
+  
+
+
+
   return (
     <LinearGradient
       colors={
@@ -358,10 +405,11 @@ function NowPlaying({ navigation, route }) {
           >
             Playing Now
           </Text>
-          <TouchableOpacity onPress={handleOpenOptionsMenu}>
+          <TouchableOpacity  >
             <Entypo
               name="dots-three-vertical"
               size={28}
+              onPress={handleOpenOptionsMenu}
               style={[styles.options, theme === "light" && styles.blackColor]}
               color="white"
             />
@@ -413,7 +461,7 @@ function NowPlaying({ navigation, route }) {
                   color: "white",
                   fontSize: 20,
                   fontWeight: "bold",
-                  opacity: 0.5,
+                  opacity: 0.5
                 }}
               >
                 {handleLyric()}
@@ -491,15 +539,15 @@ function NowPlaying({ navigation, route }) {
         </View>
 
         <View style={[styles.optionsMenu, openOptionsMenu && styles.openMenu]}>
-          <TouchableOpacity style={styles.optionsItem}>
+          <TouchableOpacity style={styles.optionsItem} onPress={handleAddFavoriteList}>
             <View style={styles.optionsItemContent}>
               <AntDesign
                 name="heart"
                 size={24}
-                color="white"
+                color={!addFavoriteList ? "white" : "red"} 
                 style={styles.optionsItemIcon}
               />
-              <Text style={styles.optionsItemText}>Add into favorite list</Text>
+              <Text style={[styles.optionsItemText, addFavoriteList && styles.color_red]}>Add into favorite list</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
@@ -733,7 +781,7 @@ const styles = StyleSheet.create({
     right: -20,
     top: "-200%",
     fontSize: 20,
-    padding: 40,
+    padding: 40, 
   },
 
   optionsMenu: {
@@ -755,14 +803,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#121212",
     marginBottom: 20,
     marginTop: 20,
-    position: "relative",
+    position: "relative", 
   },
   optionsItemText: {
     color: "#fff",
     fontSize: 20,
     marginLeft: 20,
   },
-  optionsItemIcon: {},
   optionsItemContent: {
     flexDirection: "row",
   },
@@ -780,5 +827,11 @@ const styles = StyleSheet.create({
     color: "red",
     backgroundColor: "#fff",
   },
-  layoutSleepTimer: {},
+  layoutSleepTimer: {}, 
+
+  color_red: {
+    color: "red"
+  }
+
+
 });
