@@ -11,8 +11,6 @@ import { color } from 'react-native-elements/dist/helpers';
 
 function Albums({navigation,route}) {
    const {nameAlbum,Data}=route.params
-  console.log("DATA:")
-  console.log(Data)
 
   const renderItem = ({ item }) =>  <Item id ={item.id} name={item.name}  img = {item.img} singer = {item.singer} navigation={navigation} />
   const Item = ({id,name, img, singer}) => (

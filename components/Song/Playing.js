@@ -20,55 +20,60 @@ import Slider from "react-native-slider";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
-import {
-  FontAwesome,
-  Entypo,
-} from "@expo/vector-icons";
+import { FontAwesome, Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setTheme } from "../Redux/generalSlider";
 import { memo } from "react";
+
+const AnimatedSlider = Animated.createAnimatedComponent(Slider);
 
 function NowPlaying({ navigation, route }) {
   const { playID } = route.params;
   const { isOpen, onOpen, onClose } = useDisclose();
+
   const source_songs = useSelector((state) => state.musics);
   const [activeRandomBtn, setActiveRandomBtn] = useState(false);
   const [activeRepeatBtn, setActiveRepeatBtn] = useState(false);
   const [openOptionsMenu, setOpenOptionsMenu] = useState(false);
   const [playing, setPlaying] = useState(false);
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentSong, setCurrentSong] = useState(() => {
-    const songs = [];
-    for (let value of playID) {
-      const song = source_songs.find((obj) => obj.id == value);
-      if (song) {
-        songs.push(song);
+  const songs = useRef(
+    (() => {
+      const listSongs = [];
+      for (let value of playID) {
+        const song = source_songs.find((obj) => obj.id == value);
+        if (song) {
+          listSongs.push(song);
+        }
       }
-    }
-    return songs[currentIndex]
-  });
-  const [currentDuration, setCurrentDuration] = useState(0);
+      return listSongs;
+    })()
+  ).current;
+
+  const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
   const [isChangeProgress, setIsChangeProgess] = useState(false);
   const [randomNumber, setRandomNumber] = useState();
+  const [volume, setVolume] = useState(1)
 
-  const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.general);
+  const [checkTimer, setCheckTimer] = useState(0);
+  const sound = useRef(new Audio.Sound()).current;
 
-  const sound = useRef(new Audio.Sound());
+
   // Handle event when user clicked repeat button
-  const handleRepeatSong = () => {
+  const handleRepeatSong = async () => {
     if (!activeRepeatBtn) {
-      setActiveRepeatBtn(!activeRepeatBtn);
-      sound.current.setIsLoopingAsync(true);
+      setActiveRepeatBtn(true);
+      sound.setIsLoopingAsync(true);
     } else {
-      setActiveRepeatBtn(!activeRepeatBtn);
-      sound.current.setIsLoopingAsync(false);
+      setActiveRepeatBtn(false);
+      sound.setIsLoopingAsync(fals);
     }
   };
   const handleOpenSleepTimer = () => {
     setOpenOptionsMenu(false)
     onOpen()
-  }
+  };
   // Handle event when user clicked when user clicked random button ==> Set random number and active button
   useEffect(() => {
     if (activeRandomBtn) {
@@ -82,125 +87,174 @@ function NowPlaying({ navigation, route }) {
 
   // Handle event when user clicked the next button ==> Set new current index & new current song
   const handleNextSong = () => {
-    if (!activeRandomBtn) {
-      if (currentIndex + 1 > songs.length - 1) {
-        setCurrentIndex((prevIndex) => {
-          setCurrentSong(songs[0]);
-          return 0;
-        });
+    if (songs.length > 1) {
+      if (!activeRandomBtn) {
+        if (currentIndex >= songs.length - 1) {
+          setCurrentIndex(() => {
+            setCurrentSong(songs[0]);
+            return 0;
+          });
+        } else {
+          setCurrentIndex((prevIndex) => {
+            setCurrentSong(songs[prevIndex + 1]);
+            return prevIndex + 1;
+          });
+        }
       } else {
-        setCurrentIndex((prevIndex) => {
-          setCurrentSong(songs[prevIndex + 1]);
-          return prevIndex + 1;
+        setCurrentIndex(() => {
+          setCurrentSong(songs[randomNumber]);
+          return randomNumber;
         });
       }
-    } else {
-      setCurrentIndex((prevIndex) => {
-        setCurrentSong(songs[randomNumber]);
-        return randomNumber;
-      });
+      sound.unloadAsync();
     }
   };
 
   // Handle event when user clicked the prev button
   const handlePrevSong = () => {
-    if (!activeRandomBtn) {
-      if (currentIndex - 1 < 0) {
-        setCurrentIndex((prevIndex) => {
-          setCurrentSong(songs[songs.length - 1]);
-          return songs.length - 1;
-        });
+    if (songs.length > 1) {
+      if (!activeRandomBtn) {
+        if (currentIndex - 1 < 0) {
+          setCurrentIndex(() => {
+            setCurrentSong(songs[songs.length - 1]); 
+            return songs.length - 1;
+          });
+        } else {
+          setCurrentIndex((prevIndex) => {
+            setCurrentSong(songs[prevIndex - 1]);
+            return prevIndex - 1;
+          });
+        }
       } else {
-        setCurrentIndex((prevIndex) => {
-          setCurrentSong(songs[currentIndex - 1]);
-          return prevIndex - 1;
+        setCurrentIndex(() => {
+          setCurrentSong(songs[randomNumber]);
+          return randomNumber;
         });
       }
-    } else {
-      setCurrentIndex((prevIndex) => {
-        setCurrentSong(songs[randomNumber]);
-        return randomNumber;
-      });
+      sound.unloadAsync();
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const response = await sound.getStatusAsync()
+      sliderValueHolder?.setValue(0)
+      if (!response.isLoaded) {
+        await sound.loadAsync({ uri: currentSong.uri });
+      }
+
+      if (playing) {
+        playSong() 
+        playSliderAnimated()
+      }  else {
+        pauseSliderAnimated()
+      }
+
+    })();
+  }, [currentIndex]);
+
   // Change duration song when user is dragging the slider
-  const handleDraggingSlider = (value) => {
-    sound.current.getStatusAsync().then((result) => {
-      sound.current.setPositionAsync(value * result.durationMillis);
-      setIsChangeProgess(false);
-    });
+  const handleDraggingSlider = async (value) => {
+    const response = await sound.getStatusAsync();
+    sound.setPositionAsync(value * response.durationMillis); 
+    sliderValueHolder.setOffset(value)
+    playSliderAnimated()
   };
 
   // Handle event when user clicked the play/pause button
-  const playSound = () => {
-    if (!playing) {
-      setPlaying(!playing);
-      sound.current.playAsync();
+
+  const playSong = async () => {
+    const response = await sound.getStatusAsync();
+    if (response.isLoaded) {
+      sound.playAsync();
     } else {
-      setPlaying(!playing);
-      sound.current.pauseAsync();
+      sound.loadAsync({ uri: currentSong.uri }).then(() => {
+        sound.playAsync();
+      });
+    } 
+  };
+
+  const pauseSong = async () => {
+    const response = await sound.getStatusAsync();
+    if (response.isLoaded) {
+      if (response.isPlaying === true) {
+        sound.pauseAsync();
+      }
+    }
+
+  };
+
+  console.log("Render...");
+
+  const playSound = () => {
+    if (!playing) { 
+      setPlaying(true);
+      playSong(); 
+    } else {
+      setPlaying(false);
+      pauseSong();
     }
   };
 
+  const playSliderAnimated = async() => { 
+    sound.getStatusAsync()
+    .then(({durationMillis}) => {
+      Animated.timing(sliderValueHolder, {
+        toValue: 1,
+        duration: durationMillis,
+        useNativeDriver: false,
+      }).start(({finished}) => finished && (() => {
+        handleNextSong()
+      })())
+    })
+
+  } 
+
+  const pauseSliderAnimated = () => { 
+    if (sliderValueHolder) {
+      sliderValueHolder?.stopAnimation(() => {
+        sliderValueHolder.extractOffset();
+      })
+    }
+  }
+
+ 
+
+
   // stream mode
   // Handle event when current index change ==> Unload old and load new song
-  useEffect(() => {
-    try {
-      if (currentSong) {
-        sound.current.loadAsync({ uri: currentSong.uri });
-      }
-      if (playing) {
-        sound.current.playAsync();
-      }
-    } catch {
-      console.log("Loading available...");
-    }
-
-    return () => {
-      return sound.current.unloadAsync();
-    };
-  }, [currentIndex]);
 
   // Handle event when user is dragging slider
+
+
+
   useEffect(() => {
-    sound.current.setOnPlaybackStatusUpdate(
-      (onPlaybackStatusUpdate) => {
-        let sliderValue =
-          Number(
-            onPlaybackStatusUpdate.positionMillis /
-            onPlaybackStatusUpdate.durationMillis
-          ) - "0";
-        if (!sliderValue) sliderValue = 0;
-        if (!isChangeProgress) {
-          setCurrentDuration(sliderValue);
-        }
-        // Handle event when the current song has been finished ==> Next song or just open random song
-        if (onPlaybackStatusUpdate.didJustFinish && !activeRepeatBtn) {
-          handleNextSong();
-        }
-      },
-      [isChangeProgress]
-    );
-  });
-  const stopWhenBack = () => {
+    return () => sound.unloadAsync()
+  }, [])
+
+
+  const stopWhenBack = async () => {
+    const response = await sound.getStatusAsync();
     if (playing) {
-      sound.current.unloadAsync().then((resolve) => {
-        setPlaying(!playing);
-        navigation.navigate("Home");
-      });
+      setPlaying(false);
     }
-    else {
-      navigation.goBack();
+    if (response.isLoaded) {
+        await sound.unloadAsync();
+        navigation.navigate("Home");
     }
   };
 
   // Rotate CD Animation
   let rotateValueHolder = useRef(new Animated.Value(0)).current;
 
-  const rotateData = useRef(rotateValueHolder.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["0deg", "360deg"],
-  })).current;
+  let sliderValueHolder = useRef(new Animated.Value(0)).current;
+
+  const rotateData = useRef(
+    rotateValueHolder.interpolate({
+      inputRange: [0, 1],
+      outputRange: ["0deg", "360deg"],
+    })
+  ).current; 
 
   useEffect(() => {
     try {
@@ -213,52 +267,54 @@ function NowPlaying({ navigation, route }) {
             easing: Easing.linear,
             isInteraction: false,
           })
-        ).start();
+        ).start(); 
+        playSliderAnimated()
       } else {
         rotateValueHolder.stopAnimation(() => {
           rotateValueHolder.extractOffset();
         });
+        pauseSliderAnimated()
       }
-    } catch (e) {
-      console.log(e);
-      console.log("Setting CD animated...");
+    } catch(err) {
+      console.log("Error useEffect(playing): ", err)
+      console.log("Setting CD animated...")
     }
-  }, [playing]);
+  },  [playing])  
 
-  const handleTheme = () => {
-    if (theme == "dark") {
-      dispatch(setTheme("light"));
-    } else {
-      dispatch(setTheme("dark"));
-    }
-  };
+  useEffect(() => {
+    sliderValueHolder.addListener(({ value }) => {
+      sliderValueHolder = value;
+    });
+    
+  }, []);
+
 
   const handleAdjustVolume = (value) => {
-    if (sound.current != null) {
-      sound.current.setVolumeAsync(value);
+    if (sound != null) {
+      setVolume(value)
+      sound.setVolumeAsync(value);
     }
   };
-  const handleSetSuccessTime = (timer) => {
-    console.log(timer)
+  const handleSetSuccessTime = async (timer) => {
     onClose();
     ToastAndroid.show(
       "The set was successful.",
       ToastAndroid.SHORT,
       ToastAndroid.CENTER
     );
-    console.log("set 15p" + checkTimer)
     clearTimeout(checkTimer);
-     setCheckTimer( setTimeout(() => {
-      ToastAndroid.show(
-        "Song has been stopped",
-        ToastAndroid.SHORT,
-        ToastAndroid.CENTER
-      );
-      console.log('pause' + checkTimer);
-      setPlaying(false);
-      sound.current.pauseAsync();
-    }, timer));
-  }
+    setCheckTimer(
+      setTimeout(() => {
+        ToastAndroid.show(
+          "Song has been stopped",
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER
+        );
+        setPlaying(false);
+        pauseSong()
+      }, timer)
+    );
+  };
   const handleTurnOff = () => {
     ToastAndroid.show(
       "Turn off was successful.",
@@ -268,26 +324,27 @@ function NowPlaying({ navigation, route }) {
     clearTimeout(checkTimer);
     onClose();
   };
+
   const handleOpenOptionsMenu = () => {
-    setOpenOptionsMenu(!openOptionsMenu);
+    setOpenOptionsMenu((prevState) => !prevState)
   };
+
   const handleLyric = () => {
-    var a = currentSong.lyric
-    let newString = ""
-    pre_index = 0
+    var a = currentSong.lyric;
+    let newString = "";
+    let pre_index = 0;
     for (var i = 0; i < a.length; i++) {
-      if (a[i] == a[i].toUpperCase() && i != 0 && a[i] >= 'A' && a[i] <= 'Z') {
-        var temp = a.slice(pre_index, i)
-        newString = newString + temp + "\n"
-        pre_index = i
+      if (a[i] == a[i].toUpperCase() && i != 0 && a[i] >= "A" && a[i] <= "Z") {
+        var temp = a.slice(pre_index, i);
+        newString = newString + temp + "\n";
+        pre_index = i;
       }
       if (i == a.length - 1) {
-        var temp = a.slice(pre_index, a.length)
-        newString = newString + temp + "\n"
-
+        var temp = a.slice(pre_index, a.length);
+        newString = newString + temp + "\n";
       }
     }
-    return newString
+    return newString;
   };
   return (
     <LinearGradient
@@ -336,16 +393,16 @@ function NowPlaying({ navigation, route }) {
             style={[styles.cdImage, { transform: [{ rotate: rotateData }] }]}
             source={{ uri: currentSong.img }}
           />
-          <Slider
+          <AnimatedSlider
             style={styles.slider}
             minimumValue={0}
             maximumValue={1}
+            value={sliderValueHolder}
             minimumTrackTintColor="#6C42A2"
             maximumTrackTintColor={theme === "dark" ? "#fff" : "#000"}
             thumbTintColor={theme === "dark" ? "#fff" : "#000"}
-            value={currentDuration}
-            onSlidingStart={() => setIsChangeProgess(true)}
-            onSlidingComplete={handleDraggingSlider}
+            onSlidingStart={() => pauseSliderAnimated()}
+            onSlidingComplete={handleDraggingSlider} 
           />
           <Text
             style={[styles.songName, theme === "dark" && styles.whiteColor]}
@@ -358,8 +415,23 @@ function NowPlaying({ navigation, route }) {
             {currentSong.singer}
           </Text>
           <ScrollView style={styles.lyricsBox}>
-            <View style={{ flexDirection: 'row', paddingLeft: '10%', paddingRight: '10%' }}>
-              <Text style={{ flex: 1, flexWrap: 'wrap', color: 'white', fontSize: 20, fontWeight: 'bold', opacity: 0.5 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingLeft: "10%",
+                paddingRight: "10%",
+              }}
+            >
+              <Text
+                style={{
+                  flex: 1,
+                  flexWrap: "wrap",
+                  color: "white",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  opacity: 0.5,
+                }}
+              >
                 {handleLyric()}
               </Text>
             </View>
@@ -376,8 +448,8 @@ function NowPlaying({ navigation, route }) {
                   activeRandomBtn
                     ? "#1db954"
                     : theme === "dark"
-                      ? "#fff"
-                      : "#000"
+                    ? "#fff"
+                    : "#000"
                 }
               />
             </TouchableOpacity>
@@ -391,16 +463,12 @@ function NowPlaying({ navigation, route }) {
                 color={theme === "dark" ? "#fff" : "#000"}
               />
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.playBtn}
-              onPress={() => setPlaying(!playing)}
-            >
+            <TouchableOpacity style={styles.playBtn} onPress={playSound}>
               {playing ? (
                 <FontAwesome
                   name="pause-circle"
                   size={80}
                   style={styles.playIcon}
-                  onPress={playSound}
                   color={theme === "dark" ? "#fff" : "#000"}
                 />
               ) : (
@@ -408,7 +476,6 @@ function NowPlaying({ navigation, route }) {
                   name="play-circle"
                   size={80}
                   style={styles.playIcon}
-                  onPress={playSound}
                   color={theme === "dark" ? "#fff" : "#000"}
                 />
               )}
@@ -431,8 +498,8 @@ function NowPlaying({ navigation, route }) {
                   activeRepeatBtn
                     ? "#1db954"
                     : theme === "dark"
-                      ? "#fff"
-                      : "#000"
+                    ? "#fff"
+                    : "#000"
                 }
               />
             </TouchableOpacity>
@@ -451,7 +518,10 @@ function NowPlaying({ navigation, route }) {
               <Text style={styles.optionsItemText}>Add into favorite list</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionsItem} onPress={() => handleOpenSleepTimer()}>
+          <TouchableOpacity
+            style={styles.optionsItem}
+            onPress={() => handleOpenSleepTimer()}
+          >
             <View style={styles.optionsItemContent}>
               <AntDesign
                 name="clockcircleo"
@@ -459,15 +529,21 @@ function NowPlaying({ navigation, route }) {
                 color="white"
                 style={styles.optionsItemIcon}
               />
-              <Text style={styles.optionsItemText} onPress={() => handleOpenSleepTimer()}>
+              <Text
+                style={styles.optionsItemText}
+                onPress={() => handleOpenSleepTimer()}
+              >
                 Set sleep timer
               </Text>
               <NativeBaseProvider>
-                <Center style={styles.layoutSleepTimer} >
-                  <Actionsheet isOpen={isOpen} onClose={onClose}  >
+                <Center style={styles.layoutSleepTimer}>
+                  <Actionsheet isOpen={isOpen} onClose={onClose}>
                     <Actionsheet.Content backgroundColor="#3d3d5c">
-                      <Actionsheet.Item backgroundColor="#3d3d5c"
-                        onPress={() => { handleSetSuccessTime(15 * 1000) }}
+                      <Actionsheet.Item
+                        backgroundColor="#3d3d5c"
+                        onPress={() => {
+                          handleSetSuccessTime(15 * 1000);
+                        }}
                         _text={{
                           color: "white",
                         }}
@@ -476,7 +552,7 @@ function NowPlaying({ navigation, route }) {
                       </Actionsheet.Item>
                       <Actionsheet.Item
                         backgroundColor="#3d3d5c"
-                        onPress={() => handleSetSuccessTime(30 *60* 1000)}
+                        onPress={() => handleSetSuccessTime(30 * 60 * 1000)}
                         _text={{
                           color: "white",
                         }}
@@ -485,7 +561,7 @@ function NowPlaying({ navigation, route }) {
                       </Actionsheet.Item>
                       <Actionsheet.Item
                         backgroundColor="#3d3d5c"
-                        onPress={() => handleSetSuccessTime(45 *60* 1000)}
+                        onPress={() => handleSetSuccessTime(45 * 60 * 1000)}
                         _text={{
                           color: "white",
                         }}
@@ -494,7 +570,7 @@ function NowPlaying({ navigation, route }) {
                       </Actionsheet.Item>
                       <Actionsheet.Item
                         backgroundColor="#3d3d5c"
-                        onPress={() => handleSetSuccessTime(60*60 * 1000)}
+                        onPress={() => handleSetSuccessTime(60 * 60 * 1000)}
                         _text={{
                           color: "white",
                         }}
@@ -531,7 +607,8 @@ function NowPlaying({ navigation, route }) {
                 style={styles.optionsVolumeSlider}
                 minimumValue={0}
                 maximumValue={1}
-                onValueChange={handleAdjustVolume}
+                value={volume}
+                onSlidingComplete={handleAdjustVolume}
                 minimumTrackTintColor="rgb("
                 maximumTrackTintColor={theme === "dark" ? "#fff" : "#000"}
                 thumbTintColor={theme === "dark" ? "#fff" : "#000"}
@@ -719,6 +796,5 @@ const styles = StyleSheet.create({
     color: "red",
     backgroundColor: "#fff",
   },
-  layoutSleepTimer: {
-  }
+  layoutSleepTimer: {},
 });

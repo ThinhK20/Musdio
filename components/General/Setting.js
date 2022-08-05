@@ -10,10 +10,13 @@ import { SafeAreaView, StatusBar, Platform, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { signOut } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteAllSongs } from '../Redux/musicSlider';
+import { deleteUserInfo } from '../Redux/userSlider';
 
 
 function Setting({ navigation }) {
   let user = useSelector((state) => state.user);
+
   user = user.userData
   console.log(user)
   const check = () => {
@@ -35,7 +38,8 @@ function Setting({ navigation }) {
           text: "Yes",
           onPress: () => {
             try {
-              signOut(auth).then(() => {
+              signOut(auth)
+              .then(() => {
                 Alert.alert("Success", "Log out success.")
                 navigation.navigate("SignIn")
               }

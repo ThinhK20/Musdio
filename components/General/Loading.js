@@ -11,6 +11,8 @@ export default function LoadingSongs({ navigation }) {
   const dispatch = useDispatch();
   const songs = useSelector((state) => state.musics);
   const user = useSelector((state) => state.user)
+  console.log("S: ",songs.length)
+  console.log("U: ",user.length)
   const [temp, setTemp] = useState([])
   useEffect(() => {
     const controller = new AbortController();
