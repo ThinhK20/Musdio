@@ -93,97 +93,133 @@ function NowPlaying({ navigation, route }) {
     }
   }, [activeRandomBtn]);
 
-  const handleNextSong = () => {
-    if (songs.length > 1) {
-      if (!activeRandomBtn) {
-        if (currentIndex >= songs.length - 1) {
-          setCurrentIndex(() => {
-            setCurrentSong(songs[0]);
-            return 0;
-          });
+  const handleNextSong = async() => { 
+    try {
+      if (songs.length > 1) {
+        if (!activeRandomBtn) {
+          if (currentIndex >= songs.length - 1) {
+            setCurrentIndex(() => {
+              setCurrentSong(songs[0]); 
+              return 0;
+            });
+          } else {
+            setCurrentIndex((prevIndex) => {
+              setCurrentSong(songs[prevIndex + 1]);
+              return prevIndex + 1;
+            });
+          }
         } else {
-          setCurrentIndex((prevIndex) => {
-            setCurrentSong(songs[prevIndex + 1]);
-            return prevIndex + 1;
+          setCurrentIndex(() => {
+            setCurrentSong(songs[randomNumber]);
+            return randomNumber;
           });
-        }
-      } else {
-        setCurrentIndex(() => {
-          setCurrentSong(songs[randomNumber]);
-          return randomNumber;
-        });
-      }
-      sound.unloadAsync();
+        }  
+        await sound.unloadAsync()
+      } 
+
+    } catch(error) {
+
     }
   };
 
-  const handlePrevSong = () => {
-    if (songs.length > 1) {
-      if (!activeRandomBtn) {
-        if (currentIndex - 1 < 0) {
-          setCurrentIndex(() => {
-            setCurrentSong(songs[songs.length - 1]); 
-            return songs.length - 1;
-          });
+
+  const handlePrevSong = async() => {
+    try {
+      if (songs.length > 1) {
+        if (!activeRandomBtn) {
+          if (currentIndex - 1 < 0) {
+            setCurrentIndex(() => {
+              setCurrentSong(songs[songs.length - 1]); 
+              return songs.length - 1;
+            });
+          } else {
+            setCurrentIndex((prevIndex) => {
+              setCurrentSong(songs[prevIndex - 1]);
+              return prevIndex - 1;
+            });
+          }
         } else {
-          setCurrentIndex((prevIndex) => {
-            setCurrentSong(songs[prevIndex - 1]);
-            return prevIndex - 1;
+          setCurrentIndex(() => {
+            setCurrentSong(songs[randomNumber]);
+            return randomNumber;
           });
         }
-      } else {
-        setCurrentIndex(() => {
-          setCurrentSong(songs[randomNumber]);
-          return randomNumber;
-        });
+        await sound.unloadAsync();
       }
-      sound.unloadAsync();
+    } catch (error) {
+
     }
+    
   };
 
   useEffect(() => {
-    (async () => {
-      const response = await sound.getStatusAsync()
-      sliderValueHolder?.setValue(0)
-      if (!response.isLoaded) {
-        await sound.loadAsync({ uri: currentSong.uri });
-      }
+    try {
+      (async () => {
+        const response = await sound.getStatusAsync()
+        sliderValueHolder?.setValue(0)
+        sliderValueHolder?.setOffset(0)
+        try { 
+          if (!response.isLoaded) { 
+            await sound.loadAsync({ uri: currentSong.uri });
+          }
+    
+          if (playing) {
+            playSong() 
+            playSliderAnimated()
+          }  else {
+            pauseSliderAnimated()
+          }
+        } catch(error) {
+          console.log("Error: ", error)
+        }
+      })();
+    } catch(err) {
 
-      if (playing) {
-        playSong() 
-        playSliderAnimated()
-      }  else {
-        pauseSliderAnimated()
-      }
-
-    })();
+    }
+    
   }, [currentIndex]);
 
   const handleDraggingSlider = async (value) => {
     const response = await sound.getStatusAsync();
-    sound.setPositionAsync(value * response.durationMillis); 
-    sliderValueHolder.setOffset(value)
-    playSliderAnimated()
+    try {
+      sound.setPositionAsync(value * response.durationMillis);
+      sliderValueHolder.setOffset(value)
+      sliderValueHolder.flattenOffset()
+      playSliderAnimated()
+    } catch(err) {
+      console.log("Error: ", err)
+    }
+
   };
 
 
   const playSong = async () => {
     const response = await sound.getStatusAsync();
-    if (response.isLoaded) {
-      sound.playAsync();
-    } else {
-      sound.loadAsync({ uri: currentSong.uri }).then(() => {
+
+    try {
+      if (response.isLoaded) {
         sound.playAsync();
-      });
-    } 
+      } else {
+        sound.loadAsync({ uri: currentSong.uri }).then(() => {
+          sound.playAsync();
+        });
+      } 
+    } catch(error) {
+      
+    }
   };
 
   const pauseSong = async () => {
     const response = await sound.getStatusAsync();
-    if (response.isLoaded) {
-      if (response.isPlaying === true) {
-        sound.pauseAsync();
+
+    try {
+      if (response.isLoaded) {
+        if (response.isPlaying === true) {
+          sound.pauseAsync();
+        }
       }
+    } catch(error) {
+
     }
 
   };
@@ -200,13 +236,13 @@ function NowPlaying({ navigation, route }) {
   };
 
   const playSliderAnimated = async() => { 
-    sound.getStatusAsync()
+    sound?.getStatusAsync()
     .then(({durationMillis}) => {
       Animated.timing(sliderValueHolder, {
         toValue: 1,
         duration: durationMillis,
         useNativeDriver: false,
-      }).start(({finished}) => finished && (() => {
+      }).start(({finished}) => finished && (() => { 
         handleNextSong()
       })())
     })
@@ -221,7 +257,7 @@ function NowPlaying({ navigation, route }) {
     }
   }
 
-  useEffect(() => {
+  useEffect(() => { 
     return () => sound.unloadAsync()
   }, [])
 
@@ -233,6 +269,7 @@ function NowPlaying({ navigation, route }) {
     }
     if (response.isLoaded) {
         await sound.unloadAsync();
+        sliderValueHolder.setValue(0);
         navigation.navigate("Home");
     }
   };
@@ -272,14 +309,6 @@ function NowPlaying({ navigation, route }) {
       console.log("Setting CD animated...")
     }
   },  [playing])  
-
-  useEffect(() => {
-    sliderValueHolder.addListener(({ value }) => {
-      sliderValueHolder = value;
-    });
-    
-  }, []);
-
 
   const handleAdjustVolume = (value) => {
     if (sound != null) {
