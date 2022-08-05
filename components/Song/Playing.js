@@ -51,7 +51,6 @@ function NowPlaying({ navigation, route }) {
   ).current;
 
   const [currentSong, setCurrentSong] = useState(songs[currentIndex]);
-  const [isChangeProgress, setIsChangeProgess] = useState(false);
   const [randomNumber, setRandomNumber] = useState();
   const [volume, setVolume] = useState(1)
 
@@ -60,7 +59,6 @@ function NowPlaying({ navigation, route }) {
   const sound = useRef(new Audio.Sound()).current;
 
 
-  // Handle event when user clicked repeat button
   const handleRepeatSong = async () => {
     if (!activeRepeatBtn) {
       setActiveRepeatBtn(true);
@@ -74,7 +72,8 @@ function NowPlaying({ navigation, route }) {
     setOpenOptionsMenu(false)
     onOpen()
   };
-  // Handle event when user clicked when user clicked random button ==> Set random number and active button
+
+
   useEffect(() => {
     if (activeRandomBtn) {
       let randomNumber;
@@ -85,7 +84,6 @@ function NowPlaying({ navigation, route }) {
     }
   }, [activeRandomBtn]);
 
-  // Handle event when user clicked the next button ==> Set new current index & new current song
   const handleNextSong = () => {
     if (songs.length > 1) {
       if (!activeRandomBtn) {
@@ -110,7 +108,6 @@ function NowPlaying({ navigation, route }) {
     }
   };
 
-  // Handle event when user clicked the prev button
   const handlePrevSong = () => {
     if (songs.length > 1) {
       if (!activeRandomBtn) {
@@ -153,7 +150,6 @@ function NowPlaying({ navigation, route }) {
     })();
   }, [currentIndex]);
 
-  // Change duration song when user is dragging the slider
   const handleDraggingSlider = async (value) => {
     const response = await sound.getStatusAsync();
     sound.setPositionAsync(value * response.durationMillis); 
@@ -161,7 +157,6 @@ function NowPlaying({ navigation, route }) {
     playSliderAnimated()
   };
 
-  // Handle event when user clicked the play/pause button
 
   const playSong = async () => {
     const response = await sound.getStatusAsync();
@@ -218,16 +213,6 @@ function NowPlaying({ navigation, route }) {
     }
   }
 
- 
-
-
-  // stream mode
-  // Handle event when current index change ==> Unload old and load new song
-
-  // Handle event when user is dragging slider
-
-
-
   useEffect(() => {
     return () => sound.unloadAsync()
   }, [])
@@ -244,7 +229,6 @@ function NowPlaying({ navigation, route }) {
     }
   };
 
-  // Rotate CD Animation
   let rotateValueHolder = useRef(new Animated.Value(0)).current;
 
   let sliderValueHolder = useRef(new Animated.Value(0)).current;
