@@ -15,7 +15,7 @@ const musicSlider = createSlice({
             return state = [...action.payload]
         },
         deleteAllSongs(state) {
-            return []
+            return state = []
         }
     }
 })

@@ -21,8 +21,9 @@ import { deleteUserInfo } from '../Redux/userSlider';
 
 function Login({ navigation }) {
   const dispatch = useDispatch();
-
+  const songs = useSelector((state) => state.musics);
   const [email, setEmail] = useState('')
+  const [renew,setRenew] = useState('')
   const [password, setPassword] = useState('');
 
   const [checkPassword, setCheckPassword] = useState(false);
@@ -38,10 +39,10 @@ function Login({ navigation }) {
     setCheckEmail(!email.match(validRegex))
   }
   const handleSubmit = () => {
-    console.log("run ")
+    // console.log("run ")
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log("run ")
+        // console.log("run ")
 
         navigation.navigate("LoadingSongs");
       })
@@ -53,9 +54,9 @@ function Login({ navigation }) {
   }
 
   useEffect(() =>{
-    dispatch(deleteAllSongs())
+    if (songs.length != 0 )  dispatch(deleteAllSongs())
     dispatch(deleteUserInfo())
-  },[])
+  },[renew])
   return (
     <LinearGradient style={styles.container} colors={["#242526", "#242526"]}>
       <View style={styles.box}>
@@ -90,7 +91,10 @@ function Login({ navigation }) {
                 onChangeText={(value) => {
                   setEmail(value)
                 }}
-                onBlur={() => { checkemail() }}
+                onBlur={() => { 
+                  setRenew(email)  
+                  checkemail()
+                 }}
               />
               {
                 checkEmail ?

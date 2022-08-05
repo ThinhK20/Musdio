@@ -13,6 +13,7 @@ const Search = ({ navigation }) => {
   const music = useSelector(state => state.musics)
   useEffect(() => {
     setFilteredDataSource(music)
+    filteredDataSource = 
     setMasterDataSource(music)
 }, [])
   const searchFilterFunction = (text) => {
@@ -104,6 +105,14 @@ const Search = ({ navigation }) => {
           placeholder="Find by Singer or Name's Song"
           value={search}
         />
+        {
+          filteredDataSource.length==0 ?
+          <View style={{backgroundColor:'red',marginTop:20}}>
+            <Text>
+              No find songs
+            </Text>
+          </View> : null
+        }
         <FlatList
           data={filteredDataSource}
           keyExtractor={(item, index) => index.toString()}
