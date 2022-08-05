@@ -9,6 +9,7 @@ import { setSongs } from "../Redux/musicSlider";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios"
 import { auth } from '../Firebase';
+import { deleteFavoriteSong } from '../Redux/userSlider';
 
 
 function Playlist({ navigation }) {
@@ -17,18 +18,18 @@ function Playlist({ navigation }) {
 
   const [songsUsers, setsongsUsers] = useState([]);
 
-  let user = useSelector((state) => state.user);
-  user = user.userData
-  console.log(user['favoriteMusics'])
+  const user = useSelector((state) => state.user).userData;
   useEffect(() => {
     if (data.length != 0 && user.length != 0) {
       data.forEach((m) => {
         user['favoriteMusics'].forEach((n) => {
-          if (n == m['id']) {
-            setsongsUsers(previous => {
-              const newData = [...previous, m]
-              return newData
-            })
+          if (n == m['id']) { 
+            if (songsUsers.length === 0) {
+              setsongsUsers(previous => {
+                const newData = [...previous, m]
+                return newData
+              })
+            }
           }
         });
       });
@@ -47,7 +48,10 @@ function Playlist({ navigation }) {
                 setsongsUsers(oldData => {
                   const newData = oldData.filter(song => {
                     return song.id != id;
-                  });
+                  }); 
+
+                  dispatch(deleteFavoriteSong(id))
+                  
                   ToastAndroid.show(
                     "Removed Successfully !",
                     ToastAndroid.SHORT,
@@ -60,7 +64,6 @@ function Playlist({ navigation }) {
           }
         >
           <View style={styles.ButtonDelete}>
-
             <AntDesign name="delete" size={27} color="white" />
 
           </View>
@@ -100,7 +103,6 @@ function Playlist({ navigation }) {
       style={styles.LinearGradient}
     >
       <ImageBackground source={{ uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701" }} resizeMode="cover" style={styles.container}>
-
         <View style={styles.container}>
           <View style={styles.header}>
             <TouchableOpacity style={styles.iconHeader} onPress={() => navigation.goBack()}>
@@ -109,7 +111,6 @@ function Playlist({ navigation }) {
             <Text style={styles.textHeader} >My Playlist</Text>
           </View>
           <View style={styles.Bottom}>
-
             <FlatList data={songsUsers} renderItem={renderItem} keyExtractor={item => item.id} />
           </View>
           <View style={styles.ToolBar}>

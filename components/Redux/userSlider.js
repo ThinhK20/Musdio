@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FlatList } from "native-base";
 
 const isLoggedin = false
 const userData = null
@@ -22,10 +21,19 @@ const userSlider = createSlice({
             state.userData = null
             state.isImageLoading = false
             state.isLoggedin = false
+        },  
+        deleteFavoriteSong(state, action) {
+            state.userData.favoriteMusics = state.userData.favoriteMusics.filter((songId) => {
+                return songId != action.payload
+            })
+        },
+        addFavoriteSong(state, action) {
+            state.userData.favoriteMusics = [...state.userData.favoriteMusics , action.payload] 
         }
+
     }
 })
 
 const { actions } = userSlider
-export const { setLogginStatus, setUser, setImageAvatarStatus,deleteUserInfo } = actions
+export const { setLogginStatus, setUser, setImageAvatarStatus,deleteUserInfo, deleteFavoriteSong, addFavoriteSong } = actions
 export default userSlider.reducer

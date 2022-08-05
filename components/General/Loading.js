@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { Image, Text, View } from "react-native";
 import axios from "axios";
 import { auth } from "../Firebase/index"
 import { useDispatch, useSelector } from "react-redux";
@@ -11,8 +10,6 @@ export default function LoadingSongs({ navigation }) {
   const dispatch = useDispatch();
   const songs = useSelector((state) => state.musics);
   const user = useSelector((state) => state.user)
-  console.log("S: ",songs.length)
-  console.log("U: ",user.length)
   const [temp, setTemp] = useState([])
   useEffect(() => {
     const controller = new AbortController();
@@ -27,7 +24,7 @@ export default function LoadingSongs({ navigation }) {
             }
           )
           .then((response) => {
-            dispatch(setUser(response.data.data));
+            dispatch(setUser(response.data.data)); 
           })
           .then(() => {
             navigation.navigate("Home");
@@ -50,7 +47,6 @@ export default function LoadingSongs({ navigation }) {
             }
           )
           .then((response) => {
-            // console.log(response.data)
             setTemp(response.data)
             dispatch(setSongs(response.data.data));
             return response.data.data
