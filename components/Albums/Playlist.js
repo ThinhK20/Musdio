@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TextComponent, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextComponent, ImageBackground, ToastAndroid } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
@@ -48,6 +48,11 @@ function Playlist({ navigation }) {
                   const newData = oldData.filter(song => {
                     return song.id != id;
                   });
+                  ToastAndroid.show(
+                    "Removed Successfully !",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER
+                  );
                   return newData
                 })
               })
