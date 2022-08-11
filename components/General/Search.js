@@ -13,7 +13,6 @@ const Search = ({ navigation }) => {
   const music = useSelector(state => state.musics)
   useEffect(() => {
     setFilteredDataSource(music)
-    filteredDataSource = 
     setMasterDataSource(music)
 }, [])
   const searchFilterFunction = (text) => {
