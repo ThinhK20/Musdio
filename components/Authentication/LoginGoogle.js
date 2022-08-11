@@ -10,6 +10,7 @@ import {
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import { initializeApp } from "firebase/app";
+import axios from 'axios'
 import {
   getAuth,
   onAuthStateChanged,
@@ -40,12 +41,12 @@ export default function LoginGoogle({ navigation }) {
         console.log(error);
       });
       setAccessToken(response.authentication.accessToken);
+      getUserData()
     }
   }, [response]);
 
   onAuthStateChanged(auth, () => {
     if (userInfo) {
-      alert("Login successfully!!!");
       console.log("Login google: ", userInfo);
       navigation.navigate("LoadingSongs");
     }
@@ -60,21 +61,19 @@ export default function LoginGoogle({ navigation }) {
       }
     );
     userInfoResponse.json().then((data) => {
+      axios.post(`https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/post/${auth.currentUser.uid}`, {
+        avatar: data.picture,
+        email: data.email,
+        gender: "NC", 
+        username: data.name
+      })
+        .catch(error => {
+          console.log("Message: ", error)
+        })
       setUserInfo(data);
     });
   };
-  const showUserInfo = () => {
-    if (userInfo) {
-      return (
-        <View style={styles.userInfo}>
-          <Image source={{ uri: userInfo.picture }} style={styles.profilePic} />
-          <Text>Welcome {userInfo.name}</Text>
-          <Text>{userInfo.email}</Text>
-        </View>
-      );
-    }
-  };
-
+  
   return (
     <TouchableOpacity
       onPress={

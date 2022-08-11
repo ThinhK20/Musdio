@@ -13,15 +13,27 @@ import * as Facebook from "expo-facebook";
 import { useDispatch, useSelector } from "react-redux";
 import { setImageAvatarStatus, setLogginStatus, setUser } from "../Redux/facebookSlider";
 import { auth } from "../Firebase";
+import axios from 'axios'
 
 export default function LoginFacebook({ navigation }) {
   // Listen for authentication state to change.
-  onAuthStateChanged(auth, () => {
+  onAuthStateChanged(auth, () => { 
+    console.log("Facebook state: ", facebookState.userData) 
     if (facebookState.userData != null) {
-      console.log("We are authenticated now!");
-      navigation.navigate("LoadingSongs");
+      axios.post(`https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/post/${auth.currentUser.uid}`, {
+        avatar: facebookState.userData.picture.data.url,
+        email: facebookState.userData.email,
+        gender: "NC", 
+        username: facebookState.userData.name
+      })
+        .then(() => {
+          console.log("We are authenticated now!");
+          navigation.navigate("LoadingSongs");
+        })
+        .catch(error => {
+          console.log("Message: ", error)
+        })
     }
-    // Do other things
   });
 
   const dispatch = useDispatch()
@@ -43,12 +55,11 @@ export default function LoginFacebook({ navigation }) {
           .then((data) => {
             dispatch(setLogginStatus(true))
             dispatch(setUser(data))
-            alert("Loggin in !");
             const credential = new FacebookAuthProvider.credential(token);
-            console.log("Firebase !!!", credential);
             signInWithCredential(auth, credential).catch((error) => {
               console.log(error);
             });
+
           })
           .catch((e) => console.log(e));
       } else {
