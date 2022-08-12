@@ -164,7 +164,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingTop: StatusBar.currentHeight,
+    paddingTop: 18,
+    //paddingTop: StatusBar.currentHeight,
 
   },
   header: {

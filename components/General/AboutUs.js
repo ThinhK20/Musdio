@@ -46,7 +46,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 
 
-const AboutUs = () => {
+const AboutUs = ({navigation}) => {
 
   return (
     <LinearGradient
@@ -57,11 +57,11 @@ const AboutUs = () => {
       <ImageBackground source={{ uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701" }} resizeMode="cover" style={styles.image}>
         <View>
           <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity style={{ paddingTop: 40,paddingLeft:20 }}>
-              <Ionicons name="ios-chevron-back" size={40} color="white" fontWeight='bold' />
+            <TouchableOpacity style={{ paddingTop: 40,paddingLeft:20 }} onPress={() => navigation.goBack()}>
+              <Ionicons name="ios-chevron-back" size={28} color="white" fontWeight='bold' />
             </TouchableOpacity>
             <View style={styles.header}>
-              <Text style={{ fontSize: 24, color: 'white', fontWeight: 'bold', marginLeft: '12%' }}>
+              <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold', marginLeft: '12%', paddingBottom: '5%', paddingLeft: '5%' }}>
                About Us
               </Text>
             </View>
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     height:130,
     width:130,
     margin:30,
-    marginTop:40,
     borderRadius:30,
   },
   display:{
