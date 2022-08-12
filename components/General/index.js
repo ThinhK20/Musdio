@@ -17,9 +17,6 @@ function Profile({ navigation }) {
   let user = useSelector((state) => state.user);
   user = user.userData
   
-  // console.log("Profile")
-  // console.log(user)
-  // console.log(data)
   useEffect(() => {
     if (data.length != 0 && user.length != 0) {
       data.forEach((m) => {

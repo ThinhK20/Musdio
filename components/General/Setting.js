@@ -12,11 +12,13 @@ import { signOut } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAllSongs } from '../Redux/musicSlider';
 import { deleteUserInfo } from '../Redux/userSlider';
+import { logOutAsync } from 'expo-facebook';
 
 
 function Setting({ navigation }) {
   let user = useSelector((state) => state.user);
-
+  const dispatch = useDispatch() 
+  const facebookState = useSelector((state) => state.facebook)
   user = user.userData
   console.log(user)
   const check = () => {
@@ -39,6 +41,11 @@ function Setting({ navigation }) {
           onPress: () => {
             try {
               signOut(auth)
+              .then(() => {
+                if (facebookState.isLoggedin) {
+                  logOutAsync()
+                } 
+              })
               .then(() => {
                 Alert.alert("Success", "Log out success.")
                 navigation.navigate("SignIn")

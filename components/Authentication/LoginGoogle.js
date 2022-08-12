@@ -47,7 +47,7 @@ export default function LoginGoogle({ navigation }) {
 
   onAuthStateChanged(auth, () => {
     if (userInfo) {
-      console.log("Login google: ", userInfo);
+      console.log("Login google ...");
       navigation.navigate("LoadingSongs");
     }
     // Do other things

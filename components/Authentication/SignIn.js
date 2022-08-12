@@ -17,10 +17,11 @@ import { auth } from "../Firebase/index"
 import ImageLogIn from '../../assets/adaptive-icon.png'
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAllSongs } from '../Redux/musicSlider';
-import { deleteUserInfo } from '../Redux/userSlider';
+import { deleteUserInfo, setUser } from '../Redux/userSlider';
 
 function Login({ navigation }) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
+  const user = useSelector(state => state.user)
   const songs = useSelector((state) => state.musics);
   const [email, setEmail] = useState('')
   const [renew,setRenew] = useState('')
@@ -38,6 +39,12 @@ function Login({ navigation }) {
     let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
     setCheckEmail(!email.match(validRegex))
   }
+
+  useEffect(() => { 
+    console.log("Auth:",auth)
+  }) 
+
+
   const handleSubmit = () => {
     // console.log("run ")
     signInWithEmailAndPassword(auth, email, password)
@@ -124,7 +131,7 @@ function Login({ navigation }) {
               <Text style={{ textAlign: 'right', fontSize: 15, color: 'white' }}>Forgot your password?</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={{ marginTop: 30, justifyContent: 'center', alignItems: 'center' }} onPress={() => { handleSubmit() }}>
+          <TouchableOpacity style={{ marginTop: 30, justifyContent: 'center', alignItems: 'center' }} onPress={() => { handleSubmit(), dispatch(deleteUserInfo()) }}>
             <Text style={styles.btn}>Sign In</Text>
           </TouchableOpacity>
         </View>
@@ -142,8 +149,13 @@ function Login({ navigation }) {
           <Text style={{ borderBottomWidth: 1, height: 1, flex: 1, backgroundColor: 'white', borderColor: 'white' }} />
         </View>
         <View style={[styles.boxSocial, { backgroundColor: '#242526' }]}>
-          <LoginFacebook navigation={navigation} />
-          <LoginGoogle navigation={navigation} />
+          <TouchableOpacity onPress={() => dispatch(deleteUserInfo())}>
+            <LoginFacebook navigation={navigation} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => dispatch(deleteUserInfo())}>
+            <LoginGoogle navigation={navigation} />
+
+          </TouchableOpacity>
         </View>
       </View>
     </LinearGradient>

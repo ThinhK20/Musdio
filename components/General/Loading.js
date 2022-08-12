@@ -12,16 +12,12 @@ export default function LoadingSongs({ navigation }) {
   const user = useSelector((state) => state.user)
   const [temp, setTemp] = useState([])
   useEffect(() => {
-    const controller = new AbortController();
     const fetchUser = async () => {
       const id =  auth.currentUser.uid;
       try {
         await axios
           .get(
-            `https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/${id}`,
-            {
-              signal: controller.signal,
-            }
+            `https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/user/${id}`
           )
           .then((response) => {
             dispatch(setUser(response.data.data)); 
@@ -41,19 +37,16 @@ export default function LoadingSongs({ navigation }) {
       try {
         await axios
           .get(
-            "https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get/",
-            {
-              signal: controller.signal,
-            }
+            "https://us-central1-musdio-6ec90.cloudfunctions.net/app/api/music/get/"
           )
           .then((response) => {
             setTemp(response.data)
             dispatch(setSongs(response.data.data));
             return response.data.data
           })
-          .then((temp) => {
+          .then(() => {
             fetchUser()
-
+            navigation.navigate('Home')
           });
       } catch (error) {
         if (axios.isCancel(error)) {
@@ -63,13 +56,7 @@ export default function LoadingSongs({ navigation }) {
         }
       }
     };
-    if (songs.length === 0) {
       fetchAPI();
-    } else {
-      console.log("Unnecessary to fetch API");
-      navigation.navigate("Home");
-    }
-    return () => controller.abort();
   }, []);
 
   return (
