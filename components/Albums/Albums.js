@@ -52,7 +52,7 @@ function Albums({navigation,route}) {
             <Image style={styles.imageAlbums} source={{uri: Data[0].img}}></Image>
           </View>
           <View style={styles.Mid}>
-            <Text style={styles.nameAlbums}> {nameAlbum} </Text>
+            <Text style={styles.nameAlbums}> {nameAlbum.toUpperCase()} </Text>
             <TouchableOpacity onPress={() => navigation.navigate("NowPlaying", {
           playID: Data.map((_id)=>{
           return _id.id

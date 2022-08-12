@@ -11,17 +11,16 @@ const Search = ({ navigation }) => {
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
+  const [empy, SetEmpty] = useState([]);
   const music = useSelector(state => state.musics)
+
   useEffect(() => {
     setFilteredDataSource(music)
     setMasterDataSource(music)
 }, [])
   const searchFilterFunction = (text) => {
-    // Check if searched text is not blank
-    if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource
-      // Update FilteredDataSource
+
+    if (text!=' ') {
       const newData = masterDataSource.filter(function (item) {
         const input = item.name + ' - ' + item.singer;
         const itemData = item.name + '-' + item.singer
@@ -35,9 +34,7 @@ const Search = ({ navigation }) => {
       setFilteredDataSource(newData);
       setSearch(text);
     } else {
-      // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
-      setFilteredDataSource(masterDataSource);
+      setFilteredDataSource(empy);
       setSearch(text);
     }
   };
@@ -78,7 +75,7 @@ const Search = ({ navigation }) => {
       // Flat List Item Separator
       <View
         style={{
-          borderWidth: 0.2,
+          borderWidth: 0,
           width: '100%',
           backgroundColor: '#C8C8C8',
           marginTop: 10
