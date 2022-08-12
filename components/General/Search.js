@@ -5,6 +5,7 @@ import { SafeAreaView, Text, StyleSheet, View, FlatList, Image, TouchableOpacity
 import { SearchBar } from 'react-native-elements';
 import { useDispatch, useSelector } from "react-redux";
 import { Ionicons } from '@expo/vector-icons';
+import Footer from "./Footer";
 const Search = ({ navigation }) => {
 
   const [search, setSearch] = useState('');
@@ -106,9 +107,10 @@ const Search = ({ navigation }) => {
         />
         {
           filteredDataSource.length==0 ?
-          <View style={{backgroundColor:'red',marginTop:20}}>
-            <Text>
-              No find songs
+          <View style={{margin:20}}>
+            <Text style={{fontSize:20,color:'white'}}>
+            Can't search song with this input.
+            Please check and reinput !
             </Text>
           </View> : null
         }
@@ -119,6 +121,9 @@ const Search = ({ navigation }) => {
           renderItem={ItemView}
         />
       </View>
+      <View style={{flex:5}}>
+        <Footer navigation={navigation} sect={1}/>
+      </View>
     </SafeAreaView>
   );
 };
@@ -126,7 +131,8 @@ const Search = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'black',
-    marginTop: 30
+    marginTop: 30,
+    flex:95
   },
   itemStyle: {
     backgroundColor:'black',

@@ -1,50 +1,8 @@
-// import React from 'react';
-// import { Button, Center, PresenceTransition, NativeBaseProvider } from 'native-base';
-
-// const AboutUs = () => {
-//   const [isOpen, setIsOpen] = React.useState(false);
-//   return <Center>
-//       <Button shadow={2} onPress={() => setIsOpen(!isOpen)}>
-//         {isOpen ? 'Hide' : 'Show'}
-//       </Button>
-//       <PresenceTransition visible={isOpen} initial={{
-//       opacity: 0
-//     }} animate={{
-//       opacity: 1,
-//       transition: {
-//         duration: 250
-//       }
-//     }}>
-//         <Center mt="7" bg="teal.500" rounded="md" w="200" h="100" _text={{
-//         color: 'white'
-//       }} shadow={2}>
-//           Fade
-//         </Center>
-//       </PresenceTransition>
-//     </Center>;
-// };
-
-//     export default () => {
-//         return (
-
-//           <NativeBaseProvider>
-//             <Center flex={1} px="10">
-//                 <AboutUs />
-//                 <AboutUs />
-//                 <AboutUs />
-//             </Center>
-//           </NativeBaseProvider>
-//         );
-//     };
 
 import React, { useState, useRef } from 'react'
 import { SafeAreaView, View, Image,ScrollView, Text, Dimensions, TouchableOpacity, Animated, StyleSheet, ToastAndroid, ImageBackground } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from "expo-linear-gradient";
-
-
-
-
 
 const AboutUs = ({navigation}) => {
 

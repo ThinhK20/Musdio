@@ -142,7 +142,7 @@ function HomeScreen({ navigation }) {
             </View>
           </ScrollView>
         </View>
-        <Footer style={{ flex: 90 }} navigation={navigation} />
+        <Footer style={{ flex: 90 }} navigation={navigation} sect={0} />
       </LinearGradient>
     </>
   );
