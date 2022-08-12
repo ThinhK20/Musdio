@@ -40,7 +40,7 @@ function Albums({navigation,route}) {
     <ImageBackground source={{uri: "https://media.discordapp.net/attachments/977411778671677471/1000027427046694942/unknown.png?width=400&height=701"}} resizeMode="cover" style={styles.container}>
         <View style={styles.header}>
        <TouchableOpacity style={styles.iconHeader} onPress = {() => navigation.navigate("Home")}>
-              <Ionicons name= "ios-chevron-back" size={40} color="white" fontWeight = 'bold' />
+              <Ionicons name= "ios-chevron-back" size={28} color="white" fontWeight = 'bold' />
          </TouchableOpacity>
               <Text style={styles.textHeader} >Albums</Text>
         </View>
@@ -93,13 +93,16 @@ const styles = StyleSheet.create({
     flexDirection : 'row',
   },
   iconHeader:{
-    width: '40%'
+    width: '40%',
+    paddingTop: '4%',
+    marginLeft: '5%'
   },
   textHeader:{
-    paddingTop: 10,
+    paddingTop: '4%',
+    
     color: 'white',
     fontWeight:'bold',
-    fontSize : 24,
+    fontSize : 20,
     width : '100%'
   },
   Footer:{
@@ -109,8 +112,8 @@ const styles = StyleSheet.create({
     flex: 93,
    // backgroundColor: 'pink',
     borderBottomColor: 'white', 
-    borderBottomWidth:  0.5
-   
+    borderBottomWidth:  0.5,
+    paddingTop: '3%'
   },
   Bar:{
     paddingTop: 2, 
